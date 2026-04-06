@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero-Agent — Zero-Trust Governance for Agentic AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f6f8;
+    --bg3: #eef0f4;
+    --text: #1a1a1a;
+    --text2: #555;
+    --text3: #888;
+    --border: #e2e4e8;
+    --border2: #d0d3da;
+    --blue: #185FA5;
+    --blue-bg: #EEF3FB;
+    --blue-text: #0C447C;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #13151a;
+      --bg2: #1c1f26;
+      --bg3: #22262f;
+      --text: #f0f0f0;
+      --text2: #aaa;
+      --text3: #666;
+      --border: #2e3240;
+      --border2: #3a3f50;
+      --blue: #5B9BD5;
+      --blue-bg: #0d1f35;
+      --blue-text: #85B7EB;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg2);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Nav ── */
+  nav {
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-brand {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--text);
+    color: var(--bg) !important;
+    padding: 7px 16px;
+    border-radius: var(--radius-md);
+    font-weight: 500 !important;
+    font-size: 13px !important;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--bg);
+    text-align: center;
+    padding: 72px 24px 56px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .badge {
+    display: inline-block;
+    background: var(--blue-bg);
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero p {
+    font-size: 16px;
+    color: var(--text2);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto 32px;
+  }
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 0.5px solid var(--border2);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.15s;
+  }
+  .btn-secondary:hover { background: var(--bg2); }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+  .stat {
+    background: var(--bg2);
+    border-radius: var(--radius-md);
+    padding: 18px 14px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--blue);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.45;
+  }
+
+  /* ── Sections ── */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.65;
+    margin-bottom: 32px;
+    max-width: 560px;
+  }
+
+  /* ── Architecture layers ── */
+  .arch-flow { display: flex; flex-direction: column; gap: 0; }
+  .layer {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 20px 22px;
+    background: var(--bg);
+  }
+  .layer-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .layer-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .layer-desc {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 14px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-size: 11px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    background: var(--bg2);
+    color: var(--text2);
+    border: 0.5px solid var(--border);
+    font-weight: 500;
+  }
+  .arrow-down {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 18px;
+    color: var(--text3);
+    line-height: 1;
+  }
+  .arrow-label {
+    font-size: 11px;
+    color: var(--text3);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Core modules grid */
+  .core-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 0;
+  }
+  .module {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    background: var(--bg2);
+  }
+  .module-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .module-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .module-items li {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.4;
+    padding-left: 12px;
+    position: relative;
+  }
+  .module-items li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--border2);
+  }
+  .blue-accent   { border-left: 3px solid #185FA5; }
+  .purple-accent { border-left: 3px solid #534AB7; }
+  .teal-accent   { border-left: 3px solid #0F6E56; }
+
+  /* ── Features ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 640px) {
+    .feature-grid { grid-template-columns: 1fr 1fr; }
+    .core-grid    { grid-template-columns: 1fr; }
+    .stats        { grid-template-columns: 1fr; max-width: 280px; }
+    .hero h1      { font-size: 26px; }
+    nav           { padding: 0 16px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+  .feature-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    background: var(--bg);
+  }
+  .feature-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 7px;
+  }
+  .feature-card p {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Compliance ── */
+  .compliance-section {
+    background: var(--bg);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+  .pill {
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: var(--bg2);
+    color: var(--text2);
+    border: 0.5px solid var(--border);
+    font-weight: 500;
+  }
+
+  /* ── Why us ── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 500px) { .why-grid { grid-template-columns: 1fr; } }
+  .why-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+  }
+  .why-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .why-item p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+  .why-item strong { color: var(--text); font-weight: 600; }
+
+  /* ── CTA bottom ── */
+  .cta-bottom {
+    text-align: center;
+    padding: 64px 24px;
+    background: var(--bg);
+    border-top: 0.5px solid var(--border);
+  }
+  .cta-bottom h2 { font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .cta-bottom p  { font-size: 15px; color: var(--text2); margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto; }
+  .contact-line  { font-size: 12px; color: var(--text3); margin-top: 20px; }
+  .contact-line a { color: var(--blue); text-decoration: none; }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-brand { font-size: 13px; font-weight: 700; color: var(--blue); }
+  .footer-copy  { font-size: 12px; color: var(--text3); }
+
+  hr.divider { border: none; border-top: 0.5px solid var(--border); }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-brand" href="#">ZERO-AGENT</a>
+  <div class="nav-links">
+    <a href="#architecture">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#compliance">Compliance</a>
+    <a href="#pilot" class="nav-cta">Request pilot</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">Agentic AI governance</div>
+  <h1>Zero-trust security for every AI agent in your enterprise</h1>
+  <p>Zero-Agent is the first purpose-built governance platform for AI agents and non-human identities — real-time identity, least-privilege enforcement, and automated compliance at machine speed.</p>
+  <div class="cta-row">
+    <a href="#pilot" class="btn-primary">Request a pilot &rarr;</a>
+    <a href="#architecture" class="btn-secondary">See how it works</a>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num">40%+</span>
+      <div class="stat-lbl">of agentic AI projects at risk without governance (Gartner)</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num">50%</span>
+      <div class="stat-lbl">faster exploit of account exposures via AI agents by 2027</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0</span>
+      <div class="stat-lbl">purpose-built NHI governance platforms before Zero-Agent</div>
+    </div>
+  </div>
+</div>
+
+<!-- Architecture -->
+<div id="architecture" class="section">
+  <div class="section-label">Platform architecture</div>
+  <div class="section-title">How Zero-Agent works</div>
+  <div class="section-sub">Every AI agent action passes through the Zero-Agent governance engine — from identity issuance to resource access to audit trail generation.</div>
+
+  <div class="arch-flow">
+
+    <div class="layer" style="border-color:#B5D4F4">
+      <div class="layer-label" style="color:#185FA5">Layer 1 — Agent requests</div>
+      <div class="layer-title">Enterprise AI agents</div>
+      <div class="layer-desc">All non-human identities initiating actions across your enterprise</div>
+      <div class="chips">
+        <span class="chip">LangChain agents</span>
+        <span class="chip">CrewAI agents</span>
+        <span class="chip">Autonomous agents</span>
+        <span class="chip">RPA bots</span>
+        <span class="chip">Custom NHIs</span>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓<span class="arrow-label">every action</span></div>
+
+    <div class="layer" style="border-color:#AFA9EC">
+      <div class="layer-label" style="color:#534AB7">Layer 2 — Governance engine</div>
+      <div class="layer-title">Zero-Agent core platform</div>
+      <div class="layer-desc">Zero-trust governance applied in real time to every agent action</div>
+      <div class="core-grid">
+        <div class="module blue-accent">
+          <div class="module-title">Identity lifecycle</div>
+          <ul class="module-items">
+            <li>Agent identity issuance</li>
+            <li>Credential rotation</li>
+            <li>SPIFFE/SPIRE support</li>
+          </ul>
+        </div>
+        <div class="module purple-accent">
+          <div class="module-title">Policy engine</div>
+          <ul class="module-items">
+            <li>Policy-as-code (OPA)</li>
+            <li>Least-privilege runtime</li>
+            <li>Context-aware authz</li>
+          </ul>
+        </div>
+        <div class="module teal-accent">
+          <div class="module-title">Behavioral intel</div>
+          <ul class="module-items">
+            <li>NHI behavior baseline</li>
+            <li>Anomaly alerting</li>
+            <li>Immutable audit trail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓<span class="arrow-label">allow / deny</span></div>
+
+    <div class="layer" style="border-color:#F5C4B3">
+      <div class="layer-label" style="color:#993C1D">Layer 3 — IAM integrations</div>
+      <div class="layer-title">Your existing identity stack</div>
+      <div class="layer-desc">Zero-Agent extends — never replaces — your enterprise IAM platforms</div>
+      <div class="chips">
+        <span class="chip">Okta</span>
+        <span class="chip">Azure AD</span>
+        <span class="chip">SailPoint</span>
+        <span class="chip">Ping Identity</span>
+        <span class="chip">AWS IAM</span>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓<span class="arrow-label">governed access</span></div>
+
+    <div class="layer" style="border-color:#FAC775">
+      <div class="layer-label" style="color:#854F0B">Layer 4 — Enterprise resources</div>
+      <div class="layer-title">Protected enterprise systems</div>
+      <div class="layer-desc">All agent-accessible targets — governed, audited, and compliant</div>
+      <div class="chips">
+        <span class="chip">Databases</span>
+        <span class="chip">APIs &amp; services</span>
+        <span class="chip">SaaS platforms</span>
+        <span class="chip">Cloud infrastructure</span>
+        <span class="chip">Internal systems</span>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓<span class="arrow-label">continuous output</span></div>
+
+    <div class="layer" style="border-color:#C0DD97">
+      <div class="layer-label" style="color:#3B6D11">Layer 5 — Compliance &amp; observability</div>
+      <div class="layer-title">Automated governance output</div>
+      <div class="layer-desc">Every agent action produces compliance evidence continuously — not at audit time</div>
+      <div class="chips">
+        <span class="chip">Immutable audit trails</span>
+        <span class="chip">Compliance reports</span>
+        <span class="chip">SIEM connectors</span>
+        <span class="chip">Real-time risk scoring</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Features -->
+<div id="features" class="section">
+  <div class="section-label">Why Zero-Agent</div>
+  <div class="section-title">Built for the agentic enterprise</div>
+  <div class="section-sub">Traditional IAM was designed for humans. Zero-Agent was designed for the era of autonomous AI.</div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EEF3FB">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#185FA5" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Real-time enforcement</h3>
+      <p>Every agent action verified against policy in milliseconds — not batch-reviewed hours later.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EEEDFE">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="#534AB7" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Policy-as-code</h3>
+      <p>Define, version, and audit all governance rules in code. No manual policy management.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#E1F5EE">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 5v4c0 3 2.5 4.5 5 5 2.5-.5 5-2 5-5V5L8 2z" stroke="#0F6E56" stroke-width="1.5"/></svg>
+      </div>
+      <h3>Least-privilege by default</h3>
+      <p>Agents receive only the minimum permissions needed for each specific task, at that moment.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EAF3DE">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h10M3 12h6" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Automated audit trails</h3>
+      <p>Every agent action generates an immutable, compliance-ready audit record automatically.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FAEEDA">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 10l4-4 3 3 5-6" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>NHI anomaly detection</h3>
+      <p>Behavioral baselines tuned for non-human identities — high signal, low false positives.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FAECE7">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v4M8 10v4M2 8h4M10 8h4" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Native IAM integration</h3>
+      <p>Works with Okta, Azure AD, SailPoint, and AWS IAM — no rip-and-replace required.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Compliance -->
+<div id="compliance" class="compliance-section">
+  <div class="section">
+    <div class="section-label">Compliance</div>
+    <div class="section-title">Built to satisfy regulators</div>
+    <div class="section-sub" style="margin-bottom:0">Zero-Agent produces compliance evidence continuously — not at audit time. Pre-built reports for every major framework.</div>
+    <div class="pill-row">
+      <span class="pill">NIST AI RMF</span>
+      <span class="pill">SOC 2 Type II</span>
+      <span class="pill">CSA CCM</span>
+      <span class="pill">ISO 27001</span>
+      <span class="pill">EU AI Act</span>
+      <span class="pill">SOX</span>
+      <span class="pill">PCI-DSS</span>
+      <span class="pill">FedRAMP (roadmap)</span>
+      <span class="pill">HIPAA (roadmap)</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Why Zero-Agent -->
+<div class="section">
+  <div class="section-label">Competitive advantage</div>
+  <div class="section-title">Why Zero-Agent wins</div>
+  <div class="section-sub">First mover. Domain depth. Compliance-native design. Network effects.</div>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-dot"></div>
+      <p><strong>First-mover advantage</strong> in a purpose-built category — no direct competitor exists today</p>
+    </div>
+    <div class="why-item">
+      <div class="why-dot"></div>
+      <p><strong>27+ years of IAM expertise</strong> — founder domain depth, not a pivot or repackage</p>
+    </div>
+    <div class="why-item">
+      <div class="why-dot"></div>
+      <p><strong>Compliance-native architecture</strong> — built to satisfy regulators from day one</p>
+    </div>
+    <div class="why-item">
+      <div class="why-dot"></div>
+      <p><strong>Extends your IAM stack</strong> — integrates with Okta, Azure AD, SailPoint, AWS IAM</p>
+    </div>
+    <div class="why-item">
+      <div class="why-dot"></div>
+      <p><strong>Network effects</strong> — each customer enriches behavioral baselines and policy libraries</p>
+    </div>
+    <div class="why-item">
+      <div class="why-dot"></div>
+      <p><strong>Regulatory tailwind</strong> — NIST AI RMF, EU AI Act, SEC guidance all moving in our direction</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Bottom -->
+<div id="pilot" class="cta-bottom">
+  <h2>Ready to govern your AI agents?</h2>
+  <p>Join our design partner program — built for enterprise security leaders in financial services. 90-day pilot, free to start.</p>
+  <div class="cta-row">
+    <a href="mailto:krishna@zero-agent.ai?subject=Design Partner Pilot Interest" class="btn-primary">Request a pilot &rarr;</a>
+    <a href="mailto:krishna@zero-agent.ai" class="btn-secondary">Talk to the founder</a>
+  </div>
+  <div class="contact-line">
+    <a href="mailto:krishna@zero-agent.ai">krishna@zero-agent.ai</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://www.zero-agent.ai">www.zero-agent.ai</a>
+    &nbsp;&middot;&nbsp;
+    Confidential &mdash; April 2026
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-brand">ZERO-AGENT</span>
+  <span class="footer-copy">&copy; 2026 Zero-Agent, Inc. All rights reserved.</span>
+</footer>
+
+</body>
+</html>
