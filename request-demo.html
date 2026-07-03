@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Demo — Zero-Agent.AI</title>
+<link rel="canonical" href="https://www.zero-agent.ai/request-demo.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Zero-Agent.AI">
+<meta property="og:title" content="Request a Demo — Zero-Agent.AI">
+<meta property="og:description" content="Request a personalized Zero-Agent demo. See how Zero-Agent discovers, governs, and secures AI agents and non-human identities across your organization.">
+<meta property="og:url" content="https://www.zero-agent.ai/request-demo.html">
+<meta property="og:image" content="https://www.zero-agent.ai/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Request a personalized Zero-Agent demo. See how Zero-Agent discovers, governs, and secures AI agents and non-human identities across your organization.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="za-core.css">
+<script src="za-nav.js" defer></script>
+<style>
+/* ═══ Request a Demo — light enterprise theme ═══ */
+.rd{
+  --rd-bg:var(--za-paper);--rd-panel:#ffffff;--rd-panel-2:#ffffff;
+  --rd-border:var(--za-ink-100);--rd-border-strong:var(--za-ink-200);
+  --rd-text:var(--za-ink-800);--rd-text-mut:var(--za-ink-500);--rd-text-dim:var(--za-ink-300);
+  --rd-accent:#0057b8;--rd-accent-soft:rgba(0,87,184,.08);--rd-accent-mut:rgba(0,87,184,.22);
+  --rd-safe:#0d8a5f;--rd-risk:#c42d32;
+  background:var(--rd-bg);color:var(--rd-text);position:relative;overflow:hidden;
+}
+.rd::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 45% at 15% 0%,rgba(0,87,184,.07),transparent 60%),
+    radial-gradient(ellipse 55% 45% at 90% 8%,rgba(82,64,168,.05),transparent 55%),
+    linear-gradient(rgba(15,23,42,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(15,23,42,.03) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,44px 44px,44px 44px;
+  mask-image:linear-gradient(180deg,#000,transparent 85%);
+}
+.rd>*{position:relative;z-index:1}
+
+/* Hero */
+.rd-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--stack-xl);text-align:center}
+.rd-hero .za-eyebrow{color:var(--rd-accent)}
+.rd-hero h1{color:var(--za-ink-900);max-width:18ch;margin-inline:auto}
+.rd-hero p{color:var(--rd-text-mut);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);max-width:60ch;margin:var(--stack-base) auto 0}
+
+/* Layout */
+.rd-layout{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(var(--space-8),3.5vw,var(--space-16));
+  align-items:start;padding-bottom:var(--section-y);
+}
+.rd-layout > *{min-width:0}
+
+/* Card shell */
+.rd-card{
+  background:var(--rd-panel);
+  border:1px solid var(--rd-border);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-md);
+}
+.rd-form-card{padding:clamp(var(--space-6),3vw,var(--space-10))}
+
+/* Form grid */
+.rd-form__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
+.rd-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.rd-field--full{grid-column:1 / -1}
+.rd-label{font-size:var(--text-body-sm);font-weight:var(--weight-medium);color:var(--rd-text);display:flex;align-items:center;gap:4px}
+.rd-label .req{color:var(--rd-accent)}
+.rd-label .opt{color:var(--rd-text-dim);font-weight:400;font-size:var(--text-caption);text-transform:uppercase;letter-spacing:.06em}
+.rd-input,.rd-select,.rd-textarea{
+  width:100%;font-family:inherit;font-size:var(--text-body);color:var(--rd-text);
+  background:var(--za-paper-sunken);border:1px solid var(--rd-border);border-radius:var(--radius-md);
+  padding:11px 14px;transition:border-color var(--duration-fast),box-shadow var(--duration-fast),background var(--duration-fast);
+  -webkit-appearance:none;appearance:none;
+}
+.rd-input::placeholder,.rd-textarea::placeholder{color:var(--rd-text-dim)}
+.rd-input:hover,.rd-select:hover,.rd-textarea:hover{border-color:var(--rd-border-strong)}
+.rd-input:focus,.rd-select:focus,.rd-textarea:focus{
+  outline:none;border-color:var(--rd-accent);background:#fff;
+  box-shadow:0 0 0 3px var(--rd-accent-soft);
+}
+.rd-select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23475569' stroke-width='1.6'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;
+}
+.rd-select option{background:var(--rd-panel);color:var(--rd-text)}
+.rd-select:invalid,.rd-select.is-placeholder{color:var(--rd-text-dim)}
+.rd-textarea{resize:vertical;min-height:110px;line-height:var(--leading-normal)}
+.rd-field.is-error .rd-input,.rd-field.is-error .rd-select,.rd-field.is-error .rd-textarea{
+  border-color:var(--rd-risk);box-shadow:0 0 0 3px rgba(229,72,77,.14);
+}
+.rd-error{font-size:var(--text-caption);color:var(--rd-risk);min-height:0;display:none}
+.rd-field.is-error .rd-error{display:block}
+
+/* Consent */
+.rd-consent{display:flex;align-items:flex-start;gap:12px;margin-top:var(--space-6);cursor:pointer}
+.rd-consent input{position:absolute;opacity:0;width:0;height:0}
+.rd-checkbox{
+  flex-shrink:0;width:20px;height:20px;border-radius:6px;border:1px solid var(--rd-border-strong);
+  background:var(--za-paper-sunken);display:flex;align-items:center;justify-content:center;margin-top:1px;
+  transition:all var(--duration-fast);
+}
+.rd-checkbox svg{width:12px;height:12px;stroke:#fff;stroke-width:2.5;fill:none;opacity:0;transition:opacity var(--duration-fast)}
+.rd-consent input:checked + .rd-checkbox{background:var(--rd-accent);border-color:var(--rd-accent)}
+.rd-consent input:checked + .rd-checkbox svg{opacity:1}
+.rd-consent input:focus-visible + .rd-checkbox{box-shadow:0 0 0 3px var(--rd-accent-soft)}
+.rd-consent__text{font-size:var(--text-body-sm);color:var(--rd-text-mut);line-height:var(--leading-normal)}
+.rd-consent__text a{color:var(--rd-accent);text-decoration:none}
+.rd-consent__text a:hover{text-decoration:underline}
+.rd-consent.is-error .rd-checkbox{border-color:var(--rd-risk);box-shadow:0 0 0 3px rgba(229,72,77,.14)}
+
+/* Submit */
+.rd-submit{
+  width:100%;height:52px;margin-top:var(--space-6);border:none;border-radius:var(--radius-md);
+  background:var(--rd-accent);color:#fff;font-family:inherit;font-size:var(--text-body);font-weight:var(--weight-semibold);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  transition:background var(--duration-fast),transform var(--duration-fast),opacity var(--duration-fast);
+}
+.rd-submit:hover:not(:disabled){background:var(--za-signal-mid);transform:translateY(-1px)}
+.rd-submit:disabled{opacity:.45;cursor:not-allowed}
+.rd-spinner{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:rdSpin .7s linear infinite;display:none}
+.rd-submit.is-loading .rd-spinner{display:block}
+.rd-submit.is-loading .rd-submit__label{opacity:.85}
+@keyframes rdSpin{to{transform:rotate(360deg)}}
+
+/* Success state */
+.rd-success{display:none;flex-direction:column;align-items:center;text-align:center;padding:clamp(var(--space-10),5vw,var(--space-20)) var(--space-6)}
+.rd-success.is-shown{display:flex}
+.rd-form-card.is-done .rd-form{display:none}
+.rd-success__icon{
+  width:72px;height:72px;border-radius:50%;background:rgba(48,164,108,.14);border:1px solid rgba(48,164,108,.4);
+  display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-6);
+}
+.rd-success__icon svg{width:34px;height:34px;stroke:var(--rd-safe);stroke-width:2.5;fill:none}
+.rd-success h2{color:var(--za-ink-900);margin-bottom:var(--stack-tight)}
+.rd-success p{color:var(--rd-text-mut);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);max-width:44ch}
+
+/* Info panel */
+.rd-aside{display:flex;flex-direction:column;gap:var(--space-5);position:sticky;top:calc(var(--nav-height) + var(--space-6))}
+.rd-info{padding:clamp(var(--space-6),2.5vw,var(--space-8))}
+.rd-info h2{color:var(--za-ink-900);font-size:var(--text-h2);margin-bottom:var(--space-6)}
+.rd-benefits{list-style:none;display:flex;flex-direction:column;gap:var(--space-5)}
+.rd-benefit{display:flex;gap:14px;align-items:flex-start}
+.rd-benefit__mark{
+  flex-shrink:0;width:26px;height:26px;border-radius:8px;background:var(--rd-accent-soft);border:1px solid var(--rd-accent-mut);
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.rd-benefit__mark svg{width:14px;height:14px;stroke:var(--rd-accent);stroke-width:2.2;fill:none}
+.rd-benefit span{font-size:var(--text-body);color:var(--rd-text-mut);line-height:var(--leading-snug)}
+
+/* Trust indicators */
+.rd-trust{padding:clamp(var(--space-6),2.5vw,var(--space-8))}
+.rd-trust__label{font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--rd-text-dim);margin-bottom:var(--space-5)}
+.rd-trust__grid{display:flex;flex-wrap:wrap;gap:10px}
+.rd-chip{
+  display:inline-flex;align-items:center;gap:8px;font-size:var(--text-body-sm);font-weight:var(--weight-medium);color:var(--rd-text);
+  padding:8px 14px;border-radius:100px;background:var(--za-paper-sunken);border:1px solid var(--rd-border);
+}
+.rd-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rd-accent)}
+
+footer.rd-footer{background:var(--rd-bg);border-top:1px solid var(--rd-border)}
+footer.rd-footer p{color:var(--rd-text-mut)}
+
+@media(max-width:900px){
+  .rd-layout{grid-template-columns:minmax(0,1fr)}
+  .rd-aside{position:static;order:-1}
+}
+@media(max-width:560px){
+  .rd-form__grid{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+<a class="za-skip" href="#main">Skip to main content</a>
+
+<nav class="za-nav is-scrolled" id="nav">
+  <div class="za-container za-nav__inner">
+    <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+    <div class="za-nav__links" id="navLinks">
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Product<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="product.html"><strong>Overview</strong><span>The AI Identity Control Plane</span></a>
+          <a href="features.html"><strong>Features</strong><span>Discovery, governance &amp; control</span></a>
+          <a href="integrations.html"><strong>Integrations</strong><span>Identity, cloud, AI &amp; security</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Solutions<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="solutions-role.html"><strong>By Role</strong><span>CISO, CIO, Security, DevOps, IT</span></a>
+          <a href="solutions-industry.html"><strong>By Industry</strong><span>Finance, Healthcare, Tech, Gov</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Resources<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="resources-documentation.html"><strong>Documentation</strong><span>Guides, API &amp; deployment</span></a>
+          <a href="resources-case-studies.html"><strong>Case Studies</strong><span>Customer success stories</span></a>
+          <a href="resources-whitepapers.html"><strong>Whitepapers</strong><span>Research &amp; frameworks</span></a>
+          <a href="resources-glossary.html"><strong>AI Agent Glossary</strong><span>Key terms explained</span></a>
+          <a href="resources-trust-center.html"><strong>Trust Center</strong><span>Security &amp; compliance</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Company<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="company.html"><strong>About Us</strong><span>Our story, mission &amp; team</span></a>
+          <a href="contact.html"><strong>Contact Us</strong><span>Talk to our team</span></a>
+          <a href="careers.html"><strong>Careers</strong><span>Join the mission</span></a>
+        </div>
+      </div>
+      <a href="request-demo.html" class="za-btn za-btn--primary">Request Demo</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h14"/></svg></button>
+  </div>
+</nav>
+
+<main class="rd" id="main">
+  <header class="rd-hero">
+    <div class="za-container">
+      <p class="za-eyebrow">Request a Demo</p>
+      <h1 class="za-display-xl">Request a Personalized Demo</h1>
+      <p>See how Zero-Agent discovers, governs, and secures AI agents and non-human identities across your organization.</p>
+    </div>
+  </header>
+
+  <div class="za-container rd-layout">
+    <!-- ═══ Form ═══ -->
+    <div class="rd-card rd-form-card" id="formCard">
+      <form class="rd-form" id="demoForm" novalidate aria-label="Request a demo">
+        <div class="rd-form__grid">
+
+          <div class="rd-field">
+            <label class="rd-label" for="firstName">First Name <span class="req" aria-hidden="true">*</span></label>
+            <input class="rd-input" id="firstName" name="firstName" type="text" autocomplete="given-name" required aria-required="true" aria-describedby="firstName-err">
+            <p class="rd-error" id="firstName-err" role="alert">Please enter your first name.</p>
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label" for="lastName">Last Name <span class="req" aria-hidden="true">*</span></label>
+            <input class="rd-input" id="lastName" name="lastName" type="text" autocomplete="family-name" required aria-required="true" aria-describedby="lastName-err">
+            <p class="rd-error" id="lastName-err" role="alert">Please enter your last name.</p>
+          </div>
+
+          <div class="rd-field rd-field--full">
+            <label class="rd-label" for="email">Business Email <span class="req" aria-hidden="true">*</span></label>
+            <input class="rd-input" id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required aria-required="true" aria-describedby="email-err">
+            <p class="rd-error" id="email-err" role="alert">Please enter a valid business email address.</p>
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label" for="company">Company Name <span class="req" aria-hidden="true">*</span></label>
+            <input class="rd-input" id="company" name="company" type="text" autocomplete="organization" required aria-required="true" aria-describedby="company-err">
+            <p class="rd-error" id="company-err" role="alert">Please enter your company name.</p>
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label" for="jobTitle">Job Title <span class="req" aria-hidden="true">*</span></label>
+            <input class="rd-input" id="jobTitle" name="jobTitle" type="text" autocomplete="organization-title" required aria-required="true" aria-describedby="jobTitle-err">
+            <p class="rd-error" id="jobTitle-err" role="alert">Please enter your job title.</p>
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label" for="companySize">Company Size <span class="req" aria-hidden="true">*</span></label>
+            <select class="rd-select is-placeholder" id="companySize" name="companySize" required aria-required="true" aria-describedby="companySize-err">
+              <option value="" selected disabled hidden>Select company size</option>
+              <option value="1-50">1–50 employees</option>
+              <option value="51-200">51–200 employees</option>
+              <option value="201-1000">201–1,000 employees</option>
+              <option value="1001-5000">1,001–5,000 employees</option>
+              <option value="5000+">5,000+ employees</option>
+            </select>
+            <p class="rd-error" id="companySize-err" role="alert">Please select your company size.</p>
+          </div>
+
+          <div class="rd-field">
+            <label class="rd-label" for="phone">Phone Number <span class="opt">Optional</span></label>
+            <input class="rd-input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 000-0000">
+          </div>
+
+          <div class="rd-field rd-field--full">
+            <label class="rd-label" for="message">Message <span class="opt">Optional</span></label>
+            <textarea class="rd-textarea" id="message" name="message" placeholder="Tell us about your environment — cloud platforms, identity providers, and how many AI agents you're working with."></textarea>
+          </div>
+        </div>
+
+        <label class="rd-consent" id="consentWrap">
+          <input type="checkbox" id="privacy" name="privacy" required aria-required="true">
+          <span class="rd-checkbox" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7.5l3.2 3.2L12 3.5"/></svg></span>
+          <span class="rd-consent__text">I agree to the <a href="#" target="_blank" rel="noopener">Privacy Policy</a>. <span class="req" aria-hidden="true">*</span></span>
+        </label>
+
+        <button type="submit" class="rd-submit" id="submitBtn" disabled aria-disabled="true">
+          <span class="rd-spinner" aria-hidden="true"></span>
+          <span class="rd-submit__label">Request Demo</span>
+        </button>
+      </form>
+
+      <div class="rd-success" id="successMsg" role="status" aria-live="polite">
+        <div class="rd-success__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        </div>
+        <h2 class="za-h2">Thank you! Your request has been received.</h2>
+        <p>A Zero-Agent specialist will contact you within one business day.</p>
+      </div>
+    </div>
+
+    <!-- ═══ Info + trust ═══ -->
+    <aside class="rd-aside" aria-label="Why schedule a demo">
+      <div class="rd-card rd-info">
+        <h2>Why Schedule a Demo?</h2>
+        <ul class="rd-benefits">
+          <li class="rd-benefit"><span class="rd-benefit__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 6"/></svg></span><span>Discover all AI agents across your environment</span></li>
+          <li class="rd-benefit"><span class="rd-benefit__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 6"/></svg></span><span>Identify risky non-human identities</span></li>
+          <li class="rd-benefit"><span class="rd-benefit__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 6"/></svg></span><span>Review AI governance posture</span></li>
+          <li class="rd-benefit"><span class="rd-benefit__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 6"/></svg></span><span>Receive a live product walkthrough</span></li>
+          <li class="rd-benefit"><span class="rd-benefit__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 6"/></svg></span><span>Get personalized recommendations</span></li>
+        </ul>
+      </div>
+      <div class="rd-card rd-trust">
+        <p class="rd-trust__label">Trusted by security teams</p>
+        <div class="rd-trust__grid">
+          <span class="rd-chip">Enterprise-ready</span>
+          <span class="rd-chip">SOC 2 Ready</span>
+          <span class="rd-chip">Multi-cloud Support</span>
+          <span class="rd-chip">AI Agent Governance</span>
+          <span class="rd-chip">Zero Trust Architecture</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="za-footer">
+  <div class="za-container">
+    <div class="za-footer__inner">
+      <div class="za-footer__brand">
+        <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+        <p>Secure identity governance for autonomous AI agents and non-human identities.</p>
+        <form class="za-footer__news" onsubmit="return false" aria-label="Newsletter signup">
+          <label for="fnews">Get product &amp; research updates</label>
+          <div class="za-footer__news-row">
+            <input type="email" id="fnews" placeholder="you@company.com" aria-label="Email address">
+            <button type="submit" class="za-btn za-btn--signal">Subscribe</button>
+          </div>
+        </form>
+        <div class="za-footer__social">
+          <a href="https://www.linkedin.com/in/kparuchuri100" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.3 8.65 21 11 21 14.3V21h-4v-5.9c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-7-6.2 7H1.4l8.2-9.3L1 2h7.1l4.9 6.5L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a>
+        </div>
+      </div>
+      <nav class="za-footer__cols" aria-label="Footer">
+        <div class="za-footer__col"><h4>Product</h4><a href="product.html">Overview</a><a href="features.html">Features</a><a href="integrations.html">Integrations</a></div>
+        <div class="za-footer__col"><h4>Solutions</h4><a href="solutions-role.html">By Role</a><a href="solutions-industry.html">By Industry</a></div>
+        <div class="za-footer__col"><h4>Resources</h4><a href="resources.html">Overview</a><a href="resources-documentation.html">Documentation</a><a href="resources-case-studies.html">Case Studies</a><a href="resources-whitepapers.html">Whitepapers</a><a href="resources-glossary.html">AI Agent Glossary</a></div>
+        <div class="za-footer__col"><h4>Security</h4><a href="resources-trust-center.html">Trust Center</a><a href="resources-trust-center.html">Compliance</a><a href="#">Responsible AI</a><a href="mailto:security@zero-agent.ai">Security Contact</a></div>
+        <div class="za-footer__col"><h4>Company</h4><a href="company.html">About Us</a><a href="contact.html">Contact Us</a><a href="careers.html">Careers</a></div>
+        <div class="za-footer__col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Responsible AI</a><a href="#">Cookie Policy</a></div>
+      </nav>
+    </div>
+    <div class="za-footer__bar">
+      <p>&copy; 2026 Zero-Agent.AI · The Control Plane for AI Agent Identity</p>
+      <p class="za-footer__badges"><span>SOC 2 — In Progress</span><span>Zero Trust</span><span>Identity First</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Nav (mobile menu) ──
+document.getElementById('menuBtn').addEventListener('click',()=>
+  document.getElementById('navLinks').classList.toggle('open'));
+
+// ── Form module ──
+(function(){
+  const form=document.getElementById('demoForm');
+  const submitBtn=document.getElementById('submitBtn');
+  const consentWrap=document.getElementById('consentWrap');
+  const formCard=document.getElementById('formCard');
+  const successMsg=document.getElementById('successMsg');
+
+  // Required field ids (privacy handled separately)
+  const requiredIds=['firstName','lastName','email','company','jobTitle','companySize'];
+  const privacy=document.getElementById('privacy');
+
+  const isEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+  function fieldValid(el){
+    if(!el)return true;
+    const v=(el.value||'').trim();
+    if(el.type==='email')return isEmail(v);
+    return v.length>0;
+  }
+
+  function formComplete(){
+    return requiredIds.every(id=>fieldValid(document.getElementById(id))) && privacy.checked;
+  }
+
+  function refreshSubmit(){
+    const ok=formComplete();
+    submitBtn.disabled=!ok;
+    submitBtn.setAttribute('aria-disabled',String(!ok));
+  }
+
+  function showError(el,on){
+    const field=el.closest('.rd-field');
+    if(field)field.classList.toggle('is-error',on);
+  }
+
+  // keep native select colour state (placeholder vs chosen)
+  function syncSelect(el){
+    if(el.tagName==='SELECT')el.classList.toggle('is-placeholder',!el.value);
+  }
+
+  requiredIds.forEach(id=>{
+    const el=document.getElementById(id);
+    el.addEventListener('input',()=>{syncSelect(el);if(fieldValid(el))showError(el,false);refreshSubmit();});
+    el.addEventListener('change',()=>{syncSelect(el);refreshSubmit();});
+    el.addEventListener('blur',()=>showError(el,!fieldValid(el)));
+  });
+
+  privacy.addEventListener('change',()=>{
+    consentWrap.classList.toggle('is-error',!privacy.checked);
+    refreshSubmit();
+  });
+
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+
+    // Validate everything, surface inline errors
+    let firstBad=null;
+    requiredIds.forEach(id=>{
+      const el=document.getElementById(id);
+      const bad=!fieldValid(el);
+      showError(el,bad);
+      if(bad&&!firstBad)firstBad=el;
+    });
+    consentWrap.classList.toggle('is-error',!privacy.checked);
+    if(!privacy.checked&&!firstBad)firstBad=privacy;
+
+    if(firstBad){firstBad.focus();return;}
+
+    // Loading state → simulated async submit
+    submitBtn.classList.add('is-loading');
+    submitBtn.disabled=true;
+    submitBtn.setAttribute('aria-busy','true');
+
+    setTimeout(()=>{
+      submitBtn.classList.remove('is-loading');
+      submitBtn.removeAttribute('aria-busy');
+      form.reset();
+      requiredIds.forEach(id=>syncSelect(document.getElementById(id)));
+      consentWrap.classList.remove('is-error');
+      refreshSubmit();
+      formCard.classList.add('is-done');
+      successMsg.classList.add('is-shown');
+      successMsg.scrollIntoView({behavior:'smooth',block:'center'});
+    },1400);
+  });
+
+  refreshSubmit();
+})();
+</script>
+</body>
+</html>

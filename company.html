@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company — Zero-Agent.AI</title>
+<link rel="canonical" href="https://www.zero-agent.ai/company.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Zero-Agent.AI">
+<meta property="og:title" content="Company — Zero-Agent.AI">
+<meta property="og:description" content="Zero-Agent is building the identity layer for autonomous AI — purpose-built identity governance for AI agents and non-human identities. Meet the founder and team.">
+<meta property="og:url" content="https://www.zero-agent.ai/company.html">
+<meta property="og:image" content="https://www.zero-agent.ai/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Zero-Agent is building the identity layer for autonomous AI — purpose-built identity governance for AI agents and non-human identities. Meet the founder and team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="za-core.css">
+<script src="za-nav.js" defer></script>
+<style>
+/* ═══════════ Company — enterprise redesign (light, scoped) ═══════════ */
+.co{position:relative;overflow:hidden}
+.co *{min-width:0}
+.co .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+.co .rv.is-in{opacity:1;transform:none}
+.co .rv-d1{transition-delay:.1s}.co .rv-d2{transition-delay:.2s}.co .rv-d3{transition-delay:.3s}.co .rv-d4{transition-delay:.4s}.co .rv-d5{transition-delay:.5s}
+.co-sec{padding-block:clamp(64px,9vw,110px)}
+.co-sec--tint{background:var(--za-paper-sunken)}
+.co-head{max-width:44rem;margin:0 auto var(--space-12);text-align:center}
+.co-head h2{font-size:var(--text-display-md);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
+.co-head p{color:var(--text-secondary);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);margin-top:var(--space-4)}
+
+/* ── Hero ── */
+.co-hero{padding:calc(var(--nav-height) + clamp(56px,7vw,92px)) 0 clamp(56px,8vw,100px);position:relative;overflow:hidden}
+.co-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 50% 50% at 82% 8%,rgba(0,87,184,.08),transparent 58%)}
+.co-hero__grid{display:grid;grid-template-columns:var(--layout-split);gap:clamp(var(--space-10),5vw,var(--space-16));align-items:center;position:relative}
+.co-hero h1{font-size:var(--text-display-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
+.co-hero p{font-size:var(--text-body-lg);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-top:var(--stack-base);max-width:54ch}
+.co-hero__actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-8)}
+.co-hero__grid--center{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;max-width:56rem;margin-inline:auto}
+.co-hero__grid--center p{max-width:60ch}
+.co-hero__grid--center .co-hero__actions{justify-content:center}
+
+/* Animated ecosystem visual */
+.co-eco{aspect-ratio:1/.88;width:100%;padding:clamp(18px,3vw,32px);border-radius:var(--radius-xl);background:linear-gradient(180deg,#fff,var(--za-paper-sunken));border:1px solid var(--border);box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center}
+.co-eco svg{width:100%;height:auto;display:block}
+.eco-ring{fill:none;stroke:rgba(15,23,42,.1);stroke-dasharray:2 8}
+.eco-ring--spin{transform-box:fill-box;transform-origin:center;animation:coSpin 44s linear infinite}
+.eco-ring--spin2{transform-box:fill-box;transform-origin:center;animation:coSpinR 32s linear infinite}
+@keyframes coSpin{to{transform:rotate(360deg)}}
+@keyframes coSpinR{to{transform:rotate(-360deg)}}
+.eco-link{stroke:rgba(0,87,184,.28);stroke-width:1.2}
+.eco-flow{stroke:var(--accent);stroke-width:1.6;stroke-dasharray:5 10;opacity:.75;animation:ecoFlow 3.5s linear infinite}
+@keyframes ecoFlow{to{stroke-dashoffset:-30}}
+.eco-node{fill:#fff;stroke:var(--border-strong);stroke-width:1.4}
+.eco-node--a{stroke:var(--accent)}
+.eco-core{fill:rgba(0,87,184,.1);stroke:var(--accent);stroke-width:2}
+.eco-pulse{fill:none;stroke:var(--accent);transform-box:fill-box;transform-origin:center;animation:ecoPulse 3s var(--ease-out) infinite}
+@keyframes ecoPulse{0%{transform:scale(.5);opacity:.5}100%{transform:scale(1.6);opacity:0}}
+.eco-t{fill:var(--text-secondary);font-family:var(--font-mono);font-size:9px}
+.eco-t--c{fill:var(--accent);font-weight:600;font-size:10px}
+
+/* ── Founder ── */
+.co-founder{display:grid;grid-template-columns:0.85fr 1.15fr;gap:clamp(var(--space-10),5vw,var(--space-16));align-items:center}
+.co-avatar{aspect-ratio:1;border-radius:var(--radius-xl);background:radial-gradient(circle at 38% 28%,rgba(0,87,184,.16),rgba(82,64,168,.09)),var(--za-paper-sunken);border:1px solid var(--border-strong);display:flex;align-items:flex-end;justify-content:center;position:relative;overflow:hidden}
+.co-avatar span{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);font-size:clamp(4rem,10vw,7rem);font-weight:var(--weight-semibold);color:rgba(15,23,42,.1)}
+.co-avatar em{position:relative;font-style:normal;margin-bottom:var(--space-6);font-size:var(--text-caption);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--text-muted)}
+.co-founder__name{font-size:var(--text-display-md);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);margin-top:var(--space-3)}
+.co-founder__role{font-size:var(--text-caption);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--accent);font-weight:var(--weight-medium);margin-top:6px}
+.co-founder__lead{color:var(--text-secondary);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);margin-top:var(--space-5)}
+.co-bullets{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:var(--space-5)}
+.co-bullets li{display:flex;gap:10px;font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-snug)}
+.co-bullets li svg{flex:none;width:18px;height:18px;stroke:var(--accent);stroke-width:2;fill:none;margin-top:1px}
+.co-quote{margin-top:var(--space-6);padding-left:var(--space-5);border-left:3px solid var(--accent);font-size:var(--text-body-lg);font-weight:var(--weight-medium);color:var(--text);line-height:var(--leading-snug)}
+.co-social{display:flex;gap:10px;margin-top:var(--space-6)}
+.co-social a{width:42px;height:42px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:color var(--duration-fast),border-color var(--duration-fast),background var(--duration-fast),transform var(--duration-fast)}
+.co-social a:hover{color:var(--accent);border-color:var(--accent-muted);background:var(--accent-soft);transform:translateY(-2px)}
+.co-social svg{width:18px;height:18px}
+.co-founders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(var(--space-8),4vw,var(--space-12));margin-top:var(--space-12)}
+.co-founder-card{display:flex;flex-direction:column}
+.co-founder-card .co-avatar{aspect-ratio:16/10;max-width:none;margin-bottom:var(--space-6)}
+.co-founder-card .co-founder__name{margin-top:0}
+
+/* ── Why we started (journey) ── */
+.co-flow-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4);align-items:stretch}
+.co-step{position:relative;padding:var(--space-6);display:flex;flex-direction:column}
+.co-step__ic{width:46px;height:46px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);margin-bottom:var(--space-5)}
+.co-step__ic svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7}
+.co-step__k{font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--text-muted)}
+.co-step h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);margin:4px 0 8px}
+.co-step p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
+.co-step__arrow{position:absolute;right:calc(var(--space-4) / -2 - 7px);top:44px;width:14px;height:14px;color:var(--border-strong);z-index:2}
+.co-step:last-child .co-step__arrow{display:none}
+@media(max-width:900px){.co-flow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.co-step__arrow{display:none}}
+@media(max-width:560px){.co-flow-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* ── Mission & Vision ── */
+.co-mv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6)}
+.co-mv__card{padding:clamp(var(--space-8),4vw,var(--space-10));position:relative;overflow:hidden;transition:transform var(--duration-normal),box-shadow var(--duration-normal),border-color var(--duration-normal)}
+.co-mv__card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.co-mv__card .badge{display:inline-block;font-size:var(--text-caption);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-muted);padding:6px 14px;border-radius:100px;margin-bottom:var(--space-5)}
+.co-mv__card p{font-size:clamp(1.125rem,1.9vw,1.5rem);line-height:1.42;letter-spacing:var(--tracking-tight);font-weight:var(--weight-medium);color:var(--text)}
+@media(max-width:760px){.co-mv{grid-template-columns:minmax(0,1fr)}}
+
+/* ── Values ── */
+.co-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
+.co-value{padding:var(--space-7) var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);transition:transform .35s var(--ease-out),border-color .35s,box-shadow .35s}
+.co-value:hover{transform:translateY(-4px);border-color:var(--accent-muted);box-shadow:var(--shadow-md)}
+.co-value__ic{width:46px;height:46px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border:1px solid var(--accent-muted);color:var(--accent)}
+.co-value__ic svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7}
+.co-value h3{font-size:var(--text-body-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight)}
+.co-value p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
+@media(max-width:900px){.co-values{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.co-values{grid-template-columns:minmax(0,1fr)}}
+
+/* ── Team & Advisors ── */
+.co-team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
+.co-person{padding:var(--space-6);text-align:center;transition:transform .35s var(--ease-out),border-color .35s,box-shadow .35s}
+.co-person:hover{transform:translateY(-4px);border-color:var(--border-strong);box-shadow:var(--shadow-md)}
+.co-person__photo{width:96px;height:96px;border-radius:50%;margin:0 auto var(--space-5);background:radial-gradient(circle at 38% 30%,rgba(0,87,184,.16),rgba(82,64,168,.08)),var(--za-paper-sunken);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:var(--text-h3);font-weight:var(--weight-semibold);color:rgba(15,23,42,.24)}
+.co-person--soon .co-person__photo{color:var(--text-muted);background:var(--za-paper-sunken)}
+.co-person__name{font-size:var(--text-body-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight)}
+.co-person__title{font-size:var(--text-body-sm);color:var(--accent);font-weight:var(--weight-medium);margin-top:2px}
+.co-person__bio{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:var(--space-4)}
+.co-person__soon{display:inline-block;margin-top:var(--space-3);font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--text-muted);background:var(--bg-sunken);border:1px solid var(--border);padding:4px 10px;border-radius:100px}
+.co-person__links{display:flex;justify-content:center;gap:8px;margin-top:var(--space-4)}
+.co-person__links a{width:36px;height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:color var(--duration-fast),border-color var(--duration-fast),background var(--duration-fast)}
+.co-person__links a:hover{color:var(--accent);border-color:var(--accent-muted);background:var(--accent-soft)}
+.co-person__links svg{width:16px;height:16px}
+.co-person--lead{border-color:var(--accent);box-shadow:var(--shadow-md)}
+@media(max-width:900px){.co-team{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.co-team{grid-template-columns:minmax(0,1fr)}}
+
+/* ── Snapshot stats ── */
+.co-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4)}
+.co-stat{padding:var(--space-6);transition:transform .35s var(--ease-out),border-color .35s,box-shadow .35s}
+.co-stat:hover{transform:translateY(-3px);border-color:var(--accent-muted);box-shadow:var(--shadow-sm)}
+.co-stat__label{font-size:var(--text-caption);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--text-muted)}
+.co-stat__value{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);margin-top:8px}
+.co-stat__chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.co-stat__chips span{font-size:var(--text-body-sm);font-weight:var(--weight-medium);color:var(--accent);background:var(--accent-soft);border-radius:100px;padding:3px 10px}
+@media(max-width:900px){.co-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.co-stats{grid-template-columns:minmax(0,1fr)}}
+
+/* ── Timeline ── */
+.co-tl{position:relative;max-width:44rem;margin-inline:auto;padding-left:38px}
+.co-tl::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--border-strong)}
+.co-tl__prog{position:absolute;left:9px;top:8px;width:2px;height:0;background:linear-gradient(var(--accent),var(--za-depth-mid));transition:height 1.7s var(--ease-out)}
+.co-tl.is-in .co-tl__prog{height:calc(100% - 16px)}
+.co-tl__group{font-size:var(--text-caption);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--accent);margin:0 0 var(--space-5)}
+.co-tl__group--road{color:var(--text-muted);margin-top:var(--space-8)}
+.co-tl__item{position:relative;padding-bottom:var(--space-6)}
+.co-tl__item:last-child{padding-bottom:0}
+.co-tl__dot{position:absolute;left:-38px;top:1px;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 0 0 4px var(--accent-soft);transform:scale(0);transition:transform .5s var(--ease-spring)}
+.co-tl.is-in .co-tl__dot{transform:scale(1)}
+.co-tl__item h3{font-size:var(--text-body);font-weight:var(--weight-semibold)}
+.co-tl__item p{font-size:var(--text-body-sm);color:var(--text-secondary);margin-top:2px}
+.co-tl__item--future .co-tl__dot{border-color:var(--border-strong);background:var(--za-paper-sunken);box-shadow:none}
+.co-tl__item--future h3{color:var(--text-secondary)}
+.co-tl__tag{display:inline-block;margin-left:8px;font-size:10px;font-weight:var(--weight-medium);letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);background:var(--bg-sunken);border:1px solid var(--border);padding:2px 8px;border-radius:100px;vertical-align:middle}
+.co-tl__item:nth-child(2) .co-tl__dot{transition-delay:.15s}
+.co-tl__item:nth-child(3) .co-tl__dot{transition-delay:.3s}
+.co-tl__item:nth-child(4) .co-tl__dot{transition-delay:.45s}
+.co-tl__item:nth-child(5) .co-tl__dot{transition-delay:.6s}
+.co-tl__item:nth-child(6) .co-tl__dot{transition-delay:.75s}
+
+/* ── Careers ── */
+.co-careers{text-align:center;max-width:44rem;margin-inline:auto}
+.co-careers__actions{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)}
+.co-careers__note{margin-top:var(--space-8);padding:var(--space-5) var(--space-6);border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--bg);color:var(--text-secondary);font-size:var(--text-body-sm)}
+
+/* ── Partners ── */
+.co-partners{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4)}
+.co-partner{padding:var(--space-6);display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;transition:transform .3s var(--ease-out),border-color .3s,box-shadow .3s}
+.co-partner:hover{transform:translateY(-3px);border-color:var(--accent-muted);box-shadow:var(--shadow-sm)}
+.co-partner__mark{width:52px;height:52px;border-radius:14px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:var(--weight-semibold);font-size:var(--text-body)}
+.co-partner__name{font-size:var(--text-body-sm);font-weight:var(--weight-medium);color:var(--text);line-height:var(--leading-snug)}
+.co-partner__tag{font-size:10px;font-weight:var(--weight-medium);letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px}
+.co-partner__tag--member{color:var(--za-safe);background:var(--za-safe-soft)}
+.co-partner__tag--applicant{color:var(--accent);background:var(--accent-soft)}
+.co-partner__tag--exploring{color:var(--text-muted);background:var(--bg-sunken);border:1px solid var(--border)}
+@media(max-width:900px){.co-partners{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.co-partners{grid-template-columns:minmax(0,1fr)}}
+
+@media(max-width:1024px){
+  .co-hero__grid,.co-founder,.co-founders{grid-template-columns:minmax(0,1fr)}
+  .co-eco{max-width:30rem;margin-inline:auto;order:-1}
+  .co-avatar{max-width:20rem}
+  .co-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){.co .rv{opacity:1;transform:none}.eco-ring--spin,.eco-ring--spin2,.eco-flow,.eco-pulse{animation:none}}
+</style>
+</head>
+<body>
+<a class="za-skip" href="#main">Skip to main content</a>
+
+<nav class="za-nav" id="nav">
+  <div class="za-container za-nav__inner">
+    <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+    <div class="za-nav__links" id="navLinks">
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Product<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="product.html"><strong>Overview</strong><span>The AI Identity Control Plane</span></a>
+          <a href="features.html"><strong>Features</strong><span>Discovery, governance &amp; control</span></a>
+          <a href="integrations.html"><strong>Integrations</strong><span>Identity, cloud, AI &amp; security</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Solutions<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="solutions-role.html"><strong>By Role</strong><span>CISO, CIO, Security, DevOps, IT</span></a>
+          <a href="solutions-industry.html"><strong>By Industry</strong><span>Finance, Healthcare, Tech, Gov</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Resources<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="resources-documentation.html"><strong>Documentation</strong><span>Guides, API &amp; deployment</span></a>
+          <a href="resources-case-studies.html"><strong>Case Studies</strong><span>Customer success stories</span></a>
+          <a href="resources-whitepapers.html"><strong>Whitepapers</strong><span>Research &amp; frameworks</span></a>
+          <a href="resources-glossary.html"><strong>AI Agent Glossary</strong><span>Key terms explained</span></a>
+          <a href="resources-trust-center.html"><strong>Trust Center</strong><span>Security &amp; compliance</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger is-active" aria-expanded="false" aria-haspopup="true">Company<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="company.html"><strong>About Us</strong><span>Our story, mission &amp; team</span></a>
+          <a href="contact.html"><strong>Contact Us</strong><span>Talk to our team</span></a>
+          <a href="careers.html"><strong>Careers</strong><span>Join the mission</span></a>
+        </div>
+      </div>
+      <a href="request-demo.html" class="za-btn za-btn--primary">Request Demo</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h14"/></svg></button>
+  </div>
+</nav>
+
+<main class="co">
+
+<!-- ═══ 1 · HERO ═══ -->
+<header class="co-hero" id="main">
+  <div class="za-container">
+    <div class="co-hero__grid co-hero__grid--center">
+      <div class="rv">
+        <p class="za-eyebrow za-eyebrow--signal">Company</p>
+        <h1>Building the Identity Layer for <span class="za-accent-text">Autonomous AI</span></h1>
+        <p>Zero-Agent is pioneering the world's first purpose-built identity governance platform engineered specifically for autonomous AI agents and Non-Human Identities (NHIs) — enabling organizations to securely deploy AI at machine speed.</p>
+        <div class="co-hero__actions">
+          <a href="#leadership" class="za-btn za-btn--lg za-btn--signal">Meet Our Team</a>
+          <a href="contact.html" class="za-btn za-btn--lg za-btn--ghost">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ 2 · FOUNDERS ═══ -->
+<section class="co-sec co-sec--tint">
+  <div class="za-container">
+    <div class="co-head co-head--center rv" style="text-align:center">
+      <p class="za-eyebrow za-eyebrow--signal">Meet the Founders</p>
+      <h2>The people behind Zero-Agent</h2>
+      <p>Zero-Agent was founded to give every AI agent an identity, an owner, and continuous governance — with the same rigor enterprises apply to human identities.</p>
+    </div>
+    <div class="co-founders">
+      <article class="co-founder-card rv">
+        <div class="co-avatar" aria-hidden="true"><span>VP</span><em>Founder photo</em></div>
+        <h3 class="co-founder__name">Valli Paruchuri</h3>
+        <p class="co-founder__role">Cofounder &amp; CEO</p>
+        <p class="co-founder__lead">Valli leads Zero-Agent's vision, strategy, and growth as the company defines the AI identity governance category for the enterprise.</p>
+        <blockquote class="co-quote">"Enterprises are adopting AI faster than they can govern it. We exist to close that gap."</blockquote>
+        <div class="co-social">
+          <a href="mailto:valli@zero-agent.ai" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+        </div>
+      </article>
+      <article class="co-founder-card rv rv-d1">
+        <div class="co-avatar" aria-hidden="true"><span>KP</span><em>Founder photo</em></div>
+        <h3 class="co-founder__name">Krishna Paruchuri</h3>
+        <p class="co-founder__role">Founder &amp; CTO</p>
+        <p class="co-founder__lead">Krishna is a cybersecurity and identity leader who built Zero-Agent after seeing enterprises rush to adopt AI agents with no way to govern them.</p>
+        <blockquote class="co-quote">"Our mission is to make AI agents as secure, governed, and trusted as human identities."</blockquote>
+        <div class="co-social">
+          <a href="https://www.linkedin.com/in/kparuchuri100" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.3 8.65 21 11 21 14.3V21h-4v-5.9c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z"/></svg></a>
+          <a href="mailto:krishna@zero-agent.ai" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3 · WHY WE STARTED ═══ -->
+<section class="co-sec">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Why We Started Zero-Agent</p>
+      <h2>From a problem to a category</h2>
+    </div>
+    <div class="co-flow-grid">
+      <article class="za-card co-step rv">
+        <span class="co-step__ic"><svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></span>
+        <span class="co-step__k">Problem</span>
+        <h3>Ungoverned AI</h3>
+        <p>AI agents are rapidly entering enterprise environments without dedicated identity governance.</p>
+        <svg class="co-step__arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M7 3l4 4-4 4"/></svg>
+      </article>
+      <article class="za-card co-step rv rv-d1">
+        <span class="co-step__ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.2 1 2h6c0-.8.4-1.5 1-2A7 7 0 0012 2z"/></svg></span>
+        <span class="co-step__k">Insight</span>
+        <h3>Legacy IAM falls short</h3>
+        <p>Traditional IAM, PAM, and IGA platforms were never designed for autonomous machine identities.</p>
+        <svg class="co-step__arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M7 3l4 4-4 4"/></svg>
+      </article>
+      <article class="za-card co-step rv rv-d2">
+        <span class="co-step__ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <span class="co-step__k">Solution</span>
+        <h3>Governance for agents</h3>
+        <p>Identity governance, policy enforcement, least privilege, approvals, and continuous monitoring — built for AI.</p>
+        <svg class="co-step__arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M7 3l4 4-4 4"/></svg>
+      </article>
+      <article class="za-card co-step rv rv-d3">
+        <span class="co-step__ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg></span>
+        <span class="co-step__k">Vision</span>
+        <h3>The identity layer for AI</h3>
+        <p>Become the global identity layer for autonomous AI.</p>
+        <svg class="co-step__arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M7 3l4 4-4 4"/></svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 4 · MISSION & VISION ═══ -->
+<section class="co-sec co-sec--tint">
+  <div class="za-container">
+    <div class="co-mv">
+      <article class="za-card co-mv__card rv">
+        <span class="badge">Mission</span>
+        <p>Protect every autonomous AI agent through identity-first security.</p>
+      </article>
+      <article class="za-card co-mv__card rv rv-d1">
+        <span class="badge">Vision</span>
+        <p>Enable organizations to trust autonomous AI through secure identity, governance, and continuous authorization.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5 · VALUES ═══ -->
+<section class="co-sec">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Company Values</p>
+      <h2>What we stand for</h2>
+    </div>
+    <div class="co-values">
+      <article class="za-card co-value rv"><span class="co-value__ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Security First</h3><p>Security is the foundation of every decision we make.</p></article>
+      <article class="za-card co-value rv rv-d1"><span class="co-value__ic"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span><h3>Trust by Design</h3><p>We earn trust through evidence, not assertions.</p></article>
+      <article class="za-card co-value rv rv-d2"><span class="co-value__ic"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/><circle cx="12" cy="12" r="4"/></svg></span><h3>Innovation</h3><p>We pioneer a new category, not iterate on the past.</p></article>
+      <article class="za-card co-value rv"><span class="co-value__ic"><svg viewBox="0 0 24 24"><path d="M12 21C7 17 3 13.5 3 8.5A4.5 4.5 0 0112 6a4.5 4.5 0 019 2.5C21 13.5 17 17 12 21z"/></svg></span><h3>Customer Obsession</h3><p>Our customers' security outcomes drive everything.</p></article>
+      <article class="za-card co-value rv rv-d1"><span class="co-value__ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg></span><h3>Transparency</h3><p>Clear evidence, explainable decisions, honest communication.</p></article>
+      <article class="za-card co-value rv rv-d2"><span class="co-value__ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span><h3>Responsible AI</h3><p>We help organizations adopt AI safely and accountably.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6 · LEADERSHIP ═══ -->
+<section class="co-sec co-sec--tint" id="leadership">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Meet the Team</p>
+      <h2>The team building Zero-Agent</h2>
+      <p>Alongside our founders, a world-class team across security, engineering, and product is building the identity layer for autonomous AI.</p>
+    </div>
+    <div class="co-team">
+      <article class="za-card co-person rv">
+        <div class="co-person__photo">RP</div>
+        <h3 class="co-person__name">Ritvik Paruchuri</h3>
+        <p class="co-person__title">Founding Software Engineer</p>
+        <p class="co-person__bio">Building the core platform that discovers and governs AI identities at scale.</p>
+        <div class="co-person__links">
+          <a href="mailto:ritvik@zero-agent.ai" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+        </div>
+      </article>
+
+      <article class="za-card co-person rv">
+        <div class="co-person__photo">AP</div>
+        <h3 class="co-person__name">Annika Paruchuri</h3>
+        <p class="co-person__title">Founding Product Manager</p>
+        <p class="co-person__bio">Shaping the product experience for security and identity teams.</p>
+        <div class="co-person__links">
+          <a href="mailto:annika@zero-agent.ai" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 · ADVISORS ═══ -->
+<section class="co-sec">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Advisors</p>
+      <h2>Guided by industry leaders</h2>
+      <p>We're building an advisory board of cybersecurity and AI experts to guide the future of AI identity governance.</p>
+    </div>
+    <div class="co-team">
+      <article class="za-card co-person co-person--soon rv">
+        <div class="co-person__photo">+</div>
+        <h3 class="co-person__name">To be announced</h3>
+        <p class="co-person__title">Former CISO</p>
+        <p class="co-person__bio">Enterprise security leadership and Fortune 500 program experience.</p>
+        <span class="co-person__soon">Coming Soon</span>
+      </article>
+      <article class="za-card co-person co-person--soon rv rv-d1">
+        <div class="co-person__photo">+</div>
+        <h3 class="co-person__name">To be announced</h3>
+        <p class="co-person__title">Identity Security Expert</p>
+        <p class="co-person__bio">Deep expertise across IGA, PAM, and Zero Trust architectures.</p>
+        <span class="co-person__soon">Coming Soon</span>
+      </article>
+      <article class="za-card co-person co-person--soon rv rv-d2">
+        <div class="co-person__photo">+</div>
+        <h3 class="co-person__name">To be announced</h3>
+        <p class="co-person__title">AI Security Research Advisor</p>
+        <p class="co-person__bio">Research leadership in AI safety, agents, and machine identity.</p>
+        <span class="co-person__soon">Coming Soon</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8 · COMPANY SNAPSHOT ═══ -->
+<section class="co-sec co-sec--tint">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Company Snapshot</p>
+      <h2>At a glance</h2>
+    </div>
+    <div class="co-stats">
+      <article class="za-card co-stat rv"><p class="co-stat__label">Founded</p><p class="co-stat__value">2026</p></article>
+      <article class="za-card co-stat rv rv-d1"><p class="co-stat__label">Headquarters</p><p class="co-stat__value">Texas, USA</p></article>
+      <article class="za-card co-stat rv rv-d2"><p class="co-stat__label">Industry</p><p class="co-stat__value">Cybersecurity</p></article>
+      <article class="za-card co-stat rv rv-d3"><p class="co-stat__label">Category</p><p class="co-stat__value">AI Agent Identity Governance</p></article>
+      <article class="za-card co-stat rv"><p class="co-stat__label">Deployment</p><p class="co-stat__value">Cloud &amp; Hybrid</p></article>
+      <article class="za-card co-stat rv rv-d1"><p class="co-stat__label">Supported Clouds</p><div class="co-stat__chips"><span>AWS</span><span>Azure</span><span>Google Cloud</span></div></article>
+      <article class="za-card co-stat rv rv-d2"><p class="co-stat__label">Architecture</p><div class="co-stat__chips"><span>Zero Trust</span><span>Identity First</span></div></article>
+      <article class="za-card co-stat rv rv-d3"><p class="co-stat__label">Focus</p><p class="co-stat__value">AI Agents &amp; NHIs</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 9 · TIMELINE ═══ -->
+<section class="co-sec">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Company Timeline</p>
+      <h2>Our journey so far</h2>
+    </div>
+    <div class="co-tl" id="timeline">
+      <div class="co-tl__prog"></div>
+      <p class="co-tl__group">2026</p>
+      <div class="co-tl__item"><span class="co-tl__dot"></span><h3>Founded</h3><p>Zero-Agent is born to govern autonomous AI.</p></div>
+      <div class="co-tl__item"><span class="co-tl__dot"></span><h3>Website launched</h3><p>Our story and platform go live.</p></div>
+      <div class="co-tl__item"><span class="co-tl__dot"></span><h3>MVP completed</h3><p>Discovery and identity graph for AI agents.</p></div>
+      <div class="co-tl__item"><span class="co-tl__dot"></span><h3>Google Cloud Startup Program</h3><p>Application submitted.</p></div>
+      <div class="co-tl__item"><span class="co-tl__dot"></span><h3>Microsoft for Startups Founders Hub</h3><p>Joined the founders program.</p></div>
+      <div class="co-tl__item"><span class="co-tl__dot"></span><h3>Design partner program</h3><p>Co-building with early enterprise partners.</p></div>
+
+      <p class="co-tl__group co-tl__group--road">Roadmap</p>
+      <div class="co-tl__item co-tl__item--future"><span class="co-tl__dot"></span><h3>Enterprise Launch<span class="co-tl__tag">Planned</span></h3><p>Governance at production scale.</p></div>
+      <div class="co-tl__item co-tl__item--future"><span class="co-tl__dot"></span><h3>SOC 2<span class="co-tl__tag">Planned</span></h3><p>Independent security attestation.</p></div>
+      <div class="co-tl__item co-tl__item--future"><span class="co-tl__dot"></span><h3>Series A<span class="co-tl__tag">Planned</span></h3><p>Scaling the team and platform.</p></div>
+      <div class="co-tl__item co-tl__item--future"><span class="co-tl__dot"></span><h3>Global Expansion<span class="co-tl__tag">Planned</span></h3><p>Securing AI worldwide.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 10 · CAREERS ═══ -->
+<section class="co-sec co-sec--tint">
+  <div class="za-container">
+    <div class="co-careers rv">
+      <p class="za-eyebrow za-eyebrow--signal">Careers</p>
+      <h2 class="co-head" style="margin:0;max-width:none">Help Secure the Future of Autonomous AI</h2>
+      <p style="color:var(--text-secondary);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);margin-top:var(--space-4)">We're building the next generation of AI identity security — and looking for exceptional people to build it with us.</p>
+      <div class="co-careers__actions">
+        <a href="careers.html" class="za-btn za-btn--lg za-btn--signal">View Open Positions</a>
+        <a href="mailto:careers@zero-agent.ai" class="za-btn za-btn--lg za-btn--ghost">Contact Recruiting</a>
+      </div>
+      <p class="co-careers__note">No current openings. We're always interested in connecting with exceptional cybersecurity and AI talent — reach us at <a href="mailto:careers@zero-agent.ai" style="color:var(--accent);text-decoration:none">careers@zero-agent.ai</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 11 · PARTNERS & COMMUNITY ═══ -->
+<section class="co-sec">
+  <div class="za-container">
+    <div class="co-head rv">
+      <p class="za-eyebrow za-eyebrow--signal">Partners &amp; Community</p>
+      <h2>Part of the startup ecosystem</h2>
+      <p>We're actively engaging with leading startup and cloud programs as we build Zero-Agent.</p>
+    </div>
+    <div class="co-partners">
+      <article class="za-card co-partner rv"><span class="co-partner__mark">M</span><span class="co-partner__name">Microsoft for Startups Founders Hub</span><span class="co-partner__tag co-partner__tag--member">Member</span></article>
+      <article class="za-card co-partner rv rv-d1"><span class="co-partner__mark">G</span><span class="co-partner__name">Google for Startups</span><span class="co-partner__tag co-partner__tag--applicant">Applicant</span></article>
+      <article class="za-card co-partner rv rv-d2"><span class="co-partner__mark">A</span><span class="co-partner__name">AWS Activate</span><span class="co-partner__tag co-partner__tag--exploring">Exploring</span></article>
+      <article class="za-card co-partner rv rv-d3"><span class="co-partner__mark">N</span><span class="co-partner__name">NVIDIA Inception</span><span class="co-partner__tag co-partner__tag--exploring">Exploring</span></article>
+      <article class="za-card co-partner rv"><span class="co-partner__mark">Y</span><span class="co-partner__name">Y Combinator</span><span class="co-partner__tag co-partner__tag--applicant">Applicant</span></article>
+      <article class="za-card co-partner rv rv-d1"><span class="co-partner__mark">T</span><span class="co-partner__name">Techstars</span><span class="co-partner__tag co-partner__tag--applicant">Applicant</span></article>
+      <article class="za-card co-partner rv rv-d2"><span class="co-partner__mark">C</span><span class="co-partner__name">Capital Factory</span><span class="co-partner__tag co-partner__tag--exploring">Exploring</span></article>
+      <article class="za-card co-partner rv rv-d3"><span class="co-partner__mark">U</span><span class="co-partner__name">UT Dallas Venture Development Center</span><span class="co-partner__tag co-partner__tag--exploring">Exploring</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 12 · FINAL CTA ═══ -->
+<section class="section cta-band">
+  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
+    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get involved</p>
+    <h2 class="za-display-lg">Join Us in Building the Future of AI Security</h2>
+    <p>Whether you're an enterprise exploring AI governance, a potential design partner, an investor, or a future teammate, we'd love to connect.</p>
+    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
+      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Become a Design Partner</a>
+      <a href="contact.html" class="za-btn za-btn--lg za-btn--ghost">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="za-footer">
+  <div class="za-container">
+    <div class="za-footer__inner">
+      <div class="za-footer__brand">
+        <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+        <p>Secure identity governance for autonomous AI agents and non-human identities.</p>
+        <form class="za-footer__news" onsubmit="return false" aria-label="Newsletter signup">
+          <label for="fnews">Get product &amp; research updates</label>
+          <div class="za-footer__news-row">
+            <input type="email" id="fnews" placeholder="you@company.com" aria-label="Email address">
+            <button type="submit" class="za-btn za-btn--signal">Subscribe</button>
+          </div>
+        </form>
+        <div class="za-footer__social">
+          <a href="https://www.linkedin.com/in/kparuchuri100" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.3 8.65 21 11 21 14.3V21h-4v-5.9c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-7-6.2 7H1.4l8.2-9.3L1 2h7.1l4.9 6.5L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a>
+        </div>
+      </div>
+      <nav class="za-footer__cols" aria-label="Footer">
+        <div class="za-footer__col"><h4>Product</h4><a href="product.html">Overview</a><a href="features.html">Features</a><a href="integrations.html">Integrations</a></div>
+        <div class="za-footer__col"><h4>Solutions</h4><a href="solutions-role.html">By Role</a><a href="solutions-industry.html">By Industry</a></div>
+        <div class="za-footer__col"><h4>Resources</h4><a href="resources.html">Overview</a><a href="resources-documentation.html">Documentation</a><a href="resources-case-studies.html">Case Studies</a><a href="resources-whitepapers.html">Whitepapers</a><a href="resources-glossary.html">AI Agent Glossary</a></div>
+        <div class="za-footer__col"><h4>Security</h4><a href="resources-trust-center.html">Trust Center</a><a href="resources-trust-center.html">Compliance</a><a href="#">Responsible AI</a><a href="mailto:security@zero-agent.ai">Security Contact</a></div>
+        <div class="za-footer__col"><h4>Company</h4><a href="company.html">About Us</a><a href="contact.html">Contact Us</a><a href="careers.html">Careers</a></div>
+        <div class="za-footer__col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Responsible AI</a><a href="#">Cookie Policy</a></div>
+      </nav>
+    </div>
+    <div class="za-footer__bar">
+      <p>&copy; 2026 Zero-Agent.AI · The Control Plane for AI Agent Identity</p>
+      <p class="za-footer__badges"><span>SOC 2 — In Progress</span><span>Zero Trust</span><span>Identity First</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('is-scrolled',scrollY>16),{passive:true});
+const mb=document.getElementById('menuBtn');
+mb&&mb.addEventListener('click',()=>{const l=document.getElementById('navLinks');const o=l.classList.toggle('open');mb.setAttribute('aria-expanded',String(o));});
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}});},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.co .rv,#timeline').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

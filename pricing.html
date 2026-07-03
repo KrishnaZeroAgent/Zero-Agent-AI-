@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — Zero-Agent.AI</title>
+<link rel="canonical" href="https://www.zero-agent.ai/pricing.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Zero-Agent.AI">
+<meta property="og:title" content="Pricing — Zero-Agent.AI">
+<meta property="og:description" content="Zero-Agent pricing — Free, Professional, and Enterprise plans for AI agent discovery, identity governance, and Zero Trust security that scale from first pilot to global enterprise.">
+<meta property="og:url" content="https://www.zero-agent.ai/pricing.html">
+<meta property="og:image" content="https://www.zero-agent.ai/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Zero-Agent pricing — Free, Professional, and Enterprise plans for AI agent discovery, identity governance, and Zero Trust security that scale from first pilot to global enterprise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="za-core.css">
+<script src="za-nav.js" defer></script>
+<style>
+/* ── Hero ── */
+.pg-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--space-10);text-align:center;position:relative;overflow:hidden}
+.pg-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.07),transparent 60%)}
+.pg-hero__inner{position:relative;max-width:48rem;margin-inline:auto}
+.pg-hero h1{max-width:16ch;margin-inline:auto}
+.pg-hero p{max-width:54ch;margin:var(--stack-base) auto 0}
+
+/* ── Billing toggle ── */
+.pr-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:var(--space-8);position:relative;background:var(--bg-sunken);border:1px solid var(--border);border-radius:100px;padding:5px}
+.pr-toggle button{position:relative;z-index:1;border:none;background:none;cursor:pointer;font-family:inherit;font-size:var(--text-body-sm);font-weight:var(--weight-medium);color:var(--text-secondary);padding:8px 18px;border-radius:100px;transition:color var(--duration-normal)}
+.pr-toggle button.is-active{color:var(--text)}
+.pr-toggle__pill{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);background:#fff;border-radius:100px;box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform var(--duration-normal) var(--ease-out)}
+.pr-toggle.is-yearly .pr-toggle__pill{transform:translateX(100%)}
+.pr-save{display:inline-block;margin-left:8px;font-size:var(--text-caption);font-weight:var(--weight-semibold);letter-spacing:.04em;text-transform:uppercase;color:var(--za-safe);background:var(--za-safe-soft);padding:3px 9px;border-radius:100px}
+
+/* ── Tiers ── */
+.pr-tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-6);align-items:stretch;margin-top:var(--space-12)}
+.pr-card{display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-8);position:relative;transition:box-shadow var(--duration-normal),transform var(--duration-normal),border-color var(--duration-normal)}
+.pr-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-6px);border-color:var(--border-strong)}
+.pr-card--featured{border-color:var(--accent);box-shadow:var(--shadow-lg);background:linear-gradient(180deg,var(--za-signal-soft),transparent 32%),var(--bg)}
+.pr-card--featured:hover{border-color:var(--accent)}
+.pr-badge{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:var(--accent);color:#fff;font-size:10px;font-weight:var(--weight-semibold);letter-spacing:.09em;text-transform:uppercase;padding:6px 14px;border-radius:100px;box-shadow:0 6px 16px rgba(0,87,184,.28)}
+.pr-card__name{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight)}
+.pr-card__desc{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:8px;min-height:3.4em}
+.pr-card__price{display:flex;align-items:baseline;gap:6px;margin:var(--space-6) 0 4px;min-height:52px}
+.pr-card__amount{font-size:var(--text-display-md);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:1}
+.pr-card__period{font-size:var(--text-body-sm);color:var(--text-muted)}
+.pr-card__note{font-size:var(--text-caption);color:var(--text-muted);min-height:1.4em}
+.pr-card__cta{display:flex;flex-direction:column;gap:10px;margin:var(--space-6) 0}
+.pr-card__cta .za-btn{width:100%}
+.pr-feats{list-style:none;display:flex;flex-direction:column;gap:var(--space-3);margin-top:auto}
+.pr-feats__head{font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--text-muted);margin-bottom:2px}
+.pr-feats li{display:flex;gap:10px;font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-snug)}
+.pr-feats li svg{flex-shrink:0;width:16px;height:16px;stroke:var(--za-safe);stroke-width:2.4;fill:none;margin-top:2px}
+
+/* ── FAQ / CTA reuse core ── */
+.pr-faq-head{text-align:center;max-width:40rem;margin:0 auto var(--space-10)}
+
+@media(max-width:1024px){
+  .pr-tiers{grid-template-columns:minmax(0,1fr);max-width:30rem;margin-inline:auto}
+  .pr-badge{left:var(--space-8);transform:translateY(-50%)}
+}
+</style>
+</head>
+<body>
+<a class="za-skip" href="#main">Skip to main content</a>
+
+<nav class="za-nav" id="nav">
+  <div class="za-container za-nav__inner">
+    <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+    <div class="za-nav__links" id="navLinks">
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Product<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="product.html"><strong>Overview</strong><span>The AI Identity Control Plane</span></a>
+          <a href="features.html"><strong>Features</strong><span>Discovery, governance &amp; control</span></a>
+          <a href="integrations.html"><strong>Integrations</strong><span>Identity, cloud, AI &amp; security</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Solutions<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="solutions-role.html"><strong>By Role</strong><span>CISO, CIO, Security, DevOps, IT</span></a>
+          <a href="solutions-industry.html"><strong>By Industry</strong><span>Finance, Healthcare, Tech, Gov</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Resources<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="resources-documentation.html"><strong>Documentation</strong><span>Guides, API &amp; deployment</span></a>
+          <a href="resources-case-studies.html"><strong>Case Studies</strong><span>Customer success stories</span></a>
+          <a href="resources-whitepapers.html"><strong>Whitepapers</strong><span>Research &amp; frameworks</span></a>
+          <a href="resources-glossary.html"><strong>AI Agent Glossary</strong><span>Key terms explained</span></a>
+          <a href="resources-trust-center.html"><strong>Trust Center</strong><span>Security &amp; compliance</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Company<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="company.html"><strong>About Us</strong><span>Our story, mission &amp; team</span></a>
+          <a href="contact.html"><strong>Contact Us</strong><span>Talk to our team</span></a>
+          <a href="careers.html"><strong>Careers</strong><span>Join the mission</span></a>
+        </div>
+      </div>
+      <a href="request-demo.html" class="za-btn za-btn--primary">Request Demo</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h14"/></svg></button>
+  </div>
+</nav>
+
+<header class="pg-hero" id="main">
+  <div class="za-container">
+    <div class="pg-hero__inner za-reveal">
+      <p class="za-eyebrow za-eyebrow--signal">Pricing</p>
+      <h1 class="za-display-xl">Simple plans that scale with your <span class="za-accent-text">agent estate</span></h1>
+      <p class="za-body-lg">Start free with AI identity discovery, then grow into full governance and Zero Trust enforcement. No hidden tiers — just the control you need.</p>
+      <div class="pr-toggle" id="billToggle" role="group" aria-label="Billing period">
+        <span class="pr-toggle__pill" aria-hidden="true"></span>
+        <button type="button" data-bill="monthly" class="is-active" aria-pressed="true">Monthly</button>
+        <button type="button" data-bill="yearly" aria-pressed="false">Yearly<span class="pr-save">Save 20%</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section" style="padding-top:0">
+  <div class="za-container">
+    <div class="pr-tiers">
+
+      <!-- FREE -->
+      <article class="pr-card za-reveal">
+        <h3 class="pr-card__name">Free</h3>
+        <p class="pr-card__desc">For developers and small teams exploring AI identity security.</p>
+        <div class="pr-card__price">
+          <span class="pr-card__amount" data-monthly="$0" data-yearly="$0">$0</span>
+          <span class="pr-card__period">/month</span>
+        </div>
+        <p class="pr-card__note" data-monthly="Free forever" data-yearly="Free forever">Free forever</p>
+        <div class="pr-card__cta">
+          <a href="request-demo.html" class="za-btn za-btn--signal">Get Started Free</a>
+          <a href="request-demo.html" class="za-btn za-btn--ghost">Request Demo</a>
+        </div>
+        <ul class="pr-feats">
+          <li class="pr-feats__head" style="display:block">Includes</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Up to 5 AI agents</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>AI agent inventory</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Basic AI identity discovery</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Risk dashboard</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Community support</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Email notifications</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Single workspace</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Basic reporting</li>
+        </ul>
+      </article>
+
+      <!-- PROFESSIONAL -->
+      <article class="pr-card pr-card--featured za-reveal za-reveal--d1">
+        <span class="pr-badge">Most Popular</span>
+        <h3 class="pr-card__name">Professional</h3>
+        <p class="pr-card__desc">For growing businesses securing production AI workloads.</p>
+        <div class="pr-card__price">
+          <span class="pr-card__amount" data-monthly="$99" data-yearly="$79">$99</span>
+          <span class="pr-card__period">/month</span>
+        </div>
+        <p class="pr-card__note" data-monthly="Billed monthly" data-yearly="$948 billed annually · save 20%">Billed monthly</p>
+        <div class="pr-card__cta">
+          <a href="request-demo.html" class="za-btn za-btn--signal">Get Started</a>
+          <a href="request-demo.html" class="za-btn za-btn--ghost">Request Demo</a>
+        </div>
+        <ul class="pr-feats">
+          <li class="pr-feats__head" style="display:block">Everything in Free, plus</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Up to 100 AI agents</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Unlimited identity discovery</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>AI identity governance</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Risk intelligence</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Policy engine</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Compliance dashboard</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Slack notifications</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Audit logs</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Role-based access</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Email support</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>API access</li>
+        </ul>
+      </article>
+
+      <!-- ENTERPRISE -->
+      <article class="pr-card za-reveal za-reveal--d2">
+        <h3 class="pr-card__name">Enterprise</h3>
+        <p class="pr-card__desc">For enterprises managing AI identities at scale.</p>
+        <div class="pr-card__price">
+          <span class="pr-card__amount">Contact Sales</span>
+        </div>
+        <p class="pr-card__note">Tailored to your environment</p>
+        <div class="pr-card__cta">
+          <a href="request-demo.html" class="za-btn za-btn--primary">Contact Sales</a>
+          <a href="request-demo.html" class="za-btn za-btn--ghost">Request Demo</a>
+        </div>
+        <ul class="pr-feats">
+          <li class="pr-feats__head" style="display:block">Everything in Professional, plus</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Unlimited AI agents</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Unlimited workspaces</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Custom integrations</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Single sign-on (SSO)</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>SCIM provisioning</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Advanced compliance</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Custom policies</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Zero Trust automation</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Multi-cloud governance</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Dedicated customer success</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Priority support</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Custom SLAs</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section--md" style="padding-bottom:var(--section-y-md)">
+  <div class="za-container">
+    <div class="pr-faq-head za-reveal">
+      <p class="za-eyebrow za-eyebrow--signal">FAQ</p>
+      <h2 class="za-display-md">Frequently asked questions</h2>
+    </div>
+    <div class="za-faq za-reveal">
+      <div class="za-faq__item">
+        <button class="za-faq__q">Can I upgrade later?<span class="za-faq__icon"></span></button>
+        <div class="za-faq__a"><p>Yes. You can upgrade, downgrade, or change plans at any time directly from your workspace. Upgrades take effect immediately and any difference is prorated automatically.</p></div>
+      </div>
+      <div class="za-faq__item">
+        <button class="za-faq__q">Do you offer annual pricing?<span class="za-faq__icon"></span></button>
+        <div class="za-faq__a"><p>Yes. Switch to yearly billing to save 20% compared to paying monthly. Annual plans are invoiced once per year and can be paired with enterprise procurement and PO workflows.</p></div>
+      </div>
+      <div class="za-faq__item">
+        <button class="za-faq__q">Can I cancel anytime?<span class="za-faq__icon"></span></button>
+        <div class="za-faq__a"><p>Absolutely. There are no long-term lock-ins on the Free or Professional plans — cancel whenever you like and you'll retain access through the end of your current billing period.</p></div>
+      </div>
+      <div class="za-faq__item">
+        <button class="za-faq__q">Is there a free trial?<span class="za-faq__icon"></span></button>
+        <div class="za-faq__a"><p>The Free plan is available forever with no credit card required. When you're ready for more, you can start a 14-day trial of Professional to explore governance, policy, and compliance features.</p></div>
+      </div>
+      <div class="za-faq__item">
+        <button class="za-faq__q">Do you support enterprise deployments?<span class="za-faq__icon"></span></button>
+        <div class="za-faq__a"><p>Yes. The Enterprise plan includes SSO, SCIM provisioning, custom policies, multi-cloud governance, advanced compliance, custom SLAs, and a dedicated customer success team for large-scale rollouts.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section cta-band">
+  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
+    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Still have questions?</p>
+    <h2 class="za-display-lg">Talk to an AI identity security expert</h2>
+    <p>Get a personalized walkthrough and a live inventory of the AI agents already running in your organization.</p>
+    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
+      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
+      <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore the product</a>
+    </div>
+  </div>
+</section>
+
+<footer class="za-footer">
+  <div class="za-container">
+    <div class="za-footer__inner">
+      <div class="za-footer__brand">
+        <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+        <p>Secure identity governance for autonomous AI agents and non-human identities.</p>
+        <form class="za-footer__news" onsubmit="return false" aria-label="Newsletter signup">
+          <label for="fnews">Get product &amp; research updates</label>
+          <div class="za-footer__news-row">
+            <input type="email" id="fnews" placeholder="you@company.com" aria-label="Email address">
+            <button type="submit" class="za-btn za-btn--signal">Subscribe</button>
+          </div>
+        </form>
+        <div class="za-footer__social">
+          <a href="https://www.linkedin.com/in/kparuchuri100" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.3 8.65 21 11 21 14.3V21h-4v-5.9c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-7-6.2 7H1.4l8.2-9.3L1 2h7.1l4.9 6.5L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a>
+        </div>
+      </div>
+      <nav class="za-footer__cols" aria-label="Footer">
+        <div class="za-footer__col"><h4>Product</h4><a href="product.html">Overview</a><a href="features.html">Features</a><a href="integrations.html">Integrations</a></div>
+        <div class="za-footer__col"><h4>Solutions</h4><a href="solutions-role.html">By Role</a><a href="solutions-industry.html">By Industry</a></div>
+        <div class="za-footer__col"><h4>Resources</h4><a href="resources.html">Overview</a><a href="resources-documentation.html">Documentation</a><a href="resources-case-studies.html">Case Studies</a><a href="resources-whitepapers.html">Whitepapers</a><a href="resources-glossary.html">AI Agent Glossary</a></div>
+        <div class="za-footer__col"><h4>Security</h4><a href="resources-trust-center.html">Trust Center</a><a href="resources-trust-center.html">Compliance</a><a href="#">Responsible AI</a><a href="mailto:security@zero-agent.ai">Security Contact</a></div>
+        <div class="za-footer__col"><h4>Company</h4><a href="company.html">About Us</a><a href="contact.html">Contact Us</a><a href="careers.html">Careers</a></div>
+        <div class="za-footer__col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Responsible AI</a><a href="#">Cookie Policy</a></div>
+      </nav>
+    </div>
+    <div class="za-footer__bar">
+      <p>&copy; 2026 Zero-Agent.AI · The Control Plane for AI Agent Identity</p>
+      <p class="za-footer__badges"><span>SOC 2 — In Progress</span><span>Zero Trust</span><span>Identity First</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('is-scrolled',scrollY>16),{passive:true});
+const mb=document.getElementById('menuBtn');
+mb&&mb.addEventListener('click',()=>{const l=document.getElementById('navLinks');const o=l.classList.toggle('open');mb.setAttribute('aria-expanded',String(o));});
+
+// Billing toggle
+const toggle=document.getElementById('billToggle');
+const swaps=document.querySelectorAll('[data-monthly]');
+toggle.querySelectorAll('button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const yearly=btn.dataset.bill==='yearly';
+    toggle.classList.toggle('is-yearly',yearly);
+    toggle.querySelectorAll('button').forEach(b=>{const on=b===btn;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});
+    swaps.forEach(el=>{el.textContent=yearly?el.dataset.yearly:el.dataset.monthly;});
+  });
+});
+
+// FAQ accordion
+document.querySelectorAll('.za-faq__item').forEach(item=>{
+  const q=item.querySelector('.za-faq__q');const a=item.querySelector('.za-faq__a');
+  q.addEventListener('click',()=>{const open=item.classList.toggle('is-open');a.style.maxHeight=open?a.scrollHeight+'px':0;});
+});
+
+// Reveal
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in','is-visible');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('[data-in],.za-reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

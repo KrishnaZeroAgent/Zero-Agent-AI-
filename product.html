@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — The AI Identity Control Plane | Zero-Agent.AI</title>
+<link rel="canonical" href="https://www.zero-agent.ai/product.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Zero-Agent.AI">
+<meta property="og:title" content="Product — The AI Identity Control Plane | Zero-Agent.AI">
+<meta property="og:description" content="Zero-Agent is the AI Identity Control Plane — discover, govern, and secure every AI agent and non-human identity across your enterprise.">
+<meta property="og:url" content="https://www.zero-agent.ai/product.html">
+<meta property="og:image" content="https://www.zero-agent.ai/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Zero-Agent is the AI Identity Control Plane — discover, govern, and secure every AI agent and non-human identity across your enterprise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="za-core.css">
+<script src="za-nav.js" defer></script>
+<style>
+.pg-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--section-y-md);text-align:center;position:relative;overflow:hidden}
+.pg-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.07),transparent 60%)}
+.pg-hero__inner{position:relative;max-width:48rem;margin-inline:auto}
+.pg-hero h1{max-width:16ch;margin-inline:auto}
+.pg-hero p{max-width:56ch;margin:var(--stack-base) auto 0}
+.pg-hero__actions{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)}
+
+/* Dashboard preview */
+.console{border-radius:var(--radius-xl);border:1px solid var(--border-strong);overflow:hidden;box-shadow:var(--shadow-lg);background:var(--bg)}
+.console__chrome{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--za-paper-sunken);border-bottom:1px solid var(--border);font-size:var(--text-caption);color:var(--text-muted)}
+.console__chrome span{display:inline-flex;align-items:center;gap:8px}
+.console__live{width:7px;height:7px;border-radius:50%;background:var(--za-safe);box-shadow:0 0 7px var(--za-safe)}
+.console__body{display:grid;grid-template-columns:180px 1fr}
+.console__nav{border-right:1px solid var(--border);padding:var(--space-4);display:flex;flex-direction:column;gap:2px}
+.console__nav a{font-size:var(--text-body-sm);color:var(--text-secondary);text-decoration:none;padding:8px 12px;border-radius:var(--radius-sm)}
+.console__nav a.is-active{background:var(--accent-soft);color:var(--accent);font-weight:var(--weight-medium)}
+.console__main{padding:var(--space-6)}
+.console__metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);margin-bottom:var(--space-6)}
+.console__metric{border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4)}
+.console__metric b{font-family:var(--font-mono);font-size:var(--text-display-md);font-weight:var(--weight-semibold);display:block;line-height:1;letter-spacing:var(--tracking-tighter)}
+.console__metric span{font-size:var(--text-caption);color:var(--text-muted);text-transform:uppercase;letter-spacing:var(--tracking-wide);margin-top:6px;display:block}
+.console__table{width:100%;border-collapse:collapse;font-size:var(--text-body-sm)}
+.console__table th{text-align:left;font-size:var(--text-caption);text-transform:uppercase;letter-spacing:var(--tracking-wide);color:var(--text-muted);padding:8px 10px;border-bottom:1px solid var(--border)}
+.console__table td{padding:10px;border-bottom:1px solid var(--border)}
+.console__table tr:last-child td{border-bottom:none}
+.txt-safe{color:var(--za-safe)}.txt-risk{color:var(--za-risk)}
+@media(max-width:640px){.console__body{grid-template-columns:1fr}.console__nav{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border)}.console__metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* Workflow */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-5);counter-reset:step}
+.flow__step{position:relative;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-6)}
+.flow__step::before{counter-increment:step;content:"0" counter(step);font-family:var(--font-mono);font-size:var(--text-caption);color:var(--accent);font-weight:var(--weight-semibold)}
+.flow__step h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);margin:var(--space-3) 0 6px}
+.flow__step p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
+.flow__arrow{position:absolute;top:50%;right:-14px;transform:translateY(-50%);color:var(--border-strong);z-index:1}
+@media(max-width:1024px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.flow__arrow{display:none}}
+@media(max-width:640px){.flow{grid-template-columns:1fr}}
+
+/* Architecture layers */
+.arch-stack{display:flex;flex-direction:column;gap:var(--space-3);max-width:60rem;margin-inline:auto}
+.arch-layer{display:grid;grid-template-columns:180px 1fr;gap:var(--space-6);align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6)}
+.arch-layer__label{font-weight:var(--weight-semibold);font-size:var(--text-body);letter-spacing:var(--tracking-tight)}
+.arch-layer__label span{display:block;font-size:var(--text-caption);color:var(--accent);text-transform:uppercase;letter-spacing:var(--tracking-wide);margin-bottom:4px;font-weight:var(--weight-medium)}
+.arch-layer p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
+@media(max-width:640px){.arch-layer{grid-template-columns:1fr;gap:var(--space-3)}}
+</style>
+</head>
+<body>
+<a class="za-skip" href="#main">Skip to main content</a>
+
+<nav class="za-nav" id="nav">
+  <div class="za-container za-nav__inner">
+    <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+    <div class="za-nav__links" id="navLinks">
+      <div class="za-nav__group">
+        <button class="za-nav__trigger is-active" aria-expanded="false" aria-haspopup="true">Product<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="product.html"><strong>Overview</strong><span>The AI Identity Control Plane</span></a>
+          <a href="features.html"><strong>Features</strong><span>Discovery, governance &amp; control</span></a>
+          <a href="integrations.html"><strong>Integrations</strong><span>Identity, cloud, AI &amp; security</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Solutions<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="solutions-role.html"><strong>By Role</strong><span>CISO, CIO, Security, DevOps, IT</span></a>
+          <a href="solutions-industry.html"><strong>By Industry</strong><span>Finance, Healthcare, Tech, Gov</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Resources<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="resources-documentation.html"><strong>Documentation</strong><span>Guides, API &amp; deployment</span></a>
+          <a href="resources-case-studies.html"><strong>Case Studies</strong><span>Customer success stories</span></a>
+          <a href="resources-whitepapers.html"><strong>Whitepapers</strong><span>Research &amp; frameworks</span></a>
+          <a href="resources-glossary.html"><strong>AI Agent Glossary</strong><span>Key terms explained</span></a>
+          <a href="resources-trust-center.html"><strong>Trust Center</strong><span>Security &amp; compliance</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Company<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="company.html"><strong>About Us</strong><span>Our story, mission &amp; team</span></a>
+          <a href="contact.html"><strong>Contact Us</strong><span>Talk to our team</span></a>
+          <a href="careers.html"><strong>Careers</strong><span>Join the mission</span></a>
+        </div>
+      </div>
+      <a href="request-demo.html" class="za-btn za-btn--primary">Request Demo</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h14"/></svg></button>
+  </div>
+</nav>
+
+<header class="pg-hero" id="main">
+  <div class="za-container">
+    <div class="pg-hero__inner za-reveal">
+      <p class="za-eyebrow za-eyebrow--signal">Product Overview</p>
+      <h1 class="za-display-xl">The AI Identity <span class="za-accent-text">Control Plane</span></h1>
+      <p class="za-body-lg">Zero-Agent discovers, governs, and secures every AI agent and non-human identity across your enterprise — from the first pilot to production at global scale.</p>
+      <div class="pg-hero__actions">
+        <a href="request-demo.html" class="za-btn za-btn--lg za-btn--primary">Request Demo</a>
+        <a href="features.html" class="za-btn za-btn--lg za-btn--ghost">Explore features</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="section" style="padding-top:var(--space-8)">
+  <div class="za-container">
+    <div class="console za-reveal">
+      <div class="console__chrome">
+        <span class="za-mono">zero-agent / acme-corp / production</span>
+        <span><i class="console__live"></i> Agent Identity Console</span>
+      </div>
+      <div class="console__body">
+        <nav class="console__nav" aria-label="Console">
+          <a href="#" class="is-active">Agent Inventory</a>
+          <a href="#">Identity Graph</a>
+          <a href="#">Risk Dashboard</a>
+          <a href="#">Policy Engine</a>
+          <a href="#">Audit Trail</a>
+        </nav>
+        <div class="console__main">
+          <div class="console__metrics">
+            <div class="console__metric"><b>847</b><span>Total Agents</span></div>
+            <div class="console__metric"><b class="txt-risk">23</b><span>High Risk</span></div>
+            <div class="console__metric"><b>1,204</b><span>MCP Links</span></div>
+            <div class="console__metric"><b class="txt-safe">99.2%</b><span>Compliant</span></div>
+          </div>
+          <table class="console__table">
+            <thead><tr><th>Agent</th><th>Owner</th><th>Risk</th><th>Policy</th></tr></thead>
+            <tbody>
+              <tr><td>sales-copilot-prod</td><td>revops@corp.com</td><td><span class="za-tag za-tag--safe">Low</span></td><td><span class="za-tag za-tag--safe">Allow</span></td></tr>
+              <tr><td>data-pipeline-agent</td><td>ml-ops@corp.com</td><td><span class="za-tag za-tag--risk">High</span></td><td><span class="za-tag za-tag--risk">Denied</span></td></tr>
+              <tr><td>shadow-mcp-client</td><td class="txt-risk">Unassigned</td><td><span class="za-tag za-tag--risk">Critical</span></td><td><span class="za-tag za-tag--risk">Quarantine</span></td></tr>
+              <tr><td>code-review-agent</td><td>eng@corp.com</td><td><span class="za-tag za-tag--safe">Low</span></td><td><span class="za-tag za-tag--safe">Allow</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="section section--md">
+  <div class="za-container">
+    <header class="section-head section-head--center za-reveal">
+      <div class="section-head__lead">
+        <p class="za-eyebrow za-eyebrow--signal">Core Workflow</p>
+        <h2 class="za-display-md">Discover → Govern → Control → Audit</h2>
+      </div>
+      <p class="za-body-lg">One continuous lifecycle for every AI agent and non-human identity — from first sighting to immutable evidence.</p>
+    </header>
+    <div class="flow za-reveal">
+      <div class="flow__step">
+        <h3>Discover</h3>
+        <p>Continuously surface every AI agent, shadow MCP server, and non-human identity across cloud, SaaS, and developer environments.</p>
+        <svg class="flow__arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+      </div>
+      <div class="flow__step">
+        <h3>Govern</h3>
+        <p>Build a living identity graph with ownership, delegation chains, and least-privilege policy for every agent.</p>
+        <svg class="flow__arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+      </div>
+      <div class="flow__step">
+        <h3>Control</h3>
+        <p>Intercept agent actions at runtime — allow, deny, or escalate before sensitive access occurs, not after the breach.</p>
+        <svg class="flow__arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+      </div>
+      <div class="flow__step">
+        <h3>Audit</h3>
+        <p>Generate immutable audit trails and compliance evidence mapped to SOC 2, EU AI Act, and NIST AI RMF controls.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section section--md" style="background:var(--za-paper-sunken);border-block:1px solid var(--border)">
+  <div class="za-container">
+    <header class="section-head section-head--center za-reveal">
+      <div class="section-head__lead">
+        <p class="za-eyebrow za-eyebrow--signal">Platform Architecture</p>
+        <h2 class="za-display-md">A control plane that sits in the path of every agent</h2>
+      </div>
+    </header>
+    <div class="arch-stack za-reveal">
+      <div class="arch-layer"><div class="arch-layer__label"><span>Layer 01</span>Discovery Engine</div><p>Agentless connectors scan cloud, identity providers, SaaS, and code to surface every agent and non-human identity in real time.</p></div>
+      <div class="arch-layer"><div class="arch-layer__label"><span>Layer 02</span>Identity Graph</div><p>A live graph of ownership, delegation, tool access, and blast radius — the source of truth for agentic identity.</p></div>
+      <div class="arch-layer"><div class="arch-layer__label"><span>Layer 03</span>Policy Engine</div><p>Policy-as-code evaluates every request with context-aware, least-privilege authorization and human approval workflows.</p></div>
+      <div class="arch-layer"><div class="arch-layer__label"><span>Layer 04</span>Runtime Gate</div><p>Inline enforcement intercepts agent actions to allow, deny, or escalate before sensitive systems are touched.</p></div>
+      <div class="arch-layer"><div class="arch-layer__label"><span>Layer 05</span>Evidence Store</div><p>Immutable, tamper-evident logs and compliance reports mapped to the frameworks auditors expect.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-band">
+  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
+    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get started</p>
+    <h2 class="za-display-lg">See the control plane on your environment</h2>
+    <p>Book a personalized walkthrough and get a live inventory of the AI agents and non-human identities already running in your organization.</p>
+    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
+      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request a demo</a>
+      <a href="integrations.html" class="za-btn za-btn--lg za-btn--ghost">View integrations</a>
+    </div>
+  </div>
+</section>
+
+<footer class="za-footer">
+  <div class="za-container">
+    <div class="za-footer__inner">
+      <div class="za-footer__brand">
+        <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+        <p>Secure identity governance for autonomous AI agents and non-human identities.</p>
+        <form class="za-footer__news" onsubmit="return false" aria-label="Newsletter signup">
+          <label for="fnews">Get product &amp; research updates</label>
+          <div class="za-footer__news-row">
+            <input type="email" id="fnews" placeholder="you@company.com" aria-label="Email address">
+            <button type="submit" class="za-btn za-btn--signal">Subscribe</button>
+          </div>
+        </form>
+        <div class="za-footer__social">
+          <a href="https://www.linkedin.com/in/kparuchuri100" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.3 8.65 21 11 21 14.3V21h-4v-5.9c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-7-6.2 7H1.4l8.2-9.3L1 2h7.1l4.9 6.5L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a>
+        </div>
+      </div>
+      <nav class="za-footer__cols" aria-label="Footer">
+        <div class="za-footer__col"><h4>Product</h4><a href="product.html">Overview</a><a href="features.html">Features</a><a href="integrations.html">Integrations</a></div>
+        <div class="za-footer__col"><h4>Solutions</h4><a href="solutions-role.html">By Role</a><a href="solutions-industry.html">By Industry</a></div>
+        <div class="za-footer__col"><h4>Resources</h4><a href="resources.html">Overview</a><a href="resources-documentation.html">Documentation</a><a href="resources-case-studies.html">Case Studies</a><a href="resources-whitepapers.html">Whitepapers</a><a href="resources-glossary.html">AI Agent Glossary</a></div>
+        <div class="za-footer__col"><h4>Security</h4><a href="resources-trust-center.html">Trust Center</a><a href="resources-trust-center.html">Compliance</a><a href="#">Responsible AI</a><a href="mailto:security@zero-agent.ai">Security Contact</a></div>
+        <div class="za-footer__col"><h4>Company</h4><a href="company.html">About Us</a><a href="contact.html">Contact Us</a><a href="careers.html">Careers</a></div>
+        <div class="za-footer__col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Responsible AI</a><a href="#">Cookie Policy</a></div>
+      </nav>
+    </div>
+    <div class="za-footer__bar">
+      <p>&copy; 2026 Zero-Agent.AI · The Control Plane for AI Agent Identity</p>
+      <p class="za-footer__badges"><span>SOC 2 — In Progress</span><span>Zero Trust</span><span>Identity First</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('is-scrolled',scrollY>16),{passive:true});
+const mb=document.getElementById('menuBtn');
+mb&&mb.addEventListener('click',()=>{const l=document.getElementById('navLinks');const o=l.classList.toggle('open');mb.setAttribute('aria-expanded',String(o));});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in','is-visible');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('[data-in],.za-reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

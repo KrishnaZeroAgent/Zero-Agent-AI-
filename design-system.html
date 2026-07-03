@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero-Agent — Control Plane Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --za-ink-900:#0a0f1a;--za-ink-800:#0f172a;--za-ink-700:#1e293b;--za-ink-500:#475569;--za-ink-300:#94a3b8;--za-ink-200:#cbd5e1;--za-ink-100:#e2e8f0;--za-ink-50:#f1f5f9;
+  --za-paper:#fafbfc;--za-paper-raised:#fff;--za-paper-sunken:#f4f6f8;--za-paper-tint:#f0f4f8;
+  --za-signal:#0057b8;--za-signal-mid:#0066d6;--za-signal-bright:#1a7fff;--za-signal-soft:rgba(0,87,184,.08);--za-signal-muted:rgba(0,87,184,.14);
+  --za-depth-mid:#5240a8;--za-depth-soft:rgba(61,46,122,.07);
+  --za-risk:#b42318;--za-risk-soft:rgba(180,35,24,.08);--za-warn:#b45309;--za-warn-soft:rgba(180,83,9,.08);
+  --za-safe:#0a6e62;--za-safe-soft:rgba(10,110,98,.08);
+  --bg:var(--za-paper-raised);--bg-sunken:var(--za-paper-sunken);--bg-tint:var(--za-paper-tint);--bg-hover:var(--za-ink-50);
+  --border:var(--za-ink-100);--border-subtle:rgba(15,23,42,.06);--border-strong:var(--za-ink-200);
+  --text:var(--za-ink-800);--text-secondary:var(--za-ink-500);--text-muted:var(--za-ink-300);
+  --text-inverse-muted:rgba(255,255,255,.62);
+  --accent:var(--za-signal);--accent-mid:var(--za-signal-mid);--accent-soft:var(--za-signal-soft);--accent-muted:var(--za-signal-muted);
+  --font-sans:"Inter",-apple-system,sans-serif;--font-mono:"SF Mono",Consolas,monospace;
+  --text-display-xl:clamp(2.75rem,5.5vw,4.25rem);--text-display-lg:clamp(2.25rem,4vw,3.25rem);
+  --text-h2:clamp(1.5rem,2.2vw,1.75rem);--text-h3:1.25rem;
+  --text-body-lg:1.0625rem;--text-body:.9375rem;--text-body-sm:.8125rem;--text-caption:.6875rem;
+  --weight-medium:500;--weight-semibold:600;
+  --leading-tight:1.12;--leading-snug:1.35;--leading-normal:1.6;--leading-relaxed:1.75;
+  --tracking-tighter:-.04em;--tracking-tight:-.025em;--tracking-wide:.06em;--tracking-wider:.12em;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--space-20:80px;--space-24:96px;
+  --section-sm:clamp(64px,8vw,96px);--section-md:clamp(80px,10vw,120px);--section-lg:clamp(96px,12vw,144px);
+  --container-lg:1200px;
+  --radius-xs:4px;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:20px;
+  --shadow-xs:0 1px 2px rgba(10,15,26,.04);--shadow-sm:0 2px 8px rgba(10,15,26,.05);--shadow-md:0 4px 20px rgba(10,15,26,.07);--shadow-lg:0 12px 40px rgba(10,15,26,.09);--shadow-xl:0 24px 64px rgba(10,15,26,.11);--shadow-signal:0 8px 32px rgba(0,87,184,.14);
+  --ease-out:cubic-bezier(.16,1,.3,1);--duration-fast:180ms;--duration-normal:320ms;--duration-slow:520ms;--duration-reveal:680ms;--stagger-step:60ms;
+  --nav-height:64px;--btn-height-sm:32px;--btn-height-md:40px;--btn-height-lg:48px;--focus-ring:0 0 0 3px var(--za-signal-soft),0 0 0 1px var(--za-signal-mid);--z-nav:200;
+}
+body{font-family:var(--font-sans);font-size:var(--text-body);line-height:var(--leading-normal);color:var(--text);background:var(--za-paper);-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-muted);color:var(--text)}
+.za-container{width:min(var(--container-lg),calc(100% - var(--gutter, clamp(20px, 4vw, 32px)) * 2));margin-inline:auto}
+.za-display-xl{font-size:var(--text-display-xl);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
+.za-display-lg{font-size:var(--text-display-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
+.za-h2{font-size:var(--text-h2);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);line-height:var(--leading-snug)}
+.za-h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);line-height:var(--leading-snug)}
+.za-body-lg{font-size:var(--text-body-lg);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+.za-body{color:var(--text-secondary)}
+.za-caption{font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--text-muted)}
+.za-eyebrow{font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--accent);margin-bottom:var(--space-4)}
+.za-mono{font-family:var(--font-mono);font-size:.9em}
+.za-accent-text{background:linear-gradient(135deg,var(--za-signal-mid),var(--za-depth-mid));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.za-canvas{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse 70% 45% at 12% -8%,rgba(0,87,184,.06),transparent 55%),radial-gradient(ellipse 50% 40% at 92% 5%,rgba(61,46,122,.04),transparent 50%),var(--za-paper)}
+.za-constellation{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;background-image:radial-gradient(circle at center,var(--za-ink-300) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 60% at 50% 15%,#000 5%,transparent 70%)}
+.za-grain::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.012;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.za-nav{position:fixed;top:0;left:0;right:0;z-index:var(--z-nav);height:var(--nav-height);transition:background var(--duration-normal),border-color var(--duration-normal),box-shadow var(--duration-normal)}
+.za-nav.is-scrolled{background:rgba(255,255,255,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);box-shadow:var(--shadow-xs)}
+.za-nav__inner{height:100%;display:flex;align-items:center;justify-content:space-between}
+.za-nav__logo{font-size:var(--text-body);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);text-decoration:none;color:var(--text)}
+.za-nav__logo em{font-style:normal;color:var(--accent)}
+.za-nav__links{display:flex;align-items:center;gap:var(--space-8)}
+.za-nav__links a{font-size:var(--text-body-sm);color:var(--text-secondary);text-decoration:none;transition:color var(--duration-fast)}
+.za-nav__links a:hover,.za-nav__links a.is-active{color:var(--text)}
+.za-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);height:var(--btn-height-md);padding-inline:var(--space-5);border-radius:var(--radius-sm);font-family:inherit;font-size:var(--text-body-sm);font-weight:var(--weight-medium);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform var(--duration-fast),box-shadow var(--duration-fast),background var(--duration-fast),border-color var(--duration-fast),color var(--duration-fast)}
+.za-btn--sm{height:var(--btn-height-sm);padding-inline:var(--space-4);font-size:var(--text-caption)}
+.za-btn--lg{height:var(--btn-height-lg);padding-inline:var(--space-6);font-size:var(--text-body)}
+.za-btn--primary{background:var(--za-ink-800);color:#fff;box-shadow:var(--shadow-sm)}
+.za-btn--primary:hover{background:var(--za-ink-700);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.za-btn--signal{background:var(--accent);color:#fff;box-shadow:var(--shadow-signal)}
+.za-btn--signal:hover{background:var(--accent-mid);transform:translateY(-1px)}
+.za-btn--ghost{background:transparent;color:var(--text);border-color:var(--border-strong)}
+.za-btn--ghost:hover{border-color:var(--za-ink-400);background:var(--bg-hover)}
+.za-btn--text{background:transparent;color:var(--accent);padding-inline:var(--space-2);height:auto}
+.za-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-6);transition:border-color var(--duration-normal),box-shadow var(--duration-normal),transform var(--duration-normal)}
+.za-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md)}
+.za-card--interactive:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.za-card--elevated{border-color:transparent;box-shadow:var(--shadow-sm)}
+.za-card--inset{background:var(--bg-sunken);border-color:var(--border-subtle);box-shadow:inset 0 1px 2px rgba(10,15,26,.04)}
+.za-feature-card{padding:var(--space-8);border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg);transition:border-color var(--duration-normal)}
+.za-feature-card:hover{border-color:var(--accent-muted)}
+.za-feature-card__icon{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-5);font-size:18px}
+.za-tag{display:inline-flex;align-items:center;height:22px;padding-inline:var(--space-3);border-radius:var(--radius-xs);font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wide);text-transform:uppercase}
+.za-tag--signal{background:var(--accent-soft);color:var(--accent)}
+.za-tag--depth{background:var(--za-depth-soft);color:var(--za-depth-mid)}
+.za-tag--safe{background:var(--za-safe-soft);color:var(--za-safe)}
+.za-tag--risk{background:var(--za-risk-soft);color:var(--za-risk)}
+.za-tag--neutral{background:var(--bg-sunken);color:var(--text-muted);border:1px solid var(--border)}
+.za-diagram{padding:var(--space-10);border-radius:var(--radius-xl);background:var(--bg-sunken);border:1px solid var(--border)}
+.za-diagram__node{display:inline-flex;padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);background:var(--bg);border:1px solid var(--border-strong);font-size:var(--text-body-sm);font-weight:var(--weight-medium);box-shadow:var(--shadow-xs)}
+.za-diagram__node--hub{border-color:var(--accent-muted);background:var(--accent-soft);color:var(--accent)}
+.za-reveal{opacity:0;transform:translateY(20px);transition:opacity var(--duration-reveal),transform var(--duration-reveal)}
+.za-reveal.is-visible{opacity:1;transform:none}
+.za-link{color:var(--accent);text-decoration:none;background-image:linear-gradient(var(--accent),var(--accent));background-size:0% 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size var(--duration-normal),color var(--duration-fast)}
+.za-link:hover{background-size:100% 1px;color:var(--accent-mid)}
+.za-live-dot{width:6px;height:6px;border-radius:50%;background:var(--za-safe);animation:za-pulse 2s ease-in-out infinite}
+@keyframes za-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes za-page-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.za-page-enter{animation:za-page-enter var(--duration-slow) var(--ease-out) both}
+@media(max-width:768px){.za-nav__links{display:none}}
+
+/* ── Style guide layout ── */
+.ds{min-height:100vh;padding-top:var(--nav-height)}
+.ds-sidebar{position:fixed;top:var(--nav-height);left:0;width:240px;height:calc(100vh - var(--nav-height));padding:var(--space-6) var(--space-4);border-right:1px solid var(--border);background:var(--za-paper-raised);overflow-y:auto;z-index:10}
+.ds-sidebar h4{font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--text-muted);margin:var(--space-6) 0 var(--space-2) var(--space-3)}
+.ds-sidebar h4:first-child{margin-top:0}
+.ds-sidebar a{display:block;padding:var(--space-2) var(--space-3);font-size:var(--text-body-sm);color:var(--text-secondary);text-decoration:none;border-radius:var(--radius-sm);transition:background var(--duration-fast),color var(--duration-fast)}
+.ds-sidebar a:hover{background:var(--bg-hover);color:var(--text)}
+.ds-sidebar a.on{background:var(--accent-soft);color:var(--accent);font-weight:var(--weight-medium)}
+.ds-main{margin-left:240px;max-width:920px;padding:var(--space-12) var(--space-10) var(--space-32)}
+.ds-block{margin-bottom:var(--space-24);scroll-margin-top:calc(var(--nav-height) + var(--space-8))}
+.ds-head{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border)}
+.ds-head p{margin-top:var(--space-3);max-width:54ch}
+.ds-row{display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center;margin-bottom:var(--space-6)}
+.ds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-4)}
+
+/* Hero */
+.ds-hero{margin-bottom:var(--space-20)}
+.ds-principles{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);margin-top:var(--space-10)}
+.ds-principle{padding:var(--space-5);border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg);font-size:var(--text-body-sm);color:var(--text-secondary)}
+.ds-principle strong{display:block;font-size:var(--text-body);color:var(--text);margin-bottom:var(--space-1)}
+.ds-meta{display:flex;flex-wrap:wrap;gap:var(--space-8);margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--border)}
+.ds-meta div{font-size:var(--text-body-sm);color:var(--text-muted)}
+.ds-meta strong{display:block;color:var(--text);font-weight:var(--weight-medium);margin-bottom:2px}
+
+/* Swatches */
+.swatch{border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border)}
+.swatch-c{height:72px}
+.swatch-m{padding:var(--space-3);background:var(--bg)}
+.swatch-m strong{display:block;font-size:var(--text-body-sm);font-weight:var(--weight-medium);margin-bottom:2px}
+.swatch-m span{font-size:11px;font-family:var(--font-mono);color:var(--text-muted)}
+
+/* Type */
+.spec{margin-bottom:var(--space-8);padding-bottom:var(--space-8);border-bottom:1px solid var(--border-subtle)}
+.spec:last-child{border-bottom:none}
+.spec-meta{display:flex;gap:var(--space-6);margin-top:var(--space-3);font-size:var(--text-caption);font-family:var(--font-mono);color:var(--text-muted)}
+
+/* Spacing */
+.space-bar{display:flex;flex-direction:column;align-items:center;gap:var(--space-2)}
+.space-bar div{background:var(--accent-soft);border:1px solid var(--accent-muted);border-radius:var(--radius-xs);width:36px}
+.space-bar span{font-size:10px;font-family:var(--font-mono);color:var(--text-muted)}
+.section-demo{padding:var(--space-8);border:1px dashed var(--border-strong);border-radius:var(--radius-lg);text-align:center;font-size:var(--text-body-sm);color:var(--text-muted);background:var(--bg-sunken)}
+
+/* Grid demo */
+.grid-demo{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-2);margin-bottom:var(--space-6)}
+.grid-cell{background:var(--accent-soft);border:1px solid var(--accent-muted);border-radius:var(--radius-xs);height:32px;font-size:9px;font-family:var(--font-mono);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.grid-cell.span-7{grid-column:span 7}
+.grid-cell.span-5{grid-column:span 5}
+
+/* Nav demo */
+.nav-frame{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-4)}
+.nav-frame-label{font-size:var(--text-caption);color:var(--text-muted);padding:var(--space-3) var(--space-6);background:var(--bg-sunken)}
+.nav-bar{display:flex;align-items:center;justify-content:space-between;height:var(--nav-height);padding:0 var(--space-6)}
+.nav-bar--ghost{background:transparent}
+.nav-bar--frost{background:rgba(255,255,255,.92);border-top:1px solid var(--border)}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
+.hover-demo{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.hover-item{padding:var(--space-6);border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg);text-align:center;font-size:var(--text-body-sm);color:var(--text-secondary);transition:transform var(--duration-normal) var(--ease-out),box-shadow var(--duration-normal),border-color var(--duration-normal)}
+.hover-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent-muted)}
+.hover-item strong{display:block;color:var(--text);margin-bottom:var(--space-2)}
+
+/* Icons */
+.icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--space-4)}
+.icon-cell{text-align:center;padding:var(--space-4);border-radius:var(--radius-md);border:1px solid var(--border)}
+.icon-cell .ic{width:40px;height:40px;margin:0 auto var(--space-2);border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px}
+.icon-cell span{font-size:10px;color:var(--text-muted)}
+
+/* Backgrounds */
+.bg-compare{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.bg-panel{height:160px;border-radius:var(--radius-lg);border:1px solid var(--border);position:relative;overflow:hidden}
+.bg-panel span{position:absolute;bottom:var(--space-3);left:var(--space-3);font-size:var(--text-caption);font-weight:var(--weight-medium);color:var(--text-muted);background:var(--bg);padding:4px 8px;border-radius:var(--radius-xs)}
+.bg-canvas{background:radial-gradient(ellipse 70% 45% at 12% -8%,rgba(0,87,184,.06),transparent 55%),var(--za-paper)}
+.bg-constellation{background:var(--za-paper);background-image:radial-gradient(circle,var(--za-ink-300) 1px,transparent 1px);background-size:48px 48px}
+.bg-grid{background:var(--za-paper);background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);background-size:64px 64px}
+
+/* Graph + architecture */
+.graph-box{height:260px;border-radius:var(--radius-xl);background:var(--bg-sunken);border:1px solid var(--border);overflow:hidden}
+.graph-box svg{width:100%;height:100%}
+.g-edge{stroke:var(--za-ink-200);stroke-width:1.5;fill:none;stroke-dasharray:5 4;animation:gflow 20s linear infinite}
+@keyframes gflow{to{stroke-dashoffset:-200}}
+.g-node{fill:var(--bg);stroke:var(--border-strong);stroke-width:1.5}
+.g-hub{fill:var(--accent-soft);stroke:var(--accent)}
+.g-lbl{font-size:11px;fill:var(--text-muted);font-family:var(--font-mono)}
+
+.arch-flow{display:flex;align-items:center;justify-content:center;gap:var(--space-3);flex-wrap:wrap;padding:var(--space-8)}
+.arch-arrow{color:var(--text-muted);font-size:18px}
+
+/* Dashboard full */
+.dash-full{border-radius:var(--radius-xl);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-xl)}
+.dash-top{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);background:var(--bg-sunken);border-bottom:1px solid var(--border)}
+.dash-dot{width:8px;height:8px;border-radius:50%;background:var(--za-ink-200)}
+.dash-dot.on{background:var(--accent)}
+.dash-layout{display:grid;grid-template-columns:180px 1fr}
+.dash-side{border-right:1px solid var(--border);padding:var(--space-4) 0;background:var(--bg-sunken)}
+.dash-nav{padding:var(--space-2) var(--space-4);font-size:var(--text-body-sm);color:var(--text-muted);border-left:2px solid transparent}
+.dash-nav.on{color:var(--accent);border-color:var(--accent);background:var(--accent-soft);font-weight:var(--weight-medium)}
+.dash-content{padding:var(--space-6)}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);margin-bottom:var(--space-6)}
+.dash-stat{padding:var(--space-4);border-radius:var(--radius-md);background:var(--bg-sunken);border:1px solid var(--border)}
+.dash-stat b{display:block;font-size:22px;font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter)}
+.dash-stat span{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+.dash-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:12px}
+.dash-table th{text-align:left;padding:var(--space-3);color:var(--text-muted);font-weight:var(--weight-medium);border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.dash-table td{padding:var(--space-3);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+
+/* Motion table */
+.motion-table{width:100%;border-collapse:collapse;font-size:var(--text-body-sm)}
+.motion-table th,.motion-table td{padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border)}
+.motion-table th{font-size:var(--text-caption);text-transform:uppercase;letter-spacing:var(--tracking-wide);color:var(--text-muted);font-weight:var(--weight-medium)}
+.motion-table td{font-family:var(--font-mono);font-size:12px;color:var(--text-secondary)}
+
+/* Dark panel */
+.dark-panel{padding:var(--space-12);border-radius:var(--radius-xl);background:var(--za-ink-800);color:#fff;position:relative;overflow:hidden}
+.dark-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 90% 10%,rgba(0,87,184,.14),transparent);pointer-events:none}
+.dark-panel>*{position:relative}
+.dark-panel .za-eyebrow{color:var(--za-signal-bright)}
+.dark-panel p{color:var(--text-inverse-muted);max-width:48ch;margin-top:var(--space-4)}
+
+/* Page flow */
+.flow-steps{display:flex;flex-direction:column;gap:0}
+.flow-step{display:grid;grid-template-columns:48px 1fr;gap:var(--space-6);padding:var(--space-6) 0;border-bottom:1px solid var(--border)}
+.flow-num{width:48px;height:48px;border-radius:50%;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:var(--text-body-sm);font-weight:var(--weight-semibold);color:var(--text-muted)}
+.flow-step:last-child{border-bottom:none}
+
+/* Avoid list */
+.avoid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
+.avoid-item{padding:var(--space-4);border-radius:var(--radius-md);border:1px solid var(--border);font-size:var(--text-body-sm);color:var(--text-muted)}
+.avoid-item::before{content:"✕ ";color:var(--za-risk)}
+
+/* Transition demo */
+.transition-demo{padding:var(--space-10);border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg);text-align:center}
+.transition-demo p{font-size:var(--text-body-sm);color:var(--text-muted);margin-top:var(--space-4)}
+
+@media(max-width:900px){
+  .ds-sidebar{display:none}
+  .ds-main{margin-left:0;padding:var(--space-8) var(--space-5)}
+  .ds-principles,.card-grid,.hover-demo,.bg-compare,.icon-grid,.avoid{grid-template-columns:1fr}
+  .dash-layout{grid-template-columns:1fr}
+  .dash-side{display:none}
+  .dash-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body class="za-grain">
+
+<div class="za-canvas"></div>
+<div class="za-constellation"></div>
+
+<nav class="za-nav is-scrolled">
+  <div class="za-container za-nav__inner">
+    <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+    <div class="za-nav__links">
+      <a href="#principles">Principles</a>
+      <a href="#components">Components</a>
+      <a href="index.html" class="za-btn za-btn--ghost" style="height:36px;padding-inline:14px;font-size:13px">Homepage</a>
+    </div>
+  </div>
+</nav>
+
+<div class="ds">
+  <aside class="ds-sidebar">
+    <h4>Overview</h4>
+    <a href="#principles" class="on">Principles</a>
+    <a href="#avoid">Anti-patterns</a>
+    <h4>Foundation</h4>
+    <a href="#colors">Color</a>
+    <a href="#type">Typography</a>
+    <a href="#spacing">Spacing</a>
+    <a href="#grid">Grid</a>
+    <h4>Components</h4>
+    <a href="#nav">Navigation</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#cards">Cards</a>
+    <a href="#hover">Hover</a>
+    <a href="#tags">Tags</a>
+    <a href="#icons">Iconography</a>
+    <h4>Patterns</h4>
+    <a href="#backgrounds">Backgrounds</a>
+    <a href="#illustration">Illustration</a>
+    <a href="#graph">Identity Graph</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#dark">Dark Surface</a>
+    <a href="#motion">Motion</a>
+    <a href="#transitions">Transitions</a>
+    <a href="#flow">Page Flow</a>
+  </aside>
+
+  <main class="ds-main za-page-enter">
+
+    <header class="ds-hero" id="principles">
+      <p class="za-eyebrow">Control Plane v1.0</p>
+      <h1 class="za-display-xl">Zero-Agent<br><span class="za-accent-text">Design System</span></h1>
+      <p class="za-body-lg">Original enterprise visual language — premium, calm, technical. Paper surfaces, ink structure, signal accent. No generic SaaS templates.</p>
+      <div class="ds-principles">
+        <div class="ds-principle"><strong>Premium</strong>Whitespace is confidence</div>
+        <div class="ds-principle"><strong>Enterprise</strong>Readable, accessible, durable</div>
+        <div class="ds-principle"><strong>Calm</strong>Motion informs, never decorates</div>
+        <div class="ds-principle"><strong>Technical</strong>Graphs over illustrations</div>
+      </div>
+      <div class="ds-meta">
+        <div><strong>Typeface</strong>Inter 400–600</div>
+        <div><strong>Grid</strong>4px base · 12 columns</div>
+        <div><strong>Accent</strong>Signal #0057b8</div>
+        <div><strong>Motion</strong>320ms ease-out</div>
+      </div>
+    </header>
+
+    <section class="ds-block" id="avoid">
+      <div class="ds-head">
+        <p class="za-eyebrow">Guardrails</p>
+        <h2 class="za-h2">Anti-patterns</h2>
+        <p class="za-body">Never use these on Zero-Agent pages.</p>
+      </div>
+      <div class="avoid">
+        <div class="avoid-item">Generic SaaS hero + 3 cards + logos</div>
+        <div class="avoid-item">Stock illustrations &amp; robot graphics</div>
+        <div class="avoid-item">Heavy glassmorphism on every card</div>
+        <div class="avoid-item">Neon purple-cyan-pink gradients</div>
+        <div class="avoid-item">Identical card grids back-to-back</div>
+        <div class="avoid-item">Bouncy spring scroll animations</div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="colors">
+      <div class="ds-head">
+        <p class="za-eyebrow">Foundation</p>
+        <h2 class="za-h2">Color palette</h2>
+        <p class="za-body">Single-axis Signal accent. Ink for structure. Warm paper surfaces.</p>
+      </div>
+      <h3 class="za-h3" style="margin-bottom:var(--space-4)">Ink</h3>
+      <div class="ds-grid" style="margin-bottom:var(--space-8)">
+        <div class="swatch"><div class="swatch-c" style="background:#0a0f1a"></div><div class="swatch-m"><strong>Ink 900</strong><span>#0a0f1a</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#0f172a"></div><div class="swatch-m"><strong>Ink 800</strong><span>#0f172a · text</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#475569"></div><div class="swatch-m"><strong>Ink 500</strong><span>secondary</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#94a3b8"></div><div class="swatch-m"><strong>Ink 300</strong><span>muted</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#e2e8f0"></div><div class="swatch-m"><strong>Ink 100</strong><span>border</span></div></div>
+      </div>
+      <h3 class="za-h3" style="margin-bottom:var(--space-4)">Paper &amp; Signal</h3>
+      <div class="ds-grid" style="margin-bottom:var(--space-8)">
+        <div class="swatch"><div class="swatch-c" style="background:#fafbfc"></div><div class="swatch-m"><strong>Paper</strong><span>#fafbfc</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#fff;border-bottom:1px solid var(--border)"></div><div class="swatch-m"><strong>Raised</strong><span>#ffffff</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#f4f6f8"></div><div class="swatch-m"><strong>Sunken</strong><span>#f4f6f8</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#0057b8"></div><div class="swatch-m"><strong>Signal</strong><span>#0057b8</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#5240a8"></div><div class="swatch-m"><strong>Depth</strong><span>#5240a8</span></div></div>
+      </div>
+      <h3 class="za-h3" style="margin-bottom:var(--space-4)">Semantic</h3>
+      <div class="ds-grid">
+        <div class="swatch"><div class="swatch-c" style="background:#0a6e62"></div><div class="swatch-m"><strong>Safe</strong><span>#0a6e62</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#b45309"></div><div class="swatch-m"><strong>Warn</strong><span>#b45309</span></div></div>
+        <div class="swatch"><div class="swatch-c" style="background:#b42318"></div><div class="swatch-m"><strong>Risk</strong><span>#b42318</span></div></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="type">
+      <div class="ds-head">
+        <p class="za-eyebrow">Foundation</p>
+        <h2 class="za-h2">Typography scale</h2>
+        <p class="za-body">Tight display tracking. One gradient phrase per section max.</p>
+      </div>
+      <div class="spec"><p class="za-display-xl">Govern Every Agent</p><div class="spec-meta"><span>display-xl</span><span>44–68px</span><span>-0.04em</span></div></div>
+      <div class="spec"><p class="za-display-lg">Identity Control Plane</p><div class="spec-meta"><span>display-lg</span><span>36–52px</span></div></div>
+      <div class="spec"><h2 class="za-h2">Runtime Policy Enforcement</h2><div class="spec-meta"><span>h2</span><span>24–28px</span></div></div>
+      <div class="spec"><h3 class="za-h3">Discover, Govern, Protect</h3><div class="spec-meta"><span>h3</span><span>20px</span></div></div>
+      <div class="spec"><p class="za-body-lg">Lead paragraph — identity control plane for autonomous AI agents.</p><div class="spec-meta"><span>body-lg</span><span>17px · 1.75</span></div></div>
+      <div class="spec"><p class="za-body">Body copy for sections and cards.</p><div class="spec-meta"><span>body</span><span>15px · 1.6</span></div></div>
+      <div class="spec"><p class="za-eyebrow" style="margin:0">Platform · Identity Graph</p><div class="spec-meta"><span>eyebrow</span><span>11px uppercase signal</span></div></div>
+      <div class="spec"><p class="za-mono" style="color:var(--text-secondary)">policy.allow(agent, "mcp:github", { scope: "read" })</p><div class="spec-meta"><span>mono</span><span>API / policy</span></div></div>
+    </section>
+
+    <section class="ds-block" id="spacing">
+      <div class="ds-head">
+        <p class="za-eyebrow">Foundation</p>
+        <h2 class="za-h2">Spacing &amp; sections</h2>
+        <p class="za-body">4px base. When cramped — add space, never shrink type.</p>
+      </div>
+      <div class="ds-row" style="align-items:flex-end;margin-bottom:var(--space-10)">
+        <div class="space-bar"><div style="height:4px"></div><span>4</span></div>
+        <div class="space-bar"><div style="height:8px"></div><span>8</span></div>
+        <div class="space-bar"><div style="height:16px"></div><span>16</span></div>
+        <div class="space-bar"><div style="height:24px"></div><span>24</span></div>
+        <div class="space-bar"><div style="height:32px"></div><span>32</span></div>
+        <div class="space-bar"><div style="height:48px"></div><span>48</span></div>
+        <div class="space-bar"><div style="height:64px"></div><span>64</span></div>
+        <div class="space-bar"><div style="height:96px"></div><span>96</span></div>
+      </div>
+      <div class="section-demo" style="padding-block:var(--section-sm)">section-sm · 64–96px</div>
+      <div class="section-demo" style="padding-block:var(--section-md);margin-top:var(--space-4)">section-md · 80–120px (default)</div>
+      <div class="section-demo" style="padding-block:var(--section-lg);margin-top:var(--space-4)">section-lg · 96–144px (hero)</div>
+    </section>
+
+    <section class="ds-block" id="grid">
+      <div class="ds-head">
+        <p class="za-eyebrow">Foundation</p>
+        <h2 class="za-h2">Grid system</h2>
+        <p class="za-body">12 columns · 1140px max · 48px gutter. Rotate layouts — never repeat the same pattern twice.</p>
+      </div>
+      <div class="grid-demo">
+        <div class="grid-cell">1</div><div class="grid-cell">2</div><div class="grid-cell">3</div><div class="grid-cell">4</div>
+        <div class="grid-cell">5</div><div class="grid-cell">6</div><div class="grid-cell">7</div><div class="grid-cell">8</div>
+        <div class="grid-cell">9</div><div class="grid-cell">10</div><div class="grid-cell">11</div><div class="grid-cell">12</div>
+        <div class="grid-cell span-7">span 7 — editorial copy</div>
+        <div class="grid-cell span-5">span 5 — visual</div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="nav">
+      <div class="ds-head">
+        <p class="za-eyebrow">Components</p>
+        <h2 class="za-h2">Navigation</h2>
+        <p class="za-body">64px fixed · transparent on hero · frosted on scroll · no mega-menus.</p>
+      </div>
+      <div class="nav-frame">
+        <div class="nav-frame-label">Hero — transparent</div>
+        <div class="nav-bar nav-bar--ghost">
+          <a href="#" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+          <div class="za-nav__links">
+            <a href="#">Platform</a><a href="#">Company</a><a href="#">Resources</a>
+            <a href="#" class="za-btn za-btn--primary" style="height:36px;padding-inline:14px;font-size:13px">Request Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-frame">
+        <div class="nav-frame-label">Scrolled — frosted</div>
+        <div class="nav-bar nav-bar--frost">
+          <a href="#" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+          <div class="za-nav__links">
+            <a href="#" class="is-active">Platform</a><a href="#">Company</a><a href="#">Resources</a>
+            <a href="#" class="za-btn za-btn--primary" style="height:36px;padding-inline:14px;font-size:13px">Request Demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="buttons">
+      <div class="ds-head">
+        <p class="za-eyebrow">Components</p>
+        <h2 class="za-h2">Buttons</h2>
+        <p class="za-body">Primary = ink dark. Signal = secondary emphasis on dark surfaces.</p>
+      </div>
+      <div class="ds-row">
+        <button class="za-btn za-btn--primary za-btn--lg">Request Demo</button>
+        <button class="za-btn za-btn--primary">Request Demo</button>
+        <button class="za-btn za-btn--primary za-btn--sm">Small</button>
+      </div>
+      <div class="ds-row">
+        <button class="za-btn za-btn--signal">Learn More</button>
+        <button class="za-btn za-btn--ghost">View Platform</button>
+        <button class="za-btn za-btn--text">Read research →</button>
+      </div>
+    </section>
+
+    <section class="ds-block" id="cards">
+      <div class="ds-head">
+        <p class="za-eyebrow">Components</p>
+        <h2 class="za-h2">Cards</h2>
+        <p class="za-body">1px border always. No glassmorphism.</p>
+      </div>
+      <div class="card-grid">
+        <div class="za-card"><p class="za-eyebrow" style="margin-bottom:var(--space-3)">Default</p><h3 class="za-h3">Identity Discovery</h3><p class="za-body" style="font-size:var(--text-body-sm)">Map every agent.</p></div>
+        <div class="za-card za-card--interactive"><p class="za-eyebrow" style="margin-bottom:var(--space-3)">Interactive</p><h3 class="za-h3">Policy Engine</h3><p class="za-body" style="font-size:var(--text-body-sm)">Hover to lift.</p></div>
+        <div class="za-card za-card--elevated"><p class="za-eyebrow" style="margin-bottom:var(--space-3)">Elevated</p><h3 class="za-h3">Featured</h3><p class="za-body" style="font-size:var(--text-body-sm)">Shadow only.</p></div>
+        <div class="za-card za-card--inset"><p class="za-caption" style="margin-bottom:var(--space-3)">Inset</p><p class="za-mono" style="font-size:12px;color:var(--text-muted)">status = governed</p></div>
+      </div>
+      <div class="za-feature-card" style="max-width:300px;margin-top:var(--space-6)">
+        <div class="za-feature-card__icon">◈</div>
+        <h3 class="za-h3">Feature card</h3>
+        <p class="za-body" style="font-size:var(--text-body-sm)">One geometric icon per card.</p>
+      </div>
+    </section>
+
+    <section class="ds-block" id="hover">
+      <div class="ds-head">
+        <p class="za-eyebrow">Components</p>
+        <h2 class="za-h2">Hover interactions</h2>
+        <p class="za-body">320ms ease-out · translateY(-3px) · shadow deepen. No bounce, glow, or rotate.</p>
+      </div>
+      <div class="hover-demo">
+        <div class="hover-item"><strong>Card lift</strong>Hover me</div>
+        <div class="hover-item"><strong>Button</strong>translateY(-1px)</div>
+        <div class="hover-item"><strong>Link</strong><a href="#" class="za-link">Underline draw</a></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="tags">
+      <div class="ds-head"><p class="za-eyebrow">Components</p><h2 class="za-h2">Tags</h2></div>
+      <div class="ds-row">
+        <span class="za-tag za-tag--signal">Research</span>
+        <span class="za-tag za-tag--depth">Identity</span>
+        <span class="za-tag za-tag--safe">Compliant</span>
+        <span class="za-tag za-tag--risk">Violation</span>
+        <span class="za-tag za-tag--neutral">Guide</span>
+      </div>
+    </section>
+
+    <section class="ds-block" id="icons">
+      <div class="ds-head">
+        <p class="za-eyebrow">Components</p>
+        <h2 class="za-h2">Iconography</h2>
+        <p class="za-body">Stroke geometry in 40×40 signal containers. No robots, shields, or emoji.</p>
+      </div>
+      <div class="icon-grid">
+        <div class="icon-cell"><div class="ic">◈</div><span>Identity</span></div>
+        <div class="icon-cell"><div class="ic">◎</div><span>Policy</span></div>
+        <div class="icon-cell"><div class="ic">⬡</div><span>Agent</span></div>
+        <div class="icon-cell"><div class="ic">◇</div><span>Chain</span></div>
+        <div class="icon-cell"><div class="ic">●</div><span>Runtime</span></div>
+        <div class="icon-cell"><div class="ic">◉</div><span>Audit</span></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="backgrounds">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Background treatment</h2>
+        <p class="za-body">Layer stack: canvas wash → constellation dots → optional grid on heroes only.</p>
+      </div>
+      <div class="bg-compare">
+        <div class="bg-panel bg-canvas"><span>za-canvas</span></div>
+        <div class="bg-panel bg-constellation"><span>za-constellation</span></div>
+        <div class="bg-panel bg-grid"><span>za-grid-overlay</span></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="illustration">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Illustration style</h2>
+        <p class="za-body">No stock art. Identity graph nodes + dashed edges + mono labels only.</p>
+      </div>
+      <p class="za-body" style="margin-bottom:var(--space-4)">Hub node = Zero-Agent control plane. Max 7 nodes per diagram.</p>
+    </section>
+
+    <section class="ds-block" id="graph">
+      <div class="ds-head"><p class="za-eyebrow">Patterns</p><h2 class="za-h2">Identity graph</h2></div>
+      <div class="graph-box">
+        <svg viewBox="0 0 600 260" aria-hidden="true">
+          <line class="g-edge" x1="100" y1="130" x2="280" y2="90"/><line class="g-edge" x1="100" y1="130" x2="280" y2="170"/>
+          <line class="g-edge" x1="280" y1="90" x2="480" y2="70"/><line class="g-edge" x1="280" y1="90" x2="480" y2="130"/>
+          <line class="g-edge" x1="280" y1="170" x2="480" y2="190"/><line class="g-edge" x1="280" y1="170" x2="480" y2="130"/>
+          <circle class="g-node" cx="100" cy="130" r="26"/><text class="g-lbl" x="100" y="134" text-anchor="middle">Agent</text>
+          <circle class="g-hub" cx="280" cy="130" r="34"/><text class="g-lbl" x="280" y="134" text-anchor="middle" fill="var(--accent)">Zero-Agent</text>
+          <circle class="g-node" cx="480" cy="70" r="20"/><text class="g-lbl" x="480" y="74" text-anchor="middle">MCP</text>
+          <circle class="g-node" cx="480" cy="130" r="20"/><text class="g-lbl" x="480" y="134" text-anchor="middle">Policy</text>
+          <circle class="g-node" cx="480" cy="190" r="20"/><text class="g-lbl" x="480" y="194" text-anchor="middle">Data</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="ds-block" id="architecture">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Architecture diagrams</h2>
+        <p class="za-body">Pipeline flows with hub node. Sunken background, white nodes, dashed edges.</p>
+      </div>
+      <div class="za-diagram">
+        <div class="arch-flow">
+          <span class="za-diagram__node">AI Agent</span>
+          <span class="arch-arrow">→</span>
+          <span class="za-diagram__node za-diagram__node--hub">Zero-Agent</span>
+          <span class="arch-arrow">→</span>
+          <span class="za-diagram__node">Policy Engine</span>
+          <span class="arch-arrow">→</span>
+          <span class="za-diagram__node">MCP / API</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="dashboard">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Dashboard preview</h2>
+        <p class="za-body">Product chrome · mono data · real agent concepts · live dot indicator.</p>
+      </div>
+      <div class="dash-full">
+        <div class="dash-top">
+          <span class="dash-dot"></span><span class="dash-dot"></span><span class="dash-dot on"></span>
+          <span style="margin-left:auto;font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:6px"><span class="za-live-dot"></span> Agent Identity Console</span>
+        </div>
+        <div class="dash-layout">
+          <div class="dash-side">
+            <div class="dash-nav on">Agent Inventory</div>
+            <div class="dash-nav">Identity Graph</div>
+            <div class="dash-nav">Policy Engine</div>
+            <div class="dash-nav">Audit Trail</div>
+          </div>
+          <div class="dash-content">
+            <div class="dash-stats">
+              <div class="dash-stat"><b>847</b><span>Agents</span></div>
+              <div class="dash-stat"><b style="color:var(--za-risk)">23</b><span>High Risk</span></div>
+              <div class="dash-stat"><b>1,204</b><span>MCP Links</span></div>
+              <div class="dash-stat"><b style="color:var(--za-safe)">99.2%</b><span>Compliant</span></div>
+            </div>
+            <table class="dash-table">
+              <thead><tr><th>Agent</th><th>Owner</th><th>Risk</th><th>Policy</th></tr></thead>
+              <tbody>
+                <tr><td>cursor-agent</td><td>eng@corp.com</td><td>Low</td><td><span class="za-tag za-tag--safe">Allow</span></td></tr>
+                <tr><td>shadow-mcp</td><td style="color:var(--za-risk)">Unassigned</td><td>Critical</td><td><span class="za-tag za-tag--risk">Deny</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="dark">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Dark surface</h2>
+        <p class="za-body">Chapter breaks only — max 1–2 per page. Ink 800 + single signal glow.</p>
+      </div>
+      <div class="dark-panel">
+        <p class="za-eyebrow">Industry Shift</p>
+        <h2 class="za-h2" style="color:#fff;max-width:18ch">Agents outnumber humans.</h2>
+        <p>Legacy IAM was built for people logging in. Autonomous agents need a new control plane.</p>
+        <div style="margin-top:var(--space-8)"><button class="za-btn za-btn--signal">Explore Platform</button></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="motion">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Animation principles</h2>
+        <p class="za-body">Informative motion only. Respects prefers-reduced-motion.</p>
+      </div>
+      <table class="motion-table">
+        <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>--duration-fast</td><td>180ms</td><td>Hover, focus</td></tr>
+          <tr><td>--duration-normal</td><td>320ms</td><td>Cards, nav</td></tr>
+          <tr><td>--duration-reveal</td><td>680ms</td><td>Scroll reveal</td></tr>
+          <tr><td>--ease-out</td><td>cubic-bezier(.16,1,.3,1)</td><td>Default easing</td></tr>
+          <tr><td>--stagger-step</td><td>60ms</td><td>Child reveals (max 4)</td></tr>
+        </tbody>
+      </table>
+      <div class="ds-row" style="margin-top:var(--space-8)">
+        <div class="za-reveal is-visible za-card" style="flex:1"><p class="za-caption">Scroll reveal</p><p style="font-size:var(--text-body-sm);color:var(--text-secondary)">20px rise · opacity fade</p></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="transitions">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Page transitions</h2>
+        <p class="za-body">8px rise + fade on enter. Nav persists for cross-page continuity.</p>
+      </div>
+      <div class="transition-demo za-page-enter">
+        <p class="za-eyebrow" style="margin-bottom:var(--space-3)">.za-page-enter</p>
+        <p class="za-h3">520ms ease-out</p>
+        <p>Applied to main content on each page load</p>
+      </div>
+    </section>
+
+    <section class="ds-block" id="flow">
+      <div class="ds-head">
+        <p class="za-eyebrow">Patterns</p>
+        <h2 class="za-h2">Page flow &amp; storytelling</h2>
+        <p class="za-body">Narrative arc — not feature lists. Rotate layouts every section.</p>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-num">1</div><div><h3 class="za-h3">Provocation</h3><p class="za-body" style="font-size:var(--text-body-sm)">Name the industry gap</p></div></div>
+        <div class="flow-step"><div class="flow-num">2</div><div><h3 class="za-h3">Position</h3><p class="za-body" style="font-size:var(--text-body-sm)">Control plane, not a tool</p></div></div>
+        <div class="flow-step"><div class="flow-num">3</div><div><h3 class="za-h3">Mechanism</h3><p class="za-body" style="font-size:var(--text-body-sm)">Discover → Govern → Protect</p></div></div>
+        <div class="flow-step"><div class="flow-num">4</div><div><h3 class="za-h3">Proof</h3><p class="za-body" style="font-size:var(--text-body-sm)">Dashboard, stats, case metrics</p></div></div>
+        <div class="flow-step"><div class="flow-num">5</div><div><h3 class="za-h3">Invitation</h3><p class="za-body" style="font-size:var(--text-body-sm)">Single CTA per viewport</p></div></div>
+      </div>
+    </section>
+
+    <footer style="padding:var(--space-10) 0;border-top:1px solid var(--border);text-align:center">
+      <p class="za-caption">Control Plane v1.0 · Single-file HTML design system</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+document.querySelectorAll('.ds-sidebar a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.querySelectorAll('.ds-sidebar a').forEach(x=>x.classList.remove('on'));
+    a.classList.add('on');
+  });
+});
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){
+    e.target.querySelectorAll('.za-reveal').forEach(r=>r.classList.add('is-visible'));
+    const id=e.target.id;
+    if(id) document.querySelector(`.ds-sidebar a[href="#${id}"]`)?.classList.add('on');
+  }
+}),{threshold:.2});
+document.querySelectorAll('.ds-block').forEach(b=>io.observe(b));
+</script>
+</body>
+</html>

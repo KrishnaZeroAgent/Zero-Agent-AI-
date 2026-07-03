@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation — Zero-Agent.AI</title>
+<link rel="canonical" href="https://www.zero-agent.ai/resources-documentation.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Zero-Agent.AI">
+<meta property="og:title" content="Documentation — Zero-Agent.AI">
+<meta property="og:description" content="Zero-Agent product documentation — getting started, platform overview, deployment guide, integrations, API reference, and FAQs.">
+<meta property="og:url" content="https://www.zero-agent.ai/resources-documentation.html">
+<meta property="og:image" content="https://www.zero-agent.ai/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Zero-Agent product documentation — getting started, platform overview, deployment guide, integrations, API reference, and FAQs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="za-core.css">
+<script src="za-nav.js" defer></script>
+<style>
+.doc-top{padding:calc(var(--nav-height) + var(--space-12)) 0 var(--space-8);border-bottom:1px solid var(--border);background:var(--za-paper)}
+.doc-top .za-breadcrumb{font-size:var(--text-body-sm);color:var(--text-muted)}
+.doc-top .za-breadcrumb a{color:var(--text-secondary);text-decoration:none}
+.doc-top .za-breadcrumb a:hover{color:var(--accent)}
+.doc-top h1{margin-top:var(--space-3)}
+.doc-search{margin-top:var(--space-6);max-width:34rem;position:relative}
+.doc-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--text-muted);fill:none;stroke-width:1.8}
+.doc-search input{width:100%;height:46px;padding:0 16px 0 42px;border:1px solid var(--border-strong);border-radius:var(--radius-md);font-family:inherit;font-size:var(--text-body);color:var(--text);background:var(--bg);transition:border-color var(--duration-fast),box-shadow var(--duration-fast)}
+.doc-search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.doc-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:clamp(var(--space-8),5vw,var(--space-16));padding-block:var(--section-y-md);align-items:start}
+.doc-side{position:sticky;top:calc(var(--nav-height) + var(--space-6));display:flex;flex-direction:column;gap:2px}
+.doc-side h4{font-size:var(--text-caption);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-3)}
+.doc-side a{display:block;padding:8px 12px;border-radius:var(--radius-sm);font-size:var(--text-body-sm);color:var(--text-secondary);text-decoration:none;border-left:2px solid transparent;transition:background var(--duration-fast),color var(--duration-fast),border-color var(--duration-fast)}
+.doc-side a:hover{background:var(--bg-sunken);color:var(--text)}
+.doc-side a.is-active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:var(--weight-medium)}
+.doc-main{max-width:46rem}
+.doc-sec{padding-bottom:var(--space-12);margin-bottom:var(--space-12);border-bottom:1px solid var(--border);scroll-margin-top:calc(var(--nav-height) + var(--space-6))}
+.doc-sec:last-child{border-bottom:none}
+.doc-sec h2{font-size:var(--text-display-md);letter-spacing:var(--tracking-tighter);font-weight:var(--weight-semibold)}
+.doc-sec>p{color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:var(--space-4);max-width:62ch}
+.doc-sec h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);margin-top:var(--space-6)}
+.doc-list{list-style:none;margin-top:var(--space-4);display:flex;flex-direction:column;gap:10px}
+.doc-list li{display:flex;gap:10px;font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-snug)}
+.doc-list li svg{flex:none;width:16px;height:16px;stroke:var(--accent);stroke-width:2.2;fill:none;margin-top:2px}
+.doc-code{margin-top:var(--space-5);background:var(--za-ink-900);border-radius:var(--radius-md);padding:var(--space-5);overflow-x:auto}
+.doc-code pre{font-family:var(--font-mono);font-size:var(--text-body-sm);color:#cbd5e1;line-height:1.7}
+.doc-code .c-key{color:#7fb4ff}.doc-code .c-str{color:#7fd4a6}.doc-code .c-com{color:#64748b}
+.doc-none{display:none;color:var(--text-muted);font-size:var(--text-body)}
+@media(max-width:900px){
+  .doc-layout{grid-template-columns:minmax(0,1fr)}
+  .doc-side{position:static;flex-direction:row;flex-wrap:wrap;gap:6px;padding-bottom:var(--space-6);border-bottom:1px solid var(--border);margin-bottom:var(--space-6)}
+  .doc-side h4{width:100%}
+  .doc-side a{border-left:none;border:1px solid var(--border)}
+  .doc-side a.is-active{border-color:var(--accent)}
+}
+</style>
+</head>
+<body>
+<a class="za-skip" href="#main">Skip to main content</a>
+
+<nav class="za-nav" id="nav">
+  <div class="za-container za-nav__inner">
+    <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+    <div class="za-nav__links" id="navLinks">
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Product<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="product.html"><strong>Overview</strong><span>The AI Identity Control Plane</span></a>
+          <a href="features.html"><strong>Features</strong><span>Discovery, governance &amp; control</span></a>
+          <a href="integrations.html"><strong>Integrations</strong><span>Identity, cloud, AI &amp; security</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Solutions<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="solutions-role.html"><strong>By Role</strong><span>CISO, CIO, Security, DevOps, IT</span></a>
+          <a href="solutions-industry.html"><strong>By Industry</strong><span>Finance, Healthcare, Tech, Gov</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger is-active" aria-expanded="false" aria-haspopup="true">Resources<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="resources-documentation.html"><strong>Documentation</strong><span>Guides, API &amp; deployment</span></a>
+          <a href="resources-case-studies.html"><strong>Case Studies</strong><span>Customer success stories</span></a>
+          <a href="resources-whitepapers.html"><strong>Whitepapers</strong><span>Research &amp; frameworks</span></a>
+          <a href="resources-glossary.html"><strong>AI Agent Glossary</strong><span>Key terms explained</span></a>
+          <a href="resources-trust-center.html"><strong>Trust Center</strong><span>Security &amp; compliance</span></a>
+        </div>
+      </div>
+      <div class="za-nav__group">
+        <button class="za-nav__trigger" aria-expanded="false" aria-haspopup="true">Company<svg class="za-nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></button>
+        <div class="za-nav__menu">
+          <a href="company.html"><strong>About Us</strong><span>Our story, mission &amp; team</span></a>
+          <a href="contact.html"><strong>Contact Us</strong><span>Talk to our team</span></a>
+          <a href="careers.html"><strong>Careers</strong><span>Join the mission</span></a>
+        </div>
+      </div>
+      <a href="request-demo.html" class="za-btn za-btn--primary">Request Demo</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h14"/></svg></button>
+  </div>
+</nav>
+
+<header class="doc-top" id="main">
+  <div class="za-container">
+    <p class="za-breadcrumb"><a href="resources.html">Resources</a> / Documentation</p>
+    <h1 class="za-display-lg">Documentation</h1>
+    <div class="doc-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="docSearch" placeholder="Search documentation…" aria-label="Search documentation">
+    </div>
+  </div>
+</header>
+
+<div class="za-container">
+  <div class="doc-layout">
+    <aside class="doc-side" id="docSide">
+      <h4>On this page</h4>
+      <a href="#getting-started" class="is-active">Getting Started</a>
+      <a href="#platform-overview">Platform Overview</a>
+      <a href="#deployment-guide">Deployment Guide</a>
+      <a href="#integrations">Integrations</a>
+      <a href="#api">API Documentation</a>
+      <a href="#faqs">FAQs</a>
+    </aside>
+
+    <main class="doc-main">
+      <p class="doc-none" id="docNone">No sections match your search.</p>
+
+      <section class="doc-sec" id="getting-started" data-doc="getting started onboarding workspace connect account setup quickstart">
+        <h2>Getting Started</h2>
+        <p>Zero-Agent gives your security and identity teams a control plane for every AI agent and non-human identity in your environment. This guide walks you from account creation to your first governed agent in under an hour.</p>
+        <h3>Quick start</h3>
+        <ul class="doc-list">
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Create your workspace and invite your security team.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Connect a cloud account or identity provider to begin discovery.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Review the auto-generated inventory of AI agents and NHIs.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Assign owners and apply your first governance policy.</li>
+        </ul>
+      </section>
+
+      <section class="doc-sec" id="platform-overview" data-doc="platform overview architecture control plane discovery governance runtime inventory">
+        <h2>Platform Overview</h2>
+        <p>The Zero-Agent platform is organized into three layers: discovery, governance, and runtime enforcement. Together they provide continuous visibility and control across your agentic estate.</p>
+        <h3>Core concepts</h3>
+        <ul class="doc-list">
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg><b>Discovery</b>&nbsp;— continuously inventory agents, NHIs, and their credentials.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg><b>Governance</b>&nbsp;— assign ownership, apply policy, and score risk.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg><b>Runtime</b>&nbsp;— enforce least privilege on every agent action in real time.</li>
+        </ul>
+      </section>
+
+      <section class="doc-sec" id="deployment-guide" data-doc="deployment guide install agent collector helm kubernetes cloud connector setup">
+        <h2>Deployment Guide</h2>
+        <p>Zero-Agent deploys as a lightweight, agentless collector that reads from your cloud and identity APIs. No inline proxies are required to get started with discovery.</p>
+        <div class="doc-code">
+          <pre><span class="c-com"># Install the Zero-Agent collector</span>
+<span class="c-key">helm</span> repo add zero-agent https://charts.zero-agent.ai
+<span class="c-key">helm</span> install za zero-agent/collector \
+  --set <span class="c-str">cloud.provider=aws</span> \
+  --set <span class="c-str">workspace.id=YOUR_WORKSPACE_ID</span></pre>
+        </div>
+      </section>
+
+      <section class="doc-sec" id="integrations" data-doc="integrations okta entra cyberark aws azure gcp openai anthropic siem slack connectors">
+        <h2>Integrations</h2>
+        <p>Connect Zero-Agent to the identity providers, cloud platforms, AI providers, and security tools you already run. Integrations extend governance without replacing your existing stack.</p>
+        <ul class="doc-list">
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Identity: Microsoft Entra, Okta, CyberArk, SailPoint.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Cloud: AWS, Azure, Google Cloud.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>AI: OpenAI, Anthropic, and self-hosted models.</li>
+          <li><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg>Security: SIEM, SOAR, and Slack notifications.</li>
+        </ul>
+      </section>
+
+      <section class="doc-sec" id="api" data-doc="api documentation rest reference authentication token endpoints agents identities curl">
+        <h2>API Documentation</h2>
+        <p>The Zero-Agent REST API lets you query inventory, manage policies, and stream events programmatically. Authenticate with a workspace API token passed as a bearer header.</p>
+        <div class="doc-code">
+          <pre><span class="c-com"># List all discovered AI agents</span>
+<span class="c-key">curl</span> https://api.zero-agent.ai/v1/agents \
+  -H <span class="c-str">"Authorization: Bearer $ZA_TOKEN"</span></pre>
+        </div>
+      </section>
+
+      <section class="doc-sec" id="faqs" data-doc="faqs frequently asked questions help support agentless data residency">
+        <h2>FAQs</h2>
+        <div class="za-faq" style="max-width:none;margin:var(--space-4) 0 0">
+          <div class="za-faq__item">
+            <button class="za-faq__q">Is Zero-Agent agentless?<span class="za-faq__icon"></span></button>
+            <div class="za-faq__a"><p>Discovery and governance are fully agentless — they read from your cloud and identity APIs. Optional runtime enforcement can be deployed inline where you need real-time control.</p></div>
+          </div>
+          <div class="za-faq__item">
+            <button class="za-faq__q">Where is my data stored?<span class="za-faq__icon"></span></button>
+            <div class="za-faq__a"><p>Data is encrypted in transit and at rest, and can be pinned to a specific region to meet your data residency requirements.</p></div>
+          </div>
+          <div class="za-faq__item">
+            <button class="za-faq__q">How long does setup take?<span class="za-faq__icon"></span></button>
+            <div class="za-faq__a"><p>Most teams connect their first cloud or identity provider and see a live agent inventory within an hour.</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<section class="section cta-band">
+  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
+    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get started</p>
+    <h2 class="za-display-lg">Ready to Secure Your AI Workforce?</h2>
+    <p>See how Zero-Agent helps organizations discover, govern, and secure AI agents before they become enterprise risks.</p>
+    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
+      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
+      <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore Product</a>
+    </div>
+  </div>
+</section>
+
+<footer class="za-footer">
+  <div class="za-container">
+    <div class="za-footer__inner">
+      <div class="za-footer__brand">
+        <a href="index.html" class="za-nav__logo">Zero-Agent<em>.AI</em></a>
+        <p>Secure identity governance for autonomous AI agents and non-human identities.</p>
+        <form class="za-footer__news" onsubmit="return false" aria-label="Newsletter signup">
+          <label for="fnews">Get product &amp; research updates</label>
+          <div class="za-footer__news-row">
+            <input type="email" id="fnews" placeholder="you@company.com" aria-label="Email address">
+            <button type="submit" class="za-btn za-btn--signal">Subscribe</button>
+          </div>
+        </form>
+        <div class="za-footer__social">
+          <a href="https://www.linkedin.com/in/kparuchuri100" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.3 8.65 21 11 21 14.3V21h-4v-5.9c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-7-6.2 7H1.4l8.2-9.3L1 2h7.1l4.9 6.5L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a>
+        </div>
+      </div>
+      <nav class="za-footer__cols" aria-label="Footer">
+        <div class="za-footer__col"><h4>Product</h4><a href="product.html">Overview</a><a href="features.html">Features</a><a href="integrations.html">Integrations</a></div>
+        <div class="za-footer__col"><h4>Solutions</h4><a href="solutions-role.html">By Role</a><a href="solutions-industry.html">By Industry</a></div>
+        <div class="za-footer__col"><h4>Resources</h4><a href="resources.html">Overview</a><a href="resources-documentation.html">Documentation</a><a href="resources-case-studies.html">Case Studies</a><a href="resources-whitepapers.html">Whitepapers</a><a href="resources-glossary.html">AI Agent Glossary</a></div>
+        <div class="za-footer__col"><h4>Security</h4><a href="resources-trust-center.html">Trust Center</a><a href="resources-trust-center.html">Compliance</a><a href="#">Responsible AI</a><a href="mailto:security@zero-agent.ai">Security Contact</a></div>
+        <div class="za-footer__col"><h4>Company</h4><a href="company.html">About Us</a><a href="contact.html">Contact Us</a><a href="careers.html">Careers</a></div>
+        <div class="za-footer__col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Responsible AI</a><a href="#">Cookie Policy</a></div>
+      </nav>
+    </div>
+    <div class="za-footer__bar">
+      <p>&copy; 2026 Zero-Agent.AI · The Control Plane for AI Agent Identity</p>
+      <p class="za-footer__badges"><span>SOC 2 — In Progress</span><span>Zero Trust</span><span>Identity First</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('is-scrolled',scrollY>16),{passive:true});
+const mb=document.getElementById('menuBtn');
+mb&&mb.addEventListener('click',()=>{const l=document.getElementById('navLinks');const o=l.classList.toggle('open');mb.setAttribute('aria-expanded',String(o));});
+
+// FAQ accordion
+document.querySelectorAll('.za-faq__item').forEach(item=>{
+  const q=item.querySelector('.za-faq__q');const a=item.querySelector('.za-faq__a');
+  q.addEventListener('click',()=>{const open=item.classList.toggle('is-open');a.style.maxHeight=open?a.scrollHeight+'px':0;});
+});
+
+// Sidebar active state on scroll
+const secs=[...document.querySelectorAll('.doc-sec')];
+const links=[...document.querySelectorAll('.doc-side a')];
+const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;links.forEach(l=>l.classList.toggle('is-active',l.getAttribute('href')==='#'+id));}});},{rootMargin:'-30% 0px -60% 0px'});
+secs.forEach(s=>spy.observe(s));
+
+// Doc search filter
+const search=document.getElementById('docSearch');const none=document.getElementById('docNone');
+search.addEventListener('input',()=>{
+  const q=search.value.trim().toLowerCase();let shown=0;
+  secs.forEach(s=>{const hay=(s.id+' '+s.textContent+' '+(s.dataset.doc||'')).toLowerCase();const match=!q||hay.includes(q);s.style.display=match?'':'none';if(match)shown++;});
+  none.style.display=shown?'none':'block';
+});
+</script>
+</body>
+</html>

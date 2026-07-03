@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demo — Zero-Agent.AI</title>
+<meta name="description" content="Simulate the full Zero-Agent governance pipeline — from agent deployment through discovery, identity, risk, policy, authorization, and compliance evidence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --za-ink-900:#0a0f1a;--za-ink-800:#0f172a;--za-ink-700:#1e293b;--za-ink-600:#334155;--za-ink-500:#475569;--za-ink-300:#94a3b8;--za-ink-200:#cbd5e1;--za-ink-100:#e2e8f0;--za-ink-50:#f1f5f9;
+  --za-paper:#fafbfc;
+  --za-signal:#0057b8;--za-signal-bright:#1a7fff;--za-signal-soft:rgba(0,87,184,.12);--za-signal-muted:rgba(0,87,184,.2);
+  --za-depth-mid:#5240a8;
+  --za-risk:#e5484d;--za-risk-soft:rgba(229,72,77,.12);--za-warn:#f5a524;--za-warn-soft:rgba(245,165,36,.12);
+  --za-safe:#30a46c;--za-safe-soft:rgba(48,164,108,.12);
+  --console-bg:#0d1117;--console-panel:#161b22;--console-border:#30363d;--console-text:#e6edf3;--console-muted:#8b949e;
+  --bg:#fff;--border:var(--za-ink-100);
+  --text:var(--za-ink-800);--text-secondary:var(--za-ink-500);
+  --accent:var(--za-signal);
+  --font-sans:"Inter",-apple-system,sans-serif;--font-mono:"SF Mono",Consolas,"Liberation Mono",monospace;
+  --text-body-sm:.8125rem;--text-caption:.6875rem;
+  --weight-medium:500;--weight-semibold:600;
+  --nav-height:56px;--sidebar-w:220px;--log-w:300px;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font-sans);font-size:14px;color:var(--text);background:var(--console-bg);-webkit-font-smoothing:antialiased}
+
+/* Top chrome */
+.demo-top{
+  height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;background:var(--console-panel);border-bottom:1px solid var(--console-border);
+  position:relative;z-index:100;
+}
+.demo-top__brand{font-size:13px;font-weight:var(--weight-semibold);color:var(--console-text);text-decoration:none}
+.demo-top__brand em{font-style:normal;color:var(--za-signal-bright)}
+.demo-top__brand span{color:var(--console-muted);font-weight:400;margin-left:8px}
+.demo-top__env{display:flex;align-items:center;gap:12px}
+.env-pill{font-size:11px;padding:4px 10px;border-radius:4px;background:rgba(48,164,108,.15);color:var(--za-safe);font-weight:var(--weight-medium)}
+.demo-top__meta{font-size:11px;color:var(--console-muted);display:flex;align-items:center;gap:16px}
+.demo-top__meta a{color:var(--console-muted);text-decoration:none}
+.demo-top__meta a:hover{color:var(--console-text)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--za-safe);animation:livePulse 2s ease infinite}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Layout */
+.demo-shell{display:grid;grid-template-columns:var(--sidebar-w) 1fr var(--log-w);height:calc(100vh - var(--nav-height))}
+
+/* Pipeline sidebar */
+.demo-sidebar{
+  background:var(--console-panel);border-right:1px solid var(--console-border);
+  padding:20px 0;overflow-y:auto;display:flex;flex-direction:column;
+}
+.sidebar-label{font-size:10px;font-weight:var(--weight-medium);letter-spacing:.12em;text-transform:uppercase;color:var(--console-muted);padding:0 20px 12px}
+.pipeline{list-style:none;flex:1}
+.pipe-step{
+  display:flex;align-items:flex-start;gap:12px;padding:10px 20px;cursor:pointer;
+  border-left:2px solid transparent;transition:all .25s;position:relative;
+}
+.pipe-step:hover{background:rgba(255,255,255,.03)}
+.pipe-step.active{border-left-color:var(--za-signal-bright);background:rgba(26,127,255,.08)}
+.pipe-step.done .pipe-num{background:var(--za-safe);border-color:var(--za-safe);color:#fff}
+.pipe-step.done .pipe-label{color:var(--console-text)}
+.pipe-num{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  border:2px solid var(--console-border);font-size:10px;font-weight:var(--weight-semibold);
+  display:flex;align-items:center;justify-content:center;color:var(--console-muted);
+  transition:all .3s;
+}
+.pipe-step.active .pipe-num{background:var(--za-signal-bright);border-color:var(--za-signal-bright);color:#fff;box-shadow:0 0 0 4px rgba(26,127,255,.2)}
+.pipe-label{font-size:12px;color:var(--console-muted);line-height:1.35;padding-top:2px}
+.pipe-step.active .pipe-label{color:var(--console-text);font-weight:var(--weight-medium)}
+.sidebar-cta{padding:16px 20px;border-top:1px solid var(--console-border)}
+.btn-run{
+  width:100%;height:40px;border:none;border-radius:6px;font-family:inherit;font-size:13px;font-weight:var(--weight-medium);
+  cursor:pointer;transition:all .2s;
+}
+.btn-run--start{background:var(--za-signal-bright);color:#fff}
+.btn-run--start:hover{background:#3d9bff}
+.btn-run--next{background:rgba(255,255,255,.08);color:var(--console-text);border:1px solid var(--console-border)}
+.btn-run--next:hover{background:rgba(255,255,255,.12)}
+.btn-run:disabled{opacity:.4;cursor:not-allowed}
+.btn-reset{font-size:11px;color:var(--console-muted);background:none;border:none;cursor:pointer;margin-top:10px;width:100%;font-family:inherit}
+.btn-reset:hover{color:var(--console-text)}
+
+/* Main stage */
+.demo-main{overflow-y:auto;padding:24px;background:var(--console-bg);position:relative}
+.stage-view{display:none;animation:fadeIn .45s var(--ease-out)}
+.stage-view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.stage-header{margin-bottom:20px}
+.stage-header h1{font-size:20px;font-weight:var(--weight-semibold);color:var(--console-text);letter-spacing:-.02em;margin-bottom:4px}
+.stage-header p{font-size:13px;color:var(--console-muted)}
+
+/* Dashboard grid */
+.dash-grid{display:grid;gap:16px}
+.dash-grid--2{grid-template-columns:1fr 1fr}
+.dash-grid--3{grid-template-columns:2fr 1fr}
+.panel{
+  background:var(--console-panel);border:1px solid var(--console-border);border-radius:8px;overflow:hidden;
+}
+.panel-head{
+  padding:12px 16px;border-bottom:1px solid var(--console-border);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;font-weight:var(--weight-medium);color:var(--console-muted);letter-spacing:.04em;text-transform:uppercase;
+}
+.panel-body{padding:16px}
+
+/* Deploy form */
+.deploy-form{display:flex;flex-direction:column;gap:14px;max-width:480px}
+.field label{display:block;font-size:11px;color:var(--console-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.field input,.field select{
+  width:100%;padding:10px 12px;border-radius:6px;border:1px solid var(--console-border);
+  background:var(--console-bg);color:var(--console-text);font-family:inherit;font-size:13px;
+}
+.field input:focus,.field select:focus{outline:none;border-color:var(--za-signal-bright)}
+
+/* Radar */
+.radar-box{aspect-ratio:1;max-width:320px;margin:0 auto;position:relative}
+.radar-box svg{width:100%;height:100%}
+.radar-ring{fill:none;stroke:var(--console-border);stroke-width:1}
+.radar-sweep{transform-origin:150px 150px;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.radar-blip{fill:var(--za-signal-bright);opacity:0}
+.radar-blip.on{animation:blipPop .6s ease forwards}
+@keyframes blipPop{0%{opacity:0;r:2}50%{opacity:1;r:6}100%{opacity:.8;r:5}}
+
+/* Identity card */
+.id-card{
+  max-width:360px;padding:20px;border-radius:8px;border:1px solid var(--console-border);
+  background:linear-gradient(145deg,rgba(26,127,255,.08),transparent);
+}
+.id-card__row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:12px}
+.id-card__row span{color:var(--console-muted)}
+.id-card__row strong{color:var(--console-text);font-family:var(--font-mono);font-size:11px}
+.id-card h3{font-size:16px;color:var(--console-text);margin-bottom:16px;font-weight:var(--weight-semibold)}
+.id-badge{display:inline-block;font-size:10px;padding:4px 8px;border-radius:4px;background:var(--za-signal-soft);color:var(--za-signal-bright);font-weight:var(--weight-medium)}
+
+/* Graph mini */
+.graph-mini{height:200px;display:flex;align-items:center;justify-content:center}
+.graph-mini svg{width:100%;max-height:200px}
+.g-node{fill:var(--console-panel);stroke:var(--console-border);stroke-width:1.5;opacity:0;transition:opacity .5s}
+.g-node.show{opacity:1}
+.g-hub{fill:var(--za-signal-soft);stroke:var(--za-signal-bright)}
+.g-edge{stroke:var(--console-border);stroke-width:1;fill:none;opacity:0;transition:opacity .5s}
+.g-edge.show{opacity:1}
+.g-lbl{font-size:9px;fill:var(--console-muted);text-anchor:middle}
+
+/* Risk cards */
+.risk-cards{display:flex;flex-direction:column;gap:10px}
+.risk-card{
+  display:grid;grid-template-columns:1fr 100px 48px;gap:12px;align-items:center;
+  padding:12px;border-radius:6px;background:var(--console-bg);border:1px solid var(--console-border);
+}
+.risk-card__name{font-size:13px;color:var(--console-text)}
+.risk-bar{height:6px;background:var(--console-border);border-radius:3px;overflow:hidden}
+.risk-bar i{display:block;height:100%;width:0;border-radius:3px;transition:width 1s var(--ease-out)}
+.risk-bar i.high{background:var(--za-risk)}
+.risk-bar i.med{background:var(--za-warn)}
+.risk-bar i.low{background:var(--za-safe)}
+.risk-score{font-family:var(--font-mono);font-size:13px;font-weight:var(--weight-semibold);text-align:right}
+.risk-score.high{color:var(--za-risk)}
+.risk-score.med{color:var(--za-warn)}
+.risk-score.low{color:var(--za-safe)}
+
+/* Policy console */
+.policy-list{display:flex;flex-direction:column;gap:8px}
+.policy-row{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 14px;
+  border-radius:6px;background:var(--console-bg);border:1px solid var(--console-border);
+}
+.policy-row.pass{border-color:rgba(48,164,108,.3);background:rgba(48,164,108,.06)}
+.policy-row.fail{border-color:rgba(229,72,77,.3);background:rgba(229,72,77,.06)}
+.policy-row.pending{opacity:.5}
+.policy-name{font-size:13px;color:var(--console-text)}
+.policy-result{font-size:11px;font-weight:var(--weight-medium);font-family:var(--font-mono)}
+.policy-result.pass{color:var(--za-safe)}
+.policy-result.fail{color:var(--za-risk)}
+.policy-result.wait{color:var(--console-muted)}
+
+/* Approval */
+.approval-card{
+  max-width:420px;padding:24px;border-radius:10px;border:1px solid var(--console-border);
+  background:var(--console-bg);text-align:center;
+}
+.approval-card h3{font-size:16px;color:var(--console-text);margin:12px 0 8px}
+.approval-card p{font-size:13px;color:var(--console-muted);margin-bottom:20px;line-height:1.5}
+.approval-actions{display:flex;gap:10px;justify-content:center}
+.approval-btn{padding:10px 24px;border-radius:6px;font-size:13px;font-weight:var(--weight-medium);border:none;cursor:pointer;font-family:inherit;transition:all .2s}
+.approval-btn--deny{background:rgba(229,72,77,.15);color:var(--za-risk);border:1px solid rgba(229,72,77,.3)}
+.approval-btn--allow{background:var(--za-safe);color:#fff}
+.approval-btn--allow:hover{background:#3cb179}
+.approval-icon{width:48px;height:48px;border-radius:50%;margin:0 auto;background:var(--za-warn-soft);display:flex;align-items:center;justify-content:center;font-size:20px}
+
+/* Compliance */
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.evidence-item{
+  padding:16px;border-radius:8px;border:1px solid var(--console-border);background:var(--console-bg);text-align:center;
+  opacity:0;transform:translateY(8px);transition:all .4s var(--ease-out);
+}
+.evidence-item.show{opacity:1;transform:none}
+.evidence-item svg{margin-bottom:8px;color:var(--za-safe)}
+.evidence-item strong{display:block;font-size:12px;color:var(--console-text);margin-bottom:4px}
+.evidence-item span{font-size:10px;color:var(--console-muted)}
+
+/* Timeline */
+.timeline-h{display:flex;gap:0;margin-top:16px;overflow-x:auto;padding-bottom:8px}
+.tl-step{
+  flex:1;min-width:90px;text-align:center;padding:12px 8px;position:relative;
+  border-top:2px solid var(--console-border);transition:border-color .3s;
+}
+.tl-step.done{border-top-color:var(--za-safe)}
+.tl-step.active{border-top-color:var(--za-signal-bright)}
+.tl-step span{display:block;font-size:9px;color:var(--console-muted);margin-top:8px;text-transform:uppercase;letter-spacing:.04em}
+.tl-step.done span,.tl-step.active span{color:var(--console-text)}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--console-border);margin:0 auto;transform:translateY(-17px);transition:background .3s}
+.tl-step.done .tl-dot{background:var(--za-safe)}
+.tl-step.active .tl-dot{background:var(--za-signal-bright);box-shadow:0 0 0 4px rgba(26,127,255,.25)}
+
+/* Sparkline */
+.spark{display:flex;align-items:flex-end;gap:3px;height:48px;margin-top:12px}
+.spark i{flex:1;background:var(--za-signal-soft);border-radius:2px 2px 0 0;min-height:4px;transition:height .5s var(--ease-out)}
+
+/* Log panel */
+.demo-logs{
+  background:var(--console-panel);border-left:1px solid var(--console-border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.logs-head{padding:12px 16px;border-bottom:1px solid var(--console-border);font-size:11px;font-weight:var(--weight-medium);color:var(--console-muted);text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between}
+.logs-clear{font-size:10px;color:var(--console-muted);background:none;border:none;cursor:pointer;font-family:inherit}
+.logs-clear:hover{color:var(--console-text)}
+.logs-body{flex:1;overflow-y:auto;padding:12px;font-family:var(--font-mono);font-size:10px;line-height:1.7}
+.log-line{opacity:0;animation:logIn .3s forwards;margin-bottom:2px}
+@keyframes logIn{to{opacity:1}}
+.log-ts{color:var(--console-muted)}
+.log-info{color:var(--za-signal-bright)}
+.log-ok{color:var(--za-safe)}
+.log-warn{color:var(--za-warn)}
+.log-err{color:var(--za-risk)}
+
+/* Metric tiles */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.metric{padding:14px;border-radius:8px;background:var(--console-panel);border:1px solid var(--console-border)}
+.metric span{display:block;font-size:10px;color:var(--console-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.metric strong{font-size:22px;font-weight:var(--weight-semibold);color:var(--console-text);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+
+@media(max-width:1100px){
+  .demo-shell{grid-template-columns:var(--sidebar-w) 1fr}
+  .demo-logs{display:none}
+  .dash-grid--2,.dash-grid--3,.evidence-grid,.metrics{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .demo-shell{grid-template-columns:1fr}
+  .demo-sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="demo-top">
+  <a href="index.html" class="demo-top__brand">Zero-Agent<em>.AI</em><span>/ Demo Console</span></a>
+  <div class="demo-top__env">
+    <span class="env-pill">staging</span>
+    <span class="status-dot" title="Connected"></span>
+  </div>
+  <div class="demo-top__meta">
+    <span>acme-corp</span>
+    <a href="product.html">Product</a>
+    <a href="request-demo.html">Request live demo</a>
+  </div>
+</header>
+
+<div class="demo-shell">
+  <aside class="demo-sidebar">
+    <p class="sidebar-label">Governance pipeline</p>
+    <ol class="pipeline" id="pipeline">
+      <li class="pipe-step active" data-step="0"><span class="pipe-num">1</span><span class="pipe-label">Deploy AI Agent</span></li>
+      <li class="pipe-step" data-step="1"><span class="pipe-num">2</span><span class="pipe-label">Discovery</span></li>
+      <li class="pipe-step" data-step="2"><span class="pipe-num">3</span><span class="pipe-label">Identity Creation</span></li>
+      <li class="pipe-step" data-step="3"><span class="pipe-num">4</span><span class="pipe-label">Ownership Detection</span></li>
+      <li class="pipe-step" data-step="4"><span class="pipe-num">5</span><span class="pipe-label">Risk Analysis</span></li>
+      <li class="pipe-step" data-step="5"><span class="pipe-num">6</span><span class="pipe-label">Policy Evaluation</span></li>
+      <li class="pipe-step" data-step="6"><span class="pipe-num">7</span><span class="pipe-label">Authorization</span></li>
+      <li class="pipe-step" data-step="7"><span class="pipe-num">8</span><span class="pipe-label">Compliance Evidence</span></li>
+    </ol>
+    <div class="sidebar-cta">
+      <button class="btn-run btn-run--start" id="btnAction">Deploy agent</button>
+      <button class="btn-reset" id="btnReset">Reset simulation</button>
+    </div>
+  </aside>
+
+  <main class="demo-main" id="demoMain">
+    <!-- Step 0: Deploy -->
+    <section class="stage-view active" data-stage="0">
+      <div class="stage-header">
+        <h1>Deploy AI Agent</h1>
+        <p>Simulate deploying an autonomous agent into your enterprise environment.</p>
+      </div>
+      <div class="dash-grid dash-grid--2">
+        <div class="panel">
+          <div class="panel-head">Agent configuration</div>
+          <div class="panel-body">
+            <form class="deploy-form" id="deployForm" onsubmit="return false">
+              <div class="field"><label>Agent name</label><input type="text" id="agentName" value="sales-assistant-prod"></div>
+              <div class="field"><label>Framework</label><select id="agentFramework"><option>LangChain + OpenAI</option><option>Claude Agent SDK</option><option>Custom MCP Agent</option></select></div>
+              <div class="field"><label>Environment</label><select><option>Production</option><option>Staging</option></select></div>
+              <div class="field"><label>Tool access</label><select id="agentTools"><option>CRM, Email, Calendar</option><option>Full MCP suite</option></select></div>
+            </form>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Deployment preview</div>
+          <div class="panel-body">
+            <div class="id-card" style="opacity:.6">
+              <span class="id-badge">Pending</span>
+              <h3 id="previewName">sales-assistant-prod</h3>
+              <div class="id-card__row"><span>Status</span><strong>Awaiting deploy</strong></div>
+              <div class="id-card__row"><span>Identity</span><strong>—</strong></div>
+              <div class="id-card__row"><span>Owner</span><strong>—</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 1: Discovery -->
+    <section class="stage-view" data-stage="1">
+      <div class="stage-header">
+        <h1>Discovery</h1>
+        <p>Zero-Agent scans cloud, SaaS, and dev environments for new agent deployments.</p>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>Agents found</span><strong id="mFound">0</strong></div>
+        <div class="metric"><span>Shadow</span><strong id="mShadow">0</strong></div>
+        <div class="metric"><span>MCP servers</span><strong id="mMcp">0</strong></div>
+        <div class="metric"><span>Scan time</span><strong id="mScan">0.0s</strong></div>
+      </div>
+      <div class="dash-grid dash-grid--2">
+        <div class="panel">
+          <div class="panel-head">Environment scan</div>
+          <div class="panel-body">
+            <div class="radar-box">
+              <svg viewBox="0 0 300 300">
+                <circle class="radar-ring" cx="150" cy="150" r="120"/><circle class="radar-ring" cx="150" cy="150" r="80"/><circle class="radar-ring" cx="150" cy="150" r="40"/>
+                <line class="radar-sweep" x1="150" y1="150" x2="150" y2="30" stroke="rgba(26,127,255,.4)" stroke-width="1"/>
+                <circle class="radar-blip" id="blip1" cx="110" cy="100" r="4"/><circle class="radar-blip" id="blip2" cx="190" cy="130" r="4"/><circle class="radar-blip" id="blip3" cx="150" cy="180" r="4"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Discovered assets</div>
+          <div class="panel-body" id="discoverList" style="font-size:12px;color:var(--console-muted)">Scanning…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: Identity -->
+    <section class="stage-view" data-stage="2">
+      <div class="stage-header">
+        <h1>Identity Creation</h1>
+        <p>Register the agent as a first-class identity in the Zero-Agent graph.</p>
+      </div>
+      <div class="dash-grid dash-grid--2">
+        <div class="panel">
+          <div class="panel-head">Agent identity record</div>
+          <div class="panel-body">
+            <div class="id-card" id="identityCard">
+              <span class="id-badge">Agent Identity</span>
+              <h3 id="idName">—</h3>
+              <div class="id-card__row"><span>Identity ID</span><strong id="idUuid">—</strong></div>
+              <div class="id-card__row"><span>Type</span><strong>Autonomous Agent</strong></div>
+              <div class="id-card__row"><span>Framework</span><strong id="idFramework">—</strong></div>
+              <div class="id-card__row"><span>Created</span><strong id="idTime">—</strong></div>
+              <div class="id-card__row"><span>Status</span><strong style="color:var(--za-safe)">Registered</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Identity graph</div>
+          <div class="panel-body graph-mini">
+            <svg viewBox="0 0 320 160">
+              <line class="g-edge" id="ge1" x1="80" y1="80" x2="160" y2="80"/><line class="g-edge" id="ge2" x1="160" y1="80" x2="240" y2="80"/>
+              <circle class="g-node" id="gn1" cx="80" cy="80" r="24"/><text class="g-lbl" x="80" y="84">Agent</text>
+              <circle class="g-hub g-node" id="gn2" cx="160" cy="80" r="28"/><text class="g-lbl" x="160" y="84" fill="#1a7fff">Identity</text>
+              <circle class="g-node" id="gn3" cx="240" cy="80" r="20"/><text class="g-lbl" x="240" y="84">Tools</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: Ownership -->
+    <section class="stage-view" data-stage="3">
+      <div class="stage-header">
+        <h1>Ownership Detection</h1>
+        <p>Resolve human owner via IdP directory and map delegation chain.</p>
+      </div>
+      <div class="dash-grid dash-grid--3">
+        <div class="panel">
+          <div class="panel-head">Delegation chain</div>
+          <div class="panel-body graph-mini" style="height:240px">
+            <svg viewBox="0 0 400 200">
+              <line class="g-edge show" x1="60" y1="100" x2="140" y2="100"/><line class="g-edge show" x1="140" y1="100" x2="220" y2="100"/><line class="g-edge show" x1="220" y1="100" x2="300" y2="100"/>
+              <circle class="g-node show" cx="60" cy="100" r="22"/><text class="g-lbl" x="60" y="104">Owner</text>
+              <circle class="g-node show" cx="140" cy="100" r="20"/><text class="g-lbl" x="140" y="104">Team</text>
+              <circle class="g-hub g-node show" cx="220" cy="100" r="26"/><text class="g-lbl" x="220" y="104" fill="#1a7fff">Agent</text>
+              <circle class="g-node show" cx="300" cy="100" r="18"/><text class="g-lbl" x="300" y="104">CRM</text>
+            </svg>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Owner profile</div>
+          <div class="panel-body">
+            <div class="id-card">
+              <span class="id-badge" style="background:var(--za-safe-soft);color:var(--za-safe)">Verified</span>
+              <h3 id="ownerName">Sarah Chen</h3>
+              <div class="id-card__row"><span>Department</span><strong>Revenue Operations</strong></div>
+              <div class="id-card__row"><span>IdP</span><strong>Okta · entra-sync</strong></div>
+              <div class="id-card__row"><span>Group</span><strong>sales-ai-admins</strong></div>
+              <div class="id-card__row"><span>Blast radius</span><strong style="color:var(--za-warn)">14 resources</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Risk -->
+    <section class="stage-view" data-stage="4">
+      <div class="stage-header">
+        <h1>Risk Analysis</h1>
+        <p>Composite risk score from permissions, behavior, and threat intelligence.</p>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>Composite score</span><strong id="riskComposite" style="color:var(--za-warn)">—</strong></div>
+        <div class="metric"><span>Blast radius</span><strong>14</strong></div>
+        <div class="metric"><span>Over-privileged</span><strong style="color:var(--za-risk)">3</strong></div>
+        <div class="metric"><span>Trend</span><strong style="color:var(--za-safe)">↓ 12%</strong></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">Risk factors</div>
+        <div class="panel-body">
+          <div class="risk-cards" id="riskCards"></div>
+          <div class="spark" id="riskSpark"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 5: Policy -->
+    <section class="stage-view" data-stage="5">
+      <div class="stage-header">
+        <h1>Policy Evaluation</h1>
+        <p>Evaluate agent against governance policies before runtime authorization.</p>
+      </div>
+      <div class="panel">
+        <div class="panel-head">Policy engine · 6 rules</div>
+        <div class="panel-body">
+          <div class="policy-list" id="policyList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 6: Authorization -->
+    <section class="stage-view" data-stage="6">
+      <div class="stage-header">
+        <h1>Authorization</h1>
+        <p>Runtime gate evaluates action request — allow, deny, or escalate for approval.</p>
+      </div>
+      <div class="dash-grid dash-grid--2">
+        <div class="panel">
+          <div class="panel-head">Action request</div>
+          <div class="panel-body" style="font-family:var(--font-mono);font-size:12px;color:var(--console-text);line-height:1.8">
+            <div><span style="color:var(--console-muted)">agent</span> → tool.call</div>
+            <div><span style="color:var(--console-muted)">tool</span> crm.export_contacts</div>
+            <div><span style="color:var(--console-muted)">scope</span> customer_pii</div>
+            <div><span style="color:var(--console-muted)">records</span> 2,400</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Approval required</div>
+          <div class="panel-body">
+            <div class="approval-card" id="approvalCard">
+              <div class="approval-icon">⚠</div>
+              <h3>PII export exceeds threshold</h3>
+              <p>Policy <code style="color:var(--za-signal-bright)">data-export-limit</code> requires owner approval for exports &gt; 500 records.</p>
+              <div class="approval-actions">
+                <button class="approval-btn approval-btn--deny" id="btnDeny">Deny</button>
+                <button class="approval-btn approval-btn--allow" id="btnAllow">Approve</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 7: Compliance -->
+    <section class="stage-view" data-stage="7">
+      <div class="stage-header">
+        <h1>Compliance Evidence</h1>
+        <p>Immutable audit trail and framework-mapped evidence generated automatically.</p>
+      </div>
+      <div class="evidence-grid" id="evidenceGrid">
+        <div class="evidence-item"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg><strong>SOC 2 CC6.1</strong><span>Access control</span></div>
+        <div class="evidence-item"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg><strong>EU AI Act Art. 14</strong><span>Human oversight</span></div>
+        <div class="evidence-item"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg><strong>NIST AI RMF</strong><span>Govern 1.2</span></div>
+        <div class="evidence-item"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg><strong>Audit log</strong><span>Immutable</span></div>
+        <div class="evidence-item"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg><strong>Policy decision</strong><span>Recorded</span></div>
+        <div class="evidence-item"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg><strong>Approval trail</strong><span>S. Chen</span></div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <div class="panel-head">Governance timeline</div>
+        <div class="panel-body">
+          <div class="timeline-h" id="finalTimeline"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="demo-logs">
+    <div class="logs-head">
+      <span>Event log</span>
+      <button class="logs-clear" id="clearLogs">Clear</button>
+    </div>
+    <div class="logs-body" id="logBody"></div>
+  </aside>
+</div>
+
+<script>
+const STEPS=['Deploy AI Agent','Discovery','Identity Creation','Ownership Detection','Risk Analysis','Policy Evaluation','Authorization','Compliance Evidence'];
+const STEP_LABELS=['Deploy agent','Run discovery','Create identity','Detect ownership','Analyze risk','Evaluate policies','Authorize action','Generate evidence'];
+
+let currentStep=0,running=false,agentData={};
+
+const $=id=>document.getElementById(id);
+const logBody=$('logBody');
+const btnAction=$('btnAction');
+
+function ts(){return new Date().toTimeString().slice(0,8)}
+function addLog(msg,cls='log-info'){
+  const line=document.createElement('div');
+  line.className='log-line';
+  line.innerHTML=`<span class="log-ts">${ts()}</span> <span class="${cls}">${msg}</span>`;
+  logBody.appendChild(line);
+  logBody.scrollTop=logBody.scrollHeight;
+}
+
+function setStep(n){
+  currentStep=n;
+  document.querySelectorAll('.pipe-step').forEach((el,i)=>{
+    el.classList.toggle('active',i===n);
+    el.classList.toggle('done',i<n);
+  });
+  document.querySelectorAll('.stage-view').forEach(el=>{
+    el.classList.toggle('active',+el.dataset.stage===n);
+  });
+  if(n<7){
+    btnAction.textContent=STEP_LABELS[n];
+    btnAction.className='btn-run btn-run--next';
+    btnAction.disabled=false;
+  }else{
+    btnAction.textContent='Simulation complete';
+    btnAction.disabled=true;
+  }
+}
+
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+
+async function runStep(n){
+  if(running)return;
+  running=true;
+  btnAction.disabled=true;
+
+  switch(n){
+    case 0:{
+      agentData={
+        name:$('agentName').value||'sales-assistant-prod',
+        framework:$('agentFramework').value,
+        tools:$('agentTools').value
+      };
+      addLog(`POST /api/v1/agents/deploy — ${agentData.name}`,'log-info');
+      await delay(600);
+      addLog('Agent manifest received · validating configuration','log-info');
+      await delay(500);
+      addLog('Deployment queued · env=staging','log-ok');
+      setStep(1);
+      break;
+    }
+    case 1:{
+      addLog('Discovery scan initiated · scope=all','log-info');
+      let t=0;
+      const iv=setInterval(()=>{t+=0.3;$('mScan').textContent=t.toFixed(1)+'s'},100);
+      await delay(400);
+      $('blip1').classList.add('on');$('mFound').textContent='1';
+      addLog('NEW agent detected · sales-assistant-prod','log-warn');
+      await delay(500);
+      $('blip2').classList.add('on');$('mMcp').textContent='2';
+      addLog('MCP server found · crm-tools.internal:8080','log-info');
+      await delay(400);
+      $('blip3').classList.add('on');$('mShadow').textContent='1';
+      $('discoverList').innerHTML='<div style="color:var(--console-text);margin-bottom:8px"><strong>sales-assistant-prod</strong><br><span style="font-size:11px">LangChain · staging</span></div><div style="margin-bottom:8px">mcp://crm-tools.internal</div><div>mcp://email-gateway (shadow)</div>';
+      addLog('Scan complete · 1 agent · 2 MCP · 1 shadow','log-ok');
+      clearInterval(iv);$('mScan').textContent='1.2s';
+      setStep(2);
+      break;
+    }
+    case 2:{
+      const uuid='agt_'+Math.random().toString(36).slice(2,10);
+      agentData.uuid=uuid;
+      $('idName').textContent=agentData.name;
+      $('idUuid').textContent=uuid;
+      $('idFramework').textContent=agentData.framework;
+      $('idTime').textContent=new Date().toISOString().slice(0,19)+'Z';
+      addLog(`Identity created · ${uuid}`,'log-ok');
+      await delay(300);
+      ['gn1','gn2','gn3','ge1','ge2'].forEach((id,i)=>setTimeout(()=>$(id).classList.add('show'),i*200));
+      addLog('Identity graph node linked · 3 edges','log-info');
+      setStep(3);
+      break;
+    }
+    case 3:{
+      addLog('Resolving owner via Okta directory…','log-info');
+      await delay(700);
+      addLog('Owner matched · sarah.chen@acme-corp.com','log-ok');
+      await delay(400);
+      addLog('Delegation chain mapped · 4 hops · blast radius=14','log-warn');
+      setStep(4);
+      break;
+    }
+    case 4:{
+      const risks=[
+        {name:'Over-privileged tool access',score:72,cls:'high'},
+        {name:'PII scope exposure',score:58,cls:'med'},
+        {name:'Shadow MCP dependency',score:45,cls:'med'},
+        {name:'Delegation depth',score:28,cls:'low'}
+      ];
+      $('riskCards').innerHTML=risks.map(r=>`
+        <div class="risk-card"><span class="risk-card__name">${r.name}</span><div class="risk-bar"><i class="${r.cls}"></i></div><span class="risk-score ${r.cls}">${r.score}</span></div>
+      `).join('');
+      requestAnimationFrame(()=>document.querySelectorAll('.risk-bar i').forEach((bar,i)=>{bar.style.width=risks[i].score+'%'}));
+      $('riskComposite').textContent='61';
+      $('riskSpark').innerHTML=Array.from({length:20},(_,i)=>`<i style="height:${20+Math.random()*28}px;background:${i>14?'rgba(229,72,77,.3)':'var(--za-signal-soft)'}"></i>`).join('');
+      addLog('Risk engine complete · composite=61 (elevated)','log-warn');
+      setStep(5);
+      break;
+    }
+    case 5:{
+      const policies=[
+        {name:'agent-must-have-owner',result:'pass'},
+        {name:'least-privilege-tools',result:'fail'},
+        {name:'mcp-allowlist',result:'pass'},
+        {name:'pii-export-limit',result:'fail'},
+        {name:'delegation-depth-max',result:'pass'},
+        {name:'audit-logging',result:'pass'}
+      ];
+      $('policyList').innerHTML=policies.map(p=>`
+        <div class="policy-row pending" data-result="${p.result}"><span class="policy-name">${p.name}</span><span class="policy-result wait">evaluating…</span></div>
+      `).join('');
+      const rows=document.querySelectorAll('.policy-row');
+      for(let i=0;i<rows.length;i++){
+        await delay(400);
+        const p=policies[i];
+        rows[i].classList.remove('pending');
+        rows[i].classList.add(p.result);
+        rows[i].querySelector('.policy-result').className='policy-result '+p.result;
+        rows[i].querySelector('.policy-result').textContent=p.result==='pass'?'PASS':'FAIL';
+        addLog(`Policy ${p.name} · ${p.result.toUpperCase()}`,p.result==='pass'?'log-ok':'log-err');
+      }
+      setStep(6);
+      break;
+    }
+    case 6:{
+      addLog('Runtime gate · tool.call crm.export_contacts','log-info');
+      await delay(500);
+      addLog('Escalation required · pii-export-limit','log-warn');
+      btnAction.textContent='Awaiting approval…';
+      btnAction.disabled=true;
+      running=false;
+      return;
+    }
+    case 7:{
+      document.querySelectorAll('.evidence-item').forEach((el,i)=>setTimeout(()=>el.classList.add('show'),i*150));
+      $('finalTimeline').innerHTML=STEPS.map((s,i)=>`<div class="tl-step done"><div class="tl-dot"></div><span>${s.split(' ')[0]}</span></div>`).join('');
+      addLog('Evidence bundle generated · SOC2 + EU AI Act','log-ok');
+      addLog('Audit trail sealed · immutable log','log-ok');
+      setStep(7);
+      break;
+    }
+  }
+  running=false;
+  if(n!==6)btnAction.disabled=false;
+}
+
+function approve(allowed){
+  const card=$('approvalCard');
+  if(allowed){
+    card.querySelector('h3').textContent='Action approved';
+    card.querySelector('p').textContent='Owner Sarah Chen approved PII export. Runtime gate opened.';
+    card.querySelector('.approval-icon').textContent='✓';
+    card.querySelector('.approval-icon').style.background='var(--za-safe-soft)';
+    addLog('APPROVED by sarah.chen · crm.export_contacts','log-ok');
+  }else{
+    card.querySelector('h3').textContent='Action denied';
+    card.querySelector('p').textContent='Export blocked by policy. Agent received deny response.';
+    card.querySelector('.approval-icon').textContent='✕';
+    card.querySelector('.approval-icon').style.background='var(--za-risk-soft)';
+    addLog('DENIED · pii-export-limit enforced','log-err');
+  }
+  card.querySelector('.approval-actions').style.display='none';
+  setTimeout(()=>{setStep(7);runStep(7)},1200);
+}
+
+btnAction.addEventListener('click',()=>runStep(currentStep));
+$('btnReset').addEventListener('click',()=>location.reload());
+$('btnAllow').addEventListener('click',()=>approve(true));
+$('btnDeny').addEventListener('click',()=>approve(false));
+$('clearLogs').addEventListener('click',()=>logBody.innerHTML='');
+
+document.querySelectorAll('.pipe-step').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const n=+el.dataset.step;
+    if(n<=currentStep&&!running)setStep(n);
+  });
+});
+
+$('agentName').addEventListener('input',e=>$('previewName').textContent=e.target.value);
+
+addLog('Demo console ready · staging environment','log-info');
+addLog('Click "Deploy agent" to begin simulation','log-info');
+</script>
+</body>
+</html>
