@@ -18,21 +18,10 @@
 <link rel="stylesheet" href="za-core.css">
 <script src="za-nav.js" defer></script>
 <style>
-.pg-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--section-y-md);text-align:center;position:relative;overflow:hidden}
-.pg-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.07),transparent 60%)}
-.pg-hero__inner{position:relative;max-width:48rem;margin-inline:auto}
-.pg-hero p{max-width:52ch;margin:var(--stack-base) auto 0}
-/* Contact method cards */
-.ct-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4)}
-.ct-card{padding:var(--space-6);transition:transform var(--duration-normal),border-color var(--duration-normal),box-shadow var(--duration-normal)}
-.ct-card:hover{transform:translateY(-4px);border-color:var(--accent-muted);box-shadow:var(--shadow-md)}
-.ct-card .za-icon{margin-bottom:var(--space-4)}
-.ct-card h3{font-size:var(--text-body-lg);font-weight:var(--weight-semibold)}
-.ct-card p{font-size:var(--text-body-sm);color:var(--text-secondary);margin-top:4px;line-height:var(--leading-snug)}
-.ct-card a{display:inline-block;margin-top:var(--space-4);color:var(--accent);text-decoration:none;font-weight:var(--weight-medium);font-size:var(--text-body-sm);word-break:break-all}
-.ct-card a:hover{text-decoration:underline}
-@media(max-width:1024px){.ct-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.ct-cards{grid-template-columns:minmax(0,1fr)}}
+/* Contact page */
+.ct-page{padding-top:calc(var(--nav-height) + var(--section-y-hero-top));padding-bottom:var(--section-y-md);background:var(--za-paper-sunken)}
+.ct-page__head{margin-bottom:var(--space-10)}
+.ct-page__head h1{font-size:var(--text-display-md);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
 /* Form */
 .ct-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(var(--space-10),5vw,var(--space-16));align-items:start}
 .ct-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
@@ -102,23 +91,14 @@
   </div>
 </nav>
 
-<header class="pg-hero" id="main">
-  <div class="za-container">
-    <div class="pg-hero__inner za-reveal">
-      <p class="za-eyebrow za-eyebrow--signal">Contact Us</p>
-      <h1 class="za-display-xl">Reach out to the team</h1>
-      <p class="za-body-lg">Whether you're exploring AI identity governance, evaluating the platform, or partnering with us — our team is here to help.</p>
-    </div>
-  </div>
-</header>
-
-<section class="section--md" style="background:var(--za-paper-sunken);padding-top:var(--section-y-md)">
+<section class="section--md ct-page" id="main">
   <div class="za-container">
     <div class="ct-layout">
       <div class="za-reveal">
-        <p class="za-eyebrow za-eyebrow--signal">Send a message</p>
-        <h2 class="za-display-md">Send us a message</h2>
-        <div class="ct-success" id="ctSuccess" role="status" aria-live="polite" style="margin-top:var(--space-6)">Thank you! Your message has been received. A member of the Zero-Agent team will get back to you within one business day.</div>
+        <div class="ct-page__head">
+          <h1>Contact Us</h1>
+        </div>
+        <div class="ct-success" id="ctSuccess" role="status" aria-live="polite">Thank you! Your message has been received. A member of the Zero-Agent team will get back to you within one business day.</div>
         <div class="ct-error" id="ctError" role="alert" aria-live="assertive">Something went wrong sending your message. Please try again or email <a href="mailto:krishna@zero-agent.ai">krishna@zero-agent.ai</a> directly.</div>
         <form class="ct-form" id="ctForm" novalidate style="margin-top:var(--space-6)">
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
@@ -131,7 +111,6 @@
         </form>
       </div>
       <aside class="za-reveal za-reveal--d1">
-        <p class="za-eyebrow za-eyebrow--signal">Prefer email?</p>
         <h2 class="za-h2" style="margin-bottom:var(--space-4)">We're quick to respond</h2>
         <p class="ct-note">Reach us at <a href="mailto:krishna@zero-agent.ai">krishna@zero-agent.ai</a> — or book a live walkthrough and we'll show you your AI agent inventory in real time.</p>
         <p style="margin-top:var(--space-6)"><a href="request-demo.html" class="za-btn za-btn--ghost">Request a demo</a></p>
@@ -142,18 +121,6 @@
           <a href="#" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-7-6.2 7H1.4l8.2-9.3L1 2h7.1l4.9 6.5L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a>
         </div>
       </aside>
-    </div>
-  </div>
-</section>
-
-<section class="section cta-band">
-  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
-    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get started</p>
-    <h2 class="za-display-lg">Ready to Secure Your AI Workforce?</h2>
-    <p>See how Zero-Agent helps organizations discover, govern, and secure AI agents before they become enterprise risks.</p>
-    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
-      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
-      <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore Product</a>
     </div>
   </div>
 </section>
