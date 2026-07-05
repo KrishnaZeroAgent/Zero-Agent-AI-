@@ -45,6 +45,9 @@
 .ct-note{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
 .ct-success{display:none;background:var(--za-safe-soft);border:1px solid rgba(13,138,95,.25);border-radius:var(--radius-md);padding:var(--space-5);color:var(--za-safe);font-size:var(--text-body-sm);line-height:var(--leading-relaxed)}
 .ct-success.show{display:block}
+.ct-error{display:none;background:var(--za-risk-soft);border:1px solid rgba(220,38,38,.25);border-radius:var(--radius-md);padding:var(--space-5);color:var(--za-risk);font-size:var(--text-body-sm);line-height:var(--leading-relaxed);margin-top:var(--space-6)}
+.ct-error.show{display:block}
+.ct-btn[disabled]{opacity:.65;cursor:not-allowed;transform:none}
 .ct-social{display:flex;gap:var(--space-4);margin-top:var(--space-6)}
 .ct-social a{width:44px;height:44px;border-radius:50%;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:color var(--duration-fast),border-color var(--duration-fast),transform var(--duration-fast)}
 .ct-social a:hover{color:var(--accent);border-color:var(--accent-muted);transform:translateY(-3px)}
@@ -116,19 +119,21 @@
         <p class="za-eyebrow za-eyebrow--signal">Send a message</p>
         <h2 class="za-display-md">Send us a message</h2>
         <div class="ct-success" id="ctSuccess" role="status" aria-live="polite" style="margin-top:var(--space-6)">Thank you! Your message has been received. A member of the Zero-Agent team will get back to you within one business day.</div>
+        <div class="ct-error" id="ctError" role="alert" aria-live="assertive">Something went wrong sending your message. Please try again or email <a href="mailto:krishna@zero-agent.ai">krishna@zero-agent.ai</a> directly.</div>
         <form class="ct-form" id="ctForm" novalidate style="margin-top:var(--space-6)">
-          <div class="ct-field"><label for="fn">First name</label><input type="text" id="fn" name="fn" required></div>
-          <div class="ct-field"><label for="ln">Last name</label><input type="text" id="ln" name="ln" required></div>
-          <div class="ct-field ct-field--full"><label for="em">Work email</label><input type="email" id="em" name="em" required></div>
-          <div class="ct-field ct-field--full"><label for="co">Company</label><input type="text" id="co" name="co"></div>
-          <div class="ct-field ct-field--full"><label for="msg">How can we help?</label><textarea id="msg" name="msg" required></textarea></div>
-          <div class="ct-field ct-field--full"><button type="submit" class="za-btn za-btn--lg za-btn--signal" style="width:100%">Send Message</button></div>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+          <div class="ct-field"><label for="fn">First name</label><input type="text" id="fn" name="first_name" required autocomplete="given-name"></div>
+          <div class="ct-field"><label for="ln">Last name</label><input type="text" id="ln" name="last_name" required autocomplete="family-name"></div>
+          <div class="ct-field ct-field--full"><label for="em">Work email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+          <div class="ct-field ct-field--full"><label for="co">Company</label><input type="text" id="co" name="company" autocomplete="organization"></div>
+          <div class="ct-field ct-field--full"><label for="msg">How can we help?</label><textarea id="msg" name="message" required></textarea></div>
+          <div class="ct-field ct-field--full"><button type="submit" class="za-btn za-btn--lg za-btn--signal ct-btn" id="ctSubmit" style="width:100%">Send Message</button></div>
         </form>
       </div>
       <aside class="za-reveal za-reveal--d1">
         <p class="za-eyebrow za-eyebrow--signal">Prefer email?</p>
         <h2 class="za-h2" style="margin-bottom:var(--space-4)">We're quick to respond</h2>
-        <p class="ct-note">Reach us at <a href="mailto:info@zero-agent.ai">info@zero-agent.ai</a> — or book a live walkthrough and we'll show you your AI agent inventory in real time.</p>
+        <p class="ct-note">Reach us at <a href="mailto:krishna@zero-agent.ai">krishna@zero-agent.ai</a> — or book a live walkthrough and we'll show you your AI agent inventory in real time.</p>
         <p style="margin-top:var(--space-6)"><a href="request-demo.html" class="za-btn za-btn--ghost">Request a demo</a></p>
         <p class="za-eyebrow za-eyebrow--signal" style="margin-top:var(--space-10)">Follow along</p>
         <div class="ct-social">
@@ -194,15 +199,53 @@ addEventListener('scroll',()=>nav.classList.toggle('is-scrolled',scrollY>16),{pa
 const mb=document.getElementById('menuBtn');
 mb&&mb.addEventListener('click',()=>{const l=document.getElementById('navLinks');const o=l.classList.toggle('open');mb.setAttribute('aria-expanded',String(o));});
 
-// Contact form
-const form=document.getElementById('ctForm');const ok=document.getElementById('ctSuccess');
-form.addEventListener('submit',e=>{
+// Contact form → krishna@zero-agent.ai via FormSubmit
+const form=document.getElementById('ctForm');
+const ok=document.getElementById('ctSuccess');
+const err=document.getElementById('ctError');
+const submitBtn=document.getElementById('ctSubmit');
+const FORM_ENDPOINT='https://formsubmit.co/ajax/krishna@zero-agent.ai';
+
+form.addEventListener('submit',async e=>{
   e.preventDefault();
+  err.classList.remove('show');
   const req=[...form.querySelectorAll('[required]')];
   let valid=true;
-  req.forEach(f=>{const bad=!f.value.trim()||(f.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value));f.style.borderColor=bad?'var(--za-risk)':'';if(bad)valid=false;});
+  req.forEach(f=>{
+    const bad=!f.value.trim()||(f.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value));
+    f.style.borderColor=bad?'var(--za-risk)':'';
+    if(bad)valid=false;
+  });
   if(!valid)return;
-  form.style.display='none';ok.classList.add('show');ok.scrollIntoView({behavior:'smooth',block:'center'});form.reset();
+  if(form.querySelector('[name="_gotcha"]').value)return;
+
+  const data=Object.fromEntries(new FormData(form));
+  delete data._gotcha;
+  data._subject='New Zero-Agent Contact Form Submission';
+  data._replyto=data.email;
+  data._captcha='false';
+
+  submitBtn.disabled=true;
+  submitBtn.textContent='Sending…';
+
+  try{
+    const res=await fetch(FORM_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(data)
+    });
+    if(!res.ok)throw new Error('send failed');
+    form.style.display='none';
+    ok.classList.add('show');
+    ok.scrollIntoView({behavior:'smooth',block:'center'});
+    form.reset();
+  }catch{
+    err.classList.add('show');
+    err.scrollIntoView({behavior:'smooth',block:'center'});
+  }finally{
+    submitBtn.disabled=false;
+    submitBtn.textContent='Send Message';
+  }
 });
 
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in','is-visible');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
