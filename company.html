@@ -100,12 +100,65 @@
 @media(max-width:560px){.co-flow-grid{grid-template-columns:minmax(0,1fr)}}
 
 /* ── Mission & Vision ── */
-.co-mv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6)}
-.co-mv__card{padding:clamp(var(--space-8),4vw,var(--space-10));position:relative;overflow:hidden;transition:transform var(--duration-normal),box-shadow var(--duration-normal),border-color var(--duration-normal)}
-.co-mv__card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
-.co-mv__card .badge{display:inline-block;font-size:var(--text-caption);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-muted);padding:6px 14px;border-radius:100px;margin-bottom:var(--space-5)}
-.co-mv__card p{font-size:clamp(1.125rem,1.9vw,1.5rem);line-height:1.42;letter-spacing:var(--tracking-tight);font-weight:var(--weight-medium);color:var(--text)}
+.co-mv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(var(--space-6),3vw,var(--space-8));align-items:stretch}
+.co-mv__card{
+  position:relative;overflow:hidden;display:flex;flex-direction:column;gap:var(--space-6);
+  min-height:clamp(300px,34vw,360px);padding:clamp(var(--space-8),4vw,var(--space-10));
+  border-radius:var(--radius-xl);border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(255,255,255,.97) 0%,rgba(250,251,252,.88) 55%,rgba(238,242,246,.75) 100%);
+  box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,.9);
+  transition:transform var(--duration-normal) var(--ease-out),box-shadow var(--duration-normal) var(--ease-out),border-color var(--duration-normal);
+}
+.co-mv__card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;z-index:2;
+  background:linear-gradient(90deg,var(--accent),var(--za-depth-mid));
+  opacity:.85;transition:opacity var(--duration-normal),height var(--duration-fast);
+}
+.co-mv__card::after{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;z-index:2;
+  background:linear-gradient(180deg,var(--accent),transparent 72%);
+  opacity:0;transition:opacity var(--duration-normal);
+}
+.co-mv__card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-lg),0 20px 48px rgba(0,87,184,.08),inset 0 1px 0 rgba(255,255,255,.95);
+  border-color:var(--accent-muted);
+}
+.co-mv__card:hover::before{opacity:1;height:4px}
+.co-mv__card:hover::after{opacity:1}
+.co-mv__bg{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  opacity:.08;transition:opacity var(--duration-normal);
+}
+.co-mv__card:hover .co-mv__bg{opacity:.11}
+.co-mv__bg svg{width:100%;height:100%;display:block}
+.co-mv__head{position:relative;z-index:1;display:flex;align-items:center;gap:var(--space-4)}
+.co-mv__icon{
+  flex:none;width:52px;height:52px;border-radius:var(--radius-md);
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--accent-soft),rgba(82,64,168,.08));
+  border:1px solid var(--accent-muted);color:var(--accent);
+  box-shadow:0 4px 14px rgba(0,87,184,.1);
+  transition:transform var(--duration-normal) var(--ease-spring),box-shadow var(--duration-normal),border-color var(--duration-normal);
+}
+.co-mv__icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6}
+.co-mv__card:hover .co-mv__icon{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 28px rgba(0,87,184,.18);border-color:var(--accent)}
+.co-mv__eyebrow{margin:0;font-size:var(--text-caption);font-weight:var(--weight-medium);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--accent)}
+.co-mv__body{position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--space-5);flex:1}
+.co-mv__statement{
+  font-size:clamp(1.25rem,2.2vw,1.625rem);line-height:var(--leading-snug);
+  font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);color:var(--text);
+}
+.co-mv__support{
+  font-size:var(--text-body);line-height:var(--leading-relaxed);color:var(--text-secondary);
+  max-width:42ch;margin-top:auto;padding-top:var(--space-2);
+  border-top:1px solid var(--border);
+}
+.co-mv__card--vision .co-mv__icon{background:linear-gradient(135deg,rgba(82,64,168,.1),var(--accent-soft));color:var(--za-depth-mid)}
+.co-mv__card--vision .co-mv__eyebrow{color:var(--za-depth-mid)}
+.co-mv__card--vision::before{background:linear-gradient(90deg,var(--za-depth-mid),var(--accent))}
 @media(max-width:760px){.co-mv{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.co-mv__card:hover{transform:none}.co-mv__card:hover .co-mv__icon{transform:none}}
 
 /* ── Values ── */
 .co-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-5)}
@@ -337,13 +390,41 @@
 <section class="co-sec co-sec--tint">
   <div class="za-container">
     <div class="co-mv">
-      <article class="za-card co-mv__card rv">
-        <span class="badge">Mission</span>
-        <p>Protect every autonomous AI agent through identity-first security.</p>
+      <article class="co-mv__card co-mv__card--mission rv">
+        <div class="co-mv__bg" aria-hidden="true">
+          <svg viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice" fill="none">
+            <circle cx="380" cy="60" r="120" stroke="var(--accent)" stroke-width="1"/>
+            <circle cx="400" cy="240" r="80" stroke="var(--accent)" stroke-width=".8" opacity=".6"/>
+            <path d="M40 280H440M40 40H440M40 40V280M120 40V280M200 40V280M280 40V280M360 40V280" stroke="var(--accent)" stroke-width=".6" opacity=".35"/>
+          </svg>
+        </div>
+        <header class="co-mv__head">
+          <span class="co-mv__icon"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <p class="co-mv__eyebrow">Mission</p>
+        </header>
+        <div class="co-mv__body">
+          <h3 class="co-mv__statement">Protect every autonomous AI agent through identity-first security.</h3>
+          <p class="co-mv__support">Building secure, governed, and trusted AI identities across every enterprise environment.</p>
+        </div>
       </article>
-      <article class="za-card co-mv__card rv rv-d1">
-        <span class="badge">Vision</span>
-        <p>Enable organizations to trust autonomous AI through secure identity, governance, and continuous authorization.</p>
+      <article class="co-mv__card co-mv__card--vision rv rv-d1">
+        <div class="co-mv__bg" aria-hidden="true">
+          <svg viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice" fill="none">
+            <circle cx="240" cy="160" r="28" stroke="var(--za-depth-mid)" stroke-width="1.2"/>
+            <circle cx="120" cy="100" r="8" fill="var(--accent)" opacity=".5"/><circle cx="360" cy="90" r="8" fill="var(--accent)" opacity=".5"/>
+            <circle cx="90" cy="220" r="8" fill="var(--accent)" opacity=".5"/><circle cx="350" cy="230" r="8" fill="var(--accent)" opacity=".5"/>
+            <path d="M120 100L240 160M360 90L240 160M90 220L240 160M350 230L240 160" stroke="var(--accent)" stroke-width=".8" opacity=".45"/>
+            <circle cx="240" cy="160" r="100" stroke="var(--za-depth-mid)" stroke-width=".6" stroke-dasharray="3 8" opacity=".5"/>
+          </svg>
+        </div>
+        <header class="co-mv__head">
+          <span class="co-mv__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></span>
+          <p class="co-mv__eyebrow">Vision</p>
+        </header>
+        <div class="co-mv__body">
+          <h3 class="co-mv__statement">Enable organizations to trust autonomous AI through secure identity, governance, and continuous authorization.</h3>
+          <p class="co-mv__support">Creating the global identity layer that allows autonomous AI to operate safely at enterprise scale.</p>
+        </div>
       </article>
     </div>
   </div>
