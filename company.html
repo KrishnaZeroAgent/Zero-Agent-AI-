@@ -161,102 +161,48 @@
 @media(prefers-reduced-motion:reduce){.co-mv__card:hover{transform:none}.co-mv__card:hover .co-mv__icon{transform:none}}
 
 /* ── Values ── */
-.co-values-wrap{position:relative}
-.co-values-wrap::before{
-  content:"";position:absolute;inset:-28px -24px;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(circle at 20% 15%,rgba(0,87,184,.12),transparent 55%),
-    radial-gradient(circle at 88% 30%,rgba(82,64,168,.10),transparent 52%),
-    linear-gradient(rgba(15,23,42,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(15,23,42,.035) 1px,transparent 1px);
-  background-size:100% 100%,100% 100%,44px 44px,44px 44px;
-  mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 70%);
-  opacity:.10;
-}
 .co-values{
-  position:relative;z-index:1;
-  display:grid;gap:clamp(var(--space-5),2.6vw,var(--space-8));align-items:stretch;
-  grid-template-columns:repeat(12,minmax(0,1fr));
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(var(--space-6),3vw,var(--space-8));align-items:stretch;
 }
 .co-value{
   position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:var(--space-4);
-  padding:clamp(var(--space-7),3vw,var(--space-9));
-  border-radius:var(--radius-xl);
-  border:1px solid var(--border);
-  background:linear-gradient(145deg,rgba(255,255,255,.96) 0%,rgba(250,251,252,.86) 55%,rgba(238,242,246,.72) 100%);
-  box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,.9);
+  display:flex;flex-direction:column;gap:var(--space-6);
+  padding:clamp(var(--space-8),4vw,var(--space-10));
+  min-height:clamp(260px,24vw,300px);
+  border-radius:var(--radius-xl);border:1px solid var(--border);
+  background:var(--bg);
+  box-shadow:var(--shadow-sm);
   transition:transform var(--duration-normal) var(--ease-out),box-shadow var(--duration-normal) var(--ease-out),border-color var(--duration-normal);
-  min-height:clamp(280px,28vw,320px);
 }
 .co-value::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:3px;z-index:2;
-  background:linear-gradient(90deg,var(--accent),var(--za-depth-mid));
-  opacity:.75;transition:opacity var(--duration-normal),height var(--duration-fast);
-}
-.co-value::after{
-  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.08;
-  background:
-    radial-gradient(circle at 20% 20%,var(--accent-soft),transparent 55%),
-    radial-gradient(circle at 92% 28%,rgba(82,64,168,.08),transparent 52%);
-  transition:opacity var(--duration-normal);
-}
-.co-value:hover{
-  transform:translateY(-6px);
-  box-shadow:var(--shadow-lg),0 18px 46px rgba(0,87,184,.08),inset 0 1px 0 rgba(255,255,255,.95);
-  border-color:var(--accent-muted);
-}
-.co-value:hover::before{opacity:1;height:4px}
-.co-value:hover::after{opacity:.12}
-.co-value__top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
-.co-value__ic{
-  width:56px;height:56px;border-radius:var(--radius-md);
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,var(--accent-soft),rgba(82,64,168,.08));
-  border:1px solid var(--accent-muted);color:var(--accent);
-  box-shadow:0 6px 18px rgba(0,87,184,.12);
-  transition:transform var(--duration-normal) var(--ease-spring),box-shadow var(--duration-normal),border-color var(--duration-normal);
-  flex:none;
-}
-.co-value__ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7}
-.co-value:hover .co-value__ic{transform:translateY(-3px) scale(1.06);box-shadow:0 14px 30px rgba(0,87,184,.18);border-color:var(--accent)}
-.co-value__tag{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 12px;border-radius:100px;
-  font-size:10px;font-weight:var(--weight-medium);
-  letter-spacing:var(--tracking-wider);text-transform:uppercase;
-  color:var(--text-muted);background:rgba(255,255,255,.55);
-  border:1px solid var(--border);
-  backdrop-filter:blur(10px);
-}
-.co-value__tag i{width:7px;height:7px;border-radius:50%;background:linear-gradient(180deg,var(--accent),var(--za-depth-mid));box-shadow:0 0 0 3px rgba(0,87,184,.08)}
-.co-value h3{position:relative;z-index:1;font-size:1.15rem;font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);margin-top:2px}
-.co-value p{position:relative;z-index:1;font-size:var(--text-body);color:var(--text-secondary);line-height:var(--leading-relaxed)}
-.co-value__quote{
-  position:relative;z-index:1;
-  font-size:var(--text-body-sm);color:var(--text);
-  padding-left:12px;border-left:2px solid var(--accent);
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),rgba(0,87,184,.35));
   opacity:.9;
 }
-.co-value__chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:var(--space-3);border-top:1px solid rgba(15,23,42,.06)}
-.co-chip{
-  display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:100px;
-  font-size:10px;font-weight:var(--weight-medium);letter-spacing:.06em;text-transform:uppercase;
-  color:var(--text-secondary);background:rgba(255,255,255,.6);border:1px solid var(--border);
+.co-value:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-md),0 12px 32px rgba(0,87,184,.06);
+  border-color:var(--accent-muted);
 }
-.co-value--wide{grid-column:span 6}
-.co-value--tall{grid-column:span 6;min-height:clamp(320px,32vw,380px)}
-.co-value--mid{grid-column:span 4}
-.co-value--deep::before{background:linear-gradient(90deg,var(--za-depth-mid),var(--accent))}
-.co-value--deep .co-value__ic{color:var(--za-depth-mid);background:linear-gradient(135deg,rgba(82,64,168,.12),var(--accent-soft))}
-@media(max-width:1024px){
-  .co-value--wide,.co-value--tall{grid-column:span 12}
-  .co-value--mid{grid-column:span 6}
+.co-value__ic{
+  width:64px;height:64px;border-radius:var(--radius-lg);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent-soft);border:1px solid var(--accent-muted);color:var(--accent);
+  transition:transform var(--duration-normal) var(--ease-spring),box-shadow var(--duration-normal);
+  flex:none;
 }
-@media(max-width:560px){
-  .co-values{grid-template-columns:minmax(0,1fr)}
-  .co-value--wide,.co-value--tall,.co-value--mid{grid-column:auto}
+.co-value__ic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.6}
+.co-value:hover .co-value__ic{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,87,184,.12)}
+.co-value h3{
+  font-size:var(--text-h2);font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-tight);line-height:var(--leading-snug);color:var(--text);
 }
+.co-value p{
+  font-size:var(--text-body);color:var(--text-secondary);
+  line-height:var(--leading-relaxed);max-width:36ch;
+}
+@media(max-width:900px){.co-values{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.co-values{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){
   .co-value:hover{transform:none}
   .co-value:hover .co-value__ic{transform:none}
@@ -528,86 +474,37 @@
       <p class="za-eyebrow za-eyebrow--signal">Company Values</p>
       <h2>What we stand for</h2>
     </div>
-    <div class="co-values-wrap">
-      <div class="co-values">
-        <article class="co-value co-value--wide rv">
-          <div class="co-value__top">
-            <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span>
-            <span class="co-value__tag"><i aria-hidden="true"></i>Identity-first</span>
-          </div>
-          <h3>Security First</h3>
-          <p>Security is the foundation of every decision we make.</p>
-          <p class="co-value__quote">“Trust begins with secure identity.”</p>
-          <div class="co-value__chips" aria-label="Security First principles">
-            <span class="co-chip">Zero Trust</span><span class="co-chip">Least Privilege</span><span class="co-chip">Identity First</span>
-          </div>
-        </article>
-
-        <article class="co-value co-value--mid co-value--deep rv rv-d1">
-          <div class="co-value__top">
-            <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
-            <span class="co-value__tag"><i aria-hidden="true"></i>Secure by default</span>
-          </div>
-          <h3>Trust by Design</h3>
-          <p>We earn trust through evidence, not assertions.</p>
-          <p class="co-value__quote">“Verified identity, continuous validation.”</p>
-          <div class="co-value__chips" aria-label="Trust by Design principles">
-            <span class="co-chip">Verified Identity</span><span class="co-chip">Secure by Default</span><span class="co-chip">Continuous Validation</span>
-          </div>
-        </article>
-
-        <article class="co-value co-value--mid rv rv-d2">
-          <div class="co-value__top">
-            <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/><circle cx="12" cy="12" r="4"/></svg></span>
-            <span class="co-value__tag"><i aria-hidden="true"></i>Category-defining</span>
-          </div>
-          <h3>Innovation</h3>
-          <p>We build what enterprise AI security will become—not what it has been.</p>
-          <p class="co-value__quote">“Always invent. Never imitate.”</p>
-          <div class="co-value__chips" aria-label="Innovation principles">
-            <span class="co-chip">AI Native</span><span class="co-chip">Category Creation</span><span class="co-chip">Continuous Evolution</span>
-          </div>
-        </article>
-
-        <article class="co-value co-value--tall rv">
-          <div class="co-value__top">
-            <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21C7 17 3 13.5 3 8.5A4.5 4.5 0 0112 6a4.5 4.5 0 019 2.5C21 13.5 17 17 12 21z"/></svg></span>
-            <span class="co-value__tag"><i aria-hidden="true"></i>Enterprise obsessed</span>
-          </div>
-          <h3>Customer Obsession</h3>
-          <p>Our customers’ security outcomes drive everything.</p>
-          <p class="co-value__quote">“We ship with customers—then keep shipping.”</p>
-          <div class="co-value__chips" aria-label="Customer Obsession principles">
-            <span class="co-chip">Enterprise Focus</span><span class="co-chip">Fast Support</span><span class="co-chip">Design Partners</span>
-          </div>
-        </article>
-
-        <article class="co-value co-value--mid rv rv-d1">
-          <div class="co-value__top">
-            <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg></span>
-            <span class="co-value__tag"><i aria-hidden="true"></i>Evidence led</span>
-          </div>
-          <h3>Transparency</h3>
-          <p>Clear evidence, explainable decisions, honest communication.</p>
-          <p class="co-value__quote">“Make the invisible visible.”</p>
-          <div class="co-value__chips" aria-label="Transparency principles">
-            <span class="co-chip">Explainable Decisions</span><span class="co-chip">Evidence Based</span><span class="co-chip">Open Communication</span>
-          </div>
-        </article>
-
-        <article class="co-value co-value--mid co-value--deep rv rv-d2">
-          <div class="co-value__top">
-            <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span>
-            <span class="co-value__tag"><i aria-hidden="true"></i>Governed AI</span>
-          </div>
-          <h3>Responsible AI</h3>
-          <p>We help organizations adopt AI safely and accountably.</p>
-          <p class="co-value__quote">“Governance is the unlock for AI at scale.”</p>
-          <div class="co-value__chips" aria-label="Responsible AI principles">
-            <span class="co-chip">Human Oversight</span><span class="co-chip">Governance</span><span class="co-chip">Ethical AI</span>
-          </div>
-        </article>
-      </div>
+    <div class="co-values">
+      <article class="co-value rv">
+        <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <h3>Security First</h3>
+        <p>Security is the foundation of every decision we make.</p>
+      </article>
+      <article class="co-value rv rv-d1">
+        <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
+        <h3>Trust by Design</h3>
+        <p>We earn trust through evidence, not assertions.</p>
+      </article>
+      <article class="co-value rv rv-d2">
+        <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/><circle cx="12" cy="12" r="4"/></svg></span>
+        <h3>Innovation</h3>
+        <p>We pioneer a new category, not iterate on the past.</p>
+      </article>
+      <article class="co-value rv">
+        <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21C7 17 3 13.5 3 8.5A4.5 4.5 0 0112 6a4.5 4.5 0 019 2.5C21 13.5 17 17 12 21z"/></svg></span>
+        <h3>Customer Obsession</h3>
+        <p>Our customers' security outcomes drive everything.</p>
+      </article>
+      <article class="co-value rv rv-d1">
+        <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg></span>
+        <h3>Transparency</h3>
+        <p>Clear evidence, explainable decisions, honest communication.</p>
+      </article>
+      <article class="co-value rv rv-d2">
+        <span class="co-value__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span>
+        <h3>Responsible AI</h3>
+        <p>We help organizations adopt AI safely and accountably.</p>
+      </article>
     </div>
   </div>
 </section>
