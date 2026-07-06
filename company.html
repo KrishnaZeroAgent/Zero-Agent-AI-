@@ -32,15 +32,19 @@
 .co-head p{color:var(--text-secondary);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);margin-top:var(--space-4)}
 
 /* ── Hero ── */
-.co-hero{padding:calc(var(--nav-height) + clamp(56px,7vw,92px)) 0 clamp(56px,8vw,100px);position:relative;overflow:hidden}
-.co-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 50% 50% at 82% 8%,rgba(0,87,184,.08),transparent 58%)}
-.co-hero__grid{display:grid;grid-template-columns:var(--layout-split);gap:clamp(var(--space-10),5vw,var(--space-16));align-items:center;position:relative}
-.co-hero h1{font-size:var(--text-display-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
-.co-hero p{font-size:var(--text-body-lg);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-top:var(--stack-base);max-width:54ch}
-.co-hero__actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-8)}
-.co-hero__grid--center{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;max-width:56rem;margin-left:auto;margin-right:auto}
-.co-hero__grid--center p{max-width:60ch}
-.co-hero__grid--center .co-hero__actions{justify-content:center}
+.co-hero{
+  padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--section-y-hero-bottom);
+  position:relative;overflow:hidden;text-align:center;
+}
+.co-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.08),transparent 60%)}
+.co-hero__inner{position:relative;max-width:52rem;margin-left:auto;margin-right:auto;text-align:center}
+.co-hero h1{font-size:var(--text-display-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight);margin-left:auto;margin-right:auto}
+.co-hero p{font-size:var(--text-body-lg);line-height:var(--leading-relaxed);color:var(--text-secondary);margin:var(--stack-base) auto 0;max-width:52ch}
+.co-hero__actions{display:flex;gap:var(--space-3);flex-wrap:wrap;justify-content:center;margin-top:var(--space-8)}
+@media(max-width:640px){
+  .co-hero__actions{flex-direction:column;align-items:center}
+  .co-hero__actions .za-btn{width:100%;max-width:20rem}
+}
 
 /* Animated ecosystem visual */
 .co-eco{aspect-ratio:1/.88;width:100%;padding:clamp(18px,3vw,32px);border-radius:var(--radius-xl);background:linear-gradient(180deg,#fff,var(--za-paper-sunken));border:1px solid var(--border);box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center}
@@ -184,7 +188,7 @@
 @media(max-width:480px){.co-partners{grid-template-columns:minmax(0,1fr)}}
 
 @media(max-width:1024px){
-  .co-hero__grid,.co-founder,.co-founders{grid-template-columns:minmax(0,1fr)}
+  .co-founder,.co-founders{grid-template-columns:minmax(0,1fr)}
   .co-eco{max-width:30rem;margin-left:auto;margin-right:auto;order:-1}
   .co-avatar{max-width:20rem}
   .co-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -243,15 +247,13 @@
 <!-- ═══ 1 · HERO ═══ -->
 <header class="co-hero" id="main">
   <div class="za-container">
-    <div class="co-hero__grid co-hero__grid--center">
-      <div class="rv">
-        <p class="za-eyebrow za-eyebrow--signal">Company</p>
-        <h1>Building the Identity Layer for <span class="za-accent-text">Autonomous AI</span></h1>
-        <p>Zero-Agent is pioneering the world's first purpose-built identity governance platform engineered specifically for autonomous AI agents and Non-Human Identities (NHIs) — enabling organizations to securely deploy AI at machine speed.</p>
-        <div class="co-hero__actions">
-          <a href="#leadership" class="za-btn za-btn--lg za-btn--signal">Meet Our Team</a>
-          <a href="contact.html" class="za-btn za-btn--lg za-btn--ghost">Contact Us</a>
-        </div>
+    <div class="co-hero__inner rv">
+      <p class="za-eyebrow za-eyebrow--signal">Company</p>
+      <h1>Building the Identity Layer for <span class="za-accent-text">Autonomous AI</span></h1>
+      <p>Zero-Agent is pioneering the world's first purpose-built identity governance platform engineered specifically for autonomous AI agents and Non-Human Identities (NHIs) — enabling organizations to securely deploy AI at machine speed.</p>
+      <div class="co-hero__actions">
+        <a href="#leadership" class="za-btn za-btn--lg za-btn--signal">Meet Our Team</a>
+        <a href="contact.html" class="za-btn za-btn--lg za-btn--ghost">Contact Us</a>
       </div>
     </div>
   </div>
