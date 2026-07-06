@@ -18,17 +18,25 @@
 <link rel="stylesheet" href="za-core.css">
 <script src="za-nav.js" defer></script>
 <style>
-.wp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6)}
-.wp-card{overflow:hidden;padding:0}
-.wp-cover{aspect-ratio:16/9;position:relative;display:flex;align-items:flex-end;padding:var(--space-6);background:linear-gradient(135deg,var(--za-signal),var(--za-depth-mid));color:#fff;overflow:hidden}
+.wp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(var(--space-6),3vw,var(--space-8));align-items:stretch}
+.wp-card{display:flex;flex-direction:column;overflow:hidden;padding:0;height:100%}
+.wp-cover{
+  aspect-ratio:16/9;position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--space-3);
+  padding:var(--space-6);background:linear-gradient(135deg,var(--za-signal),var(--za-depth-mid));color:#fff;overflow:hidden;
+}
 .wp-cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.22),transparent 45%),repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 26px)}
-.wp-cover span{position:relative;font-size:var(--text-caption);letter-spacing:var(--tracking-wide);text-transform:uppercase;font-weight:var(--weight-medium);opacity:.85}
-.wp-cover b{position:absolute;top:var(--space-5);left:var(--space-6);font-size:var(--text-caption);letter-spacing:.12em;text-transform:uppercase;font-weight:var(--weight-semibold)}
-.wp-body{padding:var(--space-6);display:flex;flex-direction:column;flex:1}
-.wp-body h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight)}
-.wp-body p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:8px}
-.wp-meta{font-size:var(--text-caption);color:var(--text-muted);margin-top:var(--space-5)}
-.wp-body .za-btn{margin-top:var(--space-4);align-self:flex-start}
+.wp-cover__icon{
+  position:relative;z-index:1;width:44px;height:44px;border-radius:var(--radius-md);
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);
+}
+.wp-cover__icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6}
+.wp-cover b{position:relative;z-index:1;font-size:var(--text-caption);letter-spacing:.12em;text-transform:uppercase;font-weight:var(--weight-semibold)}
+.wp-cover span{position:relative;z-index:1;font-size:var(--text-caption);letter-spacing:var(--tracking-wide);text-transform:uppercase;font-weight:var(--weight-medium);opacity:.85}
+.wp-body{padding:clamp(var(--space-6),3vw,var(--space-7));display:flex;flex-direction:column;flex:1}
+.wp-body h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);line-height:var(--leading-snug)}
+.wp-body p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:var(--space-3);flex:1}
+.wp-body .za-btn{margin-top:var(--space-5);align-self:flex-start}
 .wp-body .za-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
 @media(max-width:760px){.wp-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
@@ -94,42 +102,54 @@
     <div class="wp-grid">
 
       <article class="za-card za-card--hover wp-card za-reveal">
-        <div class="wp-cover"><b>Framework</b><span>Whitepaper · 24 pages</span></div>
+        <div class="wp-cover">
+          <div class="wp-cover__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div>
+          <b>Product Overview</b>
+          <span>Whitepaper · 13 pages</span>
+        </div>
         <div class="wp-body">
-          <h3>AI Identity Governance Framework</h3>
-          <p>A practical framework for assigning identity, ownership, and policy to every AI agent across your enterprise.</p>
-          <p class="wp-meta">Published March 2026 · PDF</p>
-          <a href="#" class="za-btn za-btn--signal">Download PDF<svg viewBox="0 0 20 20"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
+          <h3>Zero-Agent Platform Overview</h3>
+          <p>Learn how Zero-Agent discovers, governs, enforces, and remediates autonomous AI agents and non-human identities in one continuous Zero Trust governance loop.</p>
+          <a href="/assets/whitepapers/Zero-Agent_Platform_Overview.pdf" class="za-btn za-btn--signal" target="_blank" rel="noopener" download="Zero-Agent_Platform_Overview.pdf">Download Whitepaper<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
         </div>
       </article>
 
       <article class="za-card za-card--hover wp-card za-reveal za-reveal--d1">
-        <div class="wp-cover"><b>Architecture</b><span>Whitepaper · 32 pages</span></div>
+        <div class="wp-cover">
+          <div class="wp-cover__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div>
+          <b>Governance Framework</b>
+          <span>Whitepaper · 13 pages</span>
+        </div>
         <div class="wp-body">
-          <h3>Enterprise AI Security Architecture</h3>
-          <p>Reference architecture for securing autonomous AI across multi-cloud and hybrid enterprise environments.</p>
-          <p class="wp-meta">Published February 2026 · PDF</p>
-          <a href="#" class="za-btn za-btn--signal">Download PDF<svg viewBox="0 0 20 20"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
+          <h3>AI Identity Governance Framework</h3>
+          <p>A practical framework for discovering, owning, governing, enforcing, and remediating autonomous AI agents and NHIs under Zero Trust principles.</p>
+          <a href="/assets/whitepapers/AI_Identity_Governance_Framework.pdf" class="za-btn za-btn--signal" target="_blank" rel="noopener" download="AI_Identity_Governance_Framework.pdf">Download Whitepaper<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
         </div>
       </article>
 
       <article class="za-card za-card--hover wp-card za-reveal za-reveal--d2">
-        <div class="wp-cover"><b>Overview</b><span>Report · 16 pages</span></div>
+        <div class="wp-cover">
+          <div class="wp-cover__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div>
+          <b>Technical Architecture</b>
+          <span>Whitepaper · 17 pages</span>
+        </div>
         <div class="wp-body">
-          <h3>Zero-Agent Platform Overview</h3>
-          <p>A technical overview of how the Zero-Agent control plane discovers, governs, and secures AI identities.</p>
-          <p class="wp-meta">Published January 2026 · PDF</p>
-          <a href="#" class="za-btn za-btn--signal">Download PDF<svg viewBox="0 0 20 20"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
+          <h3>Enterprise AI Security Architecture</h3>
+          <p>A reference architecture for Zero Trust identity governance of AI agents and non-human identities, from local pilot to multi-cloud production.</p>
+          <a href="/assets/whitepapers/Enterprise_AI_Security_Architecture.pdf" class="za-btn za-btn--signal" target="_blank" rel="noopener" download="Enterprise_AI_Security_Architecture.pdf">Download Whitepaper<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
         </div>
       </article>
 
       <article class="za-card za-card--hover wp-card za-reveal">
-        <div class="wp-cover"><b>Best Practices</b><span>Guide · 20 pages</span></div>
+        <div class="wp-cover">
+          <div class="wp-cover__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div>
+          <b>Best Practices</b>
+          <span>Whitepaper · 13 pages</span>
+        </div>
         <div class="wp-body">
           <h3>AI Agent Governance Best Practices</h3>
-          <p>Actionable best practices for discovery, least privilege, and continuous governance of AI agents and NHIs.</p>
-          <p class="wp-meta">Published December 2025 · PDF</p>
-          <a href="#" class="za-btn za-btn--signal">Download PDF<svg viewBox="0 0 20 20"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
+          <p>An operational playbook for rolling out AI agent and NHI governance, including sequencing, checklists, and common rollout mistakes to avoid.</p>
+          <a href="/assets/whitepapers/AI_Agent_Governance_Best_Practices.pdf" class="za-btn za-btn--signal" target="_blank" rel="noopener" download="AI_Agent_Governance_Best_Practices.pdf">Download Whitepaper<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12"/></svg></a>
         </div>
       </article>
 
