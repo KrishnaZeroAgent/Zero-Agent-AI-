@@ -169,10 +169,15 @@ blockquote.category-statement{margin:0;border:none}
 .platform{background:var(--bg-sunken);border-block:1px solid var(--border)}
 .platform__track{
   display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  padding:0 0 var(--stack-loose);scrollbar-width:none;
+  padding:0 max(var(--gutter),calc((100vw - min(var(--container-max),100% - var(--gutter) * 2))/2 + var(--gutter))) var(--stack-loose);
+  scrollbar-width:thin;scrollbar-color:var(--za-ink-200) transparent;
   overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  position:relative;cursor:grab;scroll-padding-inline:max(var(--gutter),calc((100vw - min(var(--container-max),100% - var(--gutter) * 2))/2 + var(--gutter)));
 }
-.platform__track::-webkit-scrollbar{display:none}
+.platform__track.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.platform__track::-webkit-scrollbar{height:6px}
+.platform__track::-webkit-scrollbar-thumb{background:var(--za-ink-200);border-radius:100px}
+.platform__track::-webkit-scrollbar-track{background:transparent}
 .platform__track::before{
   content:"";position:absolute;left:0;right:0;
   top:52px;height:1px;background:var(--border-strong);z-index:0;
@@ -190,6 +195,10 @@ blockquote.category-statement{margin:0;border:none}
 .platform__step h3{color:var(--text);margin-bottom:var(--space-3)}
 .platform__step p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);max-width:32ch}
 .platform__hint{font-size:var(--text-caption);color:var(--text-muted);margin-top:var(--stack-tight);letter-spacing:var(--tracking-wide);text-transform:uppercase;text-align:center}
+.platform__controls{display:flex;align-items:center;justify-content:center;gap:var(--space-3);margin-top:var(--space-4)}
+.platform__arrow{width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--bg);color:var(--text-secondary);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color var(--duration-fast),color var(--duration-fast),background var(--duration-fast)}
+.platform__arrow:hover{border-color:var(--accent-muted);color:var(--accent);background:var(--accent-soft)}
+.platform__arrow:disabled{opacity:.35;cursor:not-allowed}
 
 /* ═══ ARCHITECTURE ═══ */
 .arch__stage{
@@ -235,12 +244,13 @@ blockquote.category-statement{margin:0;border:none}
 .al.on{fill:var(--accent);font-weight:600}
 
 /* ═══ DASHBOARD ═══ */
+.dash .split{align-items:center}
 .dash__copy .za-body-lg{margin-top:var(--stack-base)}
 .dash__console{
   border:1px solid var(--border-strong);border-radius:var(--radius-xl);
   background:var(--bg);overflow:hidden;box-shadow:var(--shadow-diagram);
-  min-height:clamp(440px,50vh,560px);min-width:0;
-  display:flex;flex-direction:column;
+  min-height:clamp(440px,50vh,560px);min-width:0;width:100%;
+  display:flex;flex-direction:column;opacity:1;
 }
 .dash__chrome{
   display:flex;align-items:center;gap:var(--space-2);padding:var(--space-4) var(--space-5);
@@ -288,10 +298,11 @@ blockquote.category-statement{margin:0;border:none}
 .outcome-item p{font-size:var(--text-body-sm);line-height:var(--leading-relaxed);margin-top:auto}
 .category-statement{
   margin-top:var(--block-gap);padding-top:var(--block-gap);border-top:1px solid var(--border);
-  text-align:center;max-width:54rem;margin-inline:auto;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  max-width:54rem;margin-inline:auto;width:100%;
 }
-.category-statement .za-eyebrow{margin-bottom:0}
-.category-statement p{font-size:var(--text-body-lg);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:var(--stack-base)}
+.category-statement .za-eyebrow{margin-bottom:0;text-align:center;width:100%}
+.category-statement p{font-size:var(--text-body-lg);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:var(--stack-base);max-width:54ch;margin-inline:auto}
 .category-statement strong{color:var(--text);font-weight:var(--weight-semibold)}
 
 /* ═══ CTA ═══ */
@@ -491,7 +502,15 @@ blockquote.category-statement{margin:0;border:none}
       <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">04</p><h3 class="za-h3">Enforce</h3><p>Intercept every agent action at runtime. Allow, deny, or escalate before sensitive access occurs — not after the breach.</p></article>
       <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">05</p><h3 class="za-h3">Evidence</h3><p>Generate immutable audit trails and compliance reports mapped to SOC 2, EU AI Act, and NIST AI RMF controls.</p></article>
     </div>
-    <p class="platform__hint">Scroll timeline →</p>
+    <p class="platform__hint">Drag sideways, use the arrows, or shift + scroll wheel</p>
+    <div class="platform__controls">
+      <button type="button" class="platform__arrow" id="platformPrev" aria-label="Previous step">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 3L5 8l5 5"/></svg>
+      </button>
+      <button type="button" class="platform__arrow" id="platformNext" aria-label="Next step">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3l5 5-5 5"/></svg>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -542,7 +561,7 @@ blockquote.category-statement{margin:0;border:none}
         <h2 class="za-h2">See everything.<br>Govern everything.</h2>
         <p class="za-body-lg">A single console for agent inventory, identity relationships, risk scoring, policy decisions, and compliance evidence — built for security teams, not developers.</p>
       </div>
-      <div class="dash__console" data-in="clip" data-delay="2">
+      <div class="dash__console" data-in data-delay="1">
         <div class="dash__chrome">
           <span class="za-mono">zero-agent / acme-corp / staging</span>
           <span><i class="dash__live"></i> Agent Identity Console</span>
@@ -819,12 +838,57 @@ if(split)problemObs.observe(split);
 const track=document.getElementById('platformTrack');
 if(track){
   const steps=track.querySelectorAll('.platform__step');
-  track.addEventListener('scroll',()=>{
+  const prevBtn=document.getElementById('platformPrev');
+  const nextBtn=document.getElementById('platformNext');
+  let drag=false,startX=0,startScroll=0;
+
+  function setActive(){
     const mid=track.scrollLeft+track.clientWidth/2;
     let closest=0,min=Infinity;
     steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
     steps.forEach((s,i)=>s.classList.toggle('is-active',i===closest));
-  },{passive:true});
+    if(prevBtn)prevBtn.disabled=closest<=0;
+    if(nextBtn)nextBtn.disabled=closest>=steps.length-1;
+  }
+
+  function scrollToStep(i){
+    const step=steps[Math.max(0,Math.min(steps.length-1,i))];
+    if(!step)return;
+    track.scrollTo({left:step.offsetLeft-track.clientWidth*0.08,behavior:'smooth'});
+  }
+
+  track.addEventListener('scroll',setActive,{passive:true});
+  setActive();
+
+  prevBtn?.addEventListener('click',()=>{
+    const mid=track.scrollLeft+track.clientWidth/2;
+    let closest=0,min=Infinity;
+    steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
+    scrollToStep(closest-1);
+  });
+  nextBtn?.addEventListener('click',()=>{
+    const mid=track.scrollLeft+track.clientWidth/2;
+    let closest=0,min=Infinity;
+    steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
+    scrollToStep(closest+1);
+  });
+
+  track.addEventListener('mousedown',e=>{
+    drag=true;track.classList.add('is-dragging');
+    startX=e.pageX;startScroll=track.scrollLeft;
+  });
+  addEventListener('mouseup',()=>{drag=false;track.classList.remove('is-dragging');});
+  addEventListener('mousemove',e=>{
+    if(!drag)return;
+    e.preventDefault();
+    track.scrollLeft=startScroll-(e.pageX-startX);
+  });
+  track.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){
+      e.preventDefault();
+      track.scrollLeft+=e.deltaY;
+    }
+  },{passive:false});
 }
 
 const stages={discover:2,graph:3,policy:4,runtime:5,audit:6};
