@@ -18,15 +18,11 @@
 <link rel="stylesheet" href="za-core.css">
 <script src="za-nav.js" defer></script>
 <style>
-.pg-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--section-y-md);text-align:center;position:relative;overflow:hidden}
-.pg-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.07),transparent 60%)}
-.pg-hero__inner{position:relative;max-width:48rem;margin-inline:auto}
-.pg-hero p{max-width:54ch;margin:var(--stack-base) auto 0}
 .gl-search{margin:var(--space-8) auto 0;max-width:30rem;position:relative}
 .gl-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--text-muted);fill:none;stroke-width:1.8}
 .gl-search input{width:100%;height:46px;padding:0 16px 0 42px;border:1px solid var(--border-strong);border-radius:var(--radius-md);font-family:inherit;font-size:var(--text-body);color:var(--text);background:var(--bg);transition:border-color var(--duration-fast),box-shadow var(--duration-fast)}
 .gl-search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.gl-list{max-width:52rem;margin-inline:auto;display:flex;flex-direction:column;gap:var(--space-5)}
+.gl-list{max-width:52rem;margin-left:auto;margin-right:auto;display:flex;flex-direction:column;gap:var(--space-5)}
 .gl-item{padding:var(--space-6);scroll-margin-top:calc(var(--nav-height) + var(--space-6))}
 .gl-item h3{font-size:var(--text-h3);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tight);display:flex;align-items:center;gap:10px}
 .gl-item h3 .gl-initial{width:28px;height:28px;flex:none;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:var(--text-body-sm);font-weight:var(--weight-semibold)}
@@ -186,13 +182,15 @@
 </section>
 
 <section class="section cta-band">
-  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
-    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get started</p>
-    <h2 class="za-display-lg">Ready to Secure Your AI Workforce?</h2>
-    <p>See how Zero-Agent helps organizations discover, govern, and secure AI agents before they become enterprise risks.</p>
-    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
-      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
-      <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore Product</a>
+  <div class="za-container">
+    <div class="cta-band__inner">
+      <p class="za-eyebrow cta-band__eyebrow">Get started</p>
+      <h2 class="za-display-lg">Ready to Secure Your AI Workforce?</h2>
+      <p>See how Zero-Agent helps organizations discover, govern, and secure AI agents before they become enterprise risks.</p>
+      <div class="cta-band__actions">
+        <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
+        <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore Product</a>
+      </div>
     </div>
   </div>
 </section>

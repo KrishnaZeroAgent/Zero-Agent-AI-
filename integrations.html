@@ -18,11 +18,6 @@
 <link rel="stylesheet" href="za-core.css">
 <script src="za-nav.js" defer></script>
 <style>
-.pg-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--section-y-md);text-align:center;position:relative;overflow:hidden}
-.pg-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.07),transparent 60%)}
-.pg-hero__inner{position:relative;max-width:48rem;margin-inline:auto}
-.pg-hero h1{max-width:15ch;margin-inline:auto}
-.pg-hero p{max-width:54ch;margin:var(--stack-base) auto 0}
 .int-cat{margin-top:var(--section-y-md)}
 .int-cat:first-of-type{margin-top:var(--space-8)}
 .int-cat__head{display:flex;align-items:baseline;gap:var(--space-4);margin-bottom:var(--space-6)}
@@ -149,13 +144,15 @@
 </section>
 
 <section class="section cta-band">
-  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
-    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Don't see your tool?</p>
-    <h2 class="za-display-lg">We integrate with your environment</h2>
-    <p>Our API-first platform and agentless connectors extend to custom systems. Talk to us about your stack.</p>
-    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
-      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request a demo</a>
-      <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore the product</a>
+  <div class="za-container">
+    <div class="cta-band__inner">
+      <p class="za-eyebrow cta-band__eyebrow">Don't see your tool?</p>
+      <h2 class="za-display-lg">We integrate with your environment</h2>
+      <p>Our API-first platform and agentless connectors extend to custom systems. Talk to us about your stack.</p>
+      <div class="cta-band__actions">
+        <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request a demo</a>
+        <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore the product</a>
+      </div>
     </div>
   </div>
 </section>

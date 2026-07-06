@@ -18,10 +18,6 @@
 <link rel="stylesheet" href="za-core.css">
 <script src="za-nav.js" defer></script>
 <style>
-.pg-hero{padding:calc(var(--nav-height) + var(--section-y-hero-top)) 0 var(--section-y-md);text-align:center;position:relative;overflow:hidden}
-.pg-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 58% 50% at 50% 0%,rgba(0,87,184,.07),transparent 60%)}
-.pg-hero__inner{position:relative;max-width:48rem;margin-inline:auto}
-.pg-hero p{max-width:54ch;margin:var(--stack-base) auto 0}
 .tc-status{display:inline-flex;align-items:center;gap:9px;margin-top:var(--space-6);font-size:var(--text-body-sm);font-weight:var(--weight-medium);color:var(--za-safe);background:var(--za-safe-soft);border:1px solid rgba(13,138,95,.2);padding:8px 16px;border-radius:100px}
 .tc-status i{width:9px;height:9px;border-radius:50%;background:var(--za-safe);position:relative}
 .tc-status i::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:var(--za-safe);opacity:.3;animation:tcPulse 2s var(--ease-out) infinite}
@@ -201,13 +197,15 @@
 </section>
 
 <section class="section cta-band">
-  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
-    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get started</p>
-    <h2 class="za-display-lg">Ready to Secure Your AI Workforce?</h2>
-    <p>See how Zero-Agent helps organizations discover, govern, and secure AI agents before they become enterprise risks.</p>
-    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
-      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
-      <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore Product</a>
+  <div class="za-container">
+    <div class="cta-band__inner">
+      <p class="za-eyebrow cta-band__eyebrow">Get started</p>
+      <h2 class="za-display-lg">Ready to Secure Your AI Workforce?</h2>
+      <p>See how Zero-Agent helps organizations discover, govern, and secure AI agents before they become enterprise risks.</p>
+      <div class="cta-band__actions">
+        <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Request Demo</a>
+        <a href="product.html" class="za-btn za-btn--lg za-btn--ghost">Explore Product</a>
+      </div>
     </div>
   </div>
 </section>

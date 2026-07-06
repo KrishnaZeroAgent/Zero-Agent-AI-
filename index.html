@@ -31,10 +31,9 @@
 :root{--progress-w:2px;--ease-spring:cubic-bezier(.34,1.2,.64,1)}
 .hero.section{padding-block:0;padding-top:calc(var(--nav-height) + var(--section-y-hero-top));padding-bottom:var(--section-y-hero-bottom)}
 .prose--wide .za-body-lg,.outcomes__hero .za-body-lg{margin-top:var(--stack-base)}
-blockquote.category-statement{margin:0;border:none}
 .text-risk{color:var(--za-risk)}
 .text-safe{color:var(--za-safe)}
-.scroll-progress{position:fixed;left:0;top:0;bottom:0;width:var(--progress-w);z-index:250;background:transparent}
+.scroll-progress{position:fixed;right:0;top:0;bottom:0;width:var(--progress-w);z-index:250;background:transparent}
 .scroll-progress i{display:block;width:100%;height:0;background:linear-gradient(180deg,var(--accent),var(--za-depth-mid));transition:height .08s linear}
 
 /* ═══ HERO ═══ */
@@ -167,25 +166,30 @@ blockquote.category-statement{margin:0;border:none}
 
 /* ═══ PLATFORM ═══ */
 .platform{background:var(--bg-sunken);border-block:1px solid var(--border)}
+.platform__shell{display:flex;flex-direction:column}
+.platform__viewport{width:100%;min-width:0;--platform-cols:3}
 .platform__track{
-  display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  padding:0 max(var(--gutter),calc((100vw - min(var(--container-max),100% - var(--gutter) * 2))/2 + var(--gutter))) var(--stack-loose);
+  display:flex;gap:0;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;
+  padding:0 0 var(--stack-loose);margin:0;width:100%;
   scrollbar-width:thin;scrollbar-color:var(--za-ink-200) transparent;
   overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
-  position:relative;cursor:grab;scroll-padding-inline:max(var(--gutter),calc((100vw - min(var(--container-max),100% - var(--gutter) * 2))/2 + var(--gutter)));
+  position:relative;cursor:grab;
 }
 .platform__track.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
 .platform__track::-webkit-scrollbar{height:6px}
 .platform__track::-webkit-scrollbar-thumb{background:var(--za-ink-200);border-radius:100px}
 .platform__track::-webkit-scrollbar-track{background:transparent}
 .platform__track::before{
-  content:"";position:absolute;left:0;right:0;
-  top:52px;height:1px;background:var(--border-strong);z-index:0;
+  content:"";position:absolute;left:0;width:var(--platform-line-w,100%);top:52px;height:1px;background:var(--border-strong);z-index:0;pointer-events:none;
 }
 .platform__step{
-  flex:0 0 min(280px,72vw);scroll-snap-align:start;padding:var(--space-6) var(--space-5) 0;
-  position:relative;z-index:1;
+  flex:0 0 calc(100% / var(--platform-cols));
+  width:calc(100% / var(--platform-cols));
+  min-width:0;scroll-snap-align:start;scroll-snap-stop:normal;
+  padding:var(--space-6) var(--space-5) 0;
+  position:relative;z-index:1;box-sizing:border-box;
 }
+.platform__step:last-child{scroll-snap-align:end}
 .platform__dot{
   width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--border-strong);
   margin-bottom:var(--stack-loose);transition:all var(--duration-normal) var(--ease-spring);
@@ -193,12 +197,18 @@ blockquote.category-statement{margin:0;border:none}
 .platform__step.is-active .platform__dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 6px var(--accent-soft);transform:scale(1.15)}
 .platform__step-num{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:var(--stack-tight)}
 .platform__step h3{color:var(--text);margin-bottom:var(--space-3)}
-.platform__step p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);max-width:32ch}
+.platform__step p{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed);overflow-wrap:break-word}
 .platform__hint{font-size:var(--text-caption);color:var(--text-muted);margin-top:var(--stack-tight);letter-spacing:var(--tracking-wide);text-transform:uppercase;text-align:center}
 .platform__controls{display:flex;align-items:center;justify-content:center;gap:var(--space-3);margin-top:var(--space-4)}
 .platform__arrow{width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--bg);color:var(--text-secondary);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color var(--duration-fast),color var(--duration-fast),background var(--duration-fast)}
 .platform__arrow:hover{border-color:var(--accent-muted);color:var(--accent);background:var(--accent-soft)}
 .platform__arrow:disabled{opacity:.35;cursor:not-allowed}
+@media(max-width:1024px){
+  .platform__viewport{--platform-cols:2.15}
+}
+@media(max-width:640px){
+  .platform__viewport{--platform-cols:1.2}
+}
 
 /* ═══ ARCHITECTURE ═══ */
 .arch__stage{
@@ -280,17 +290,17 @@ blockquote.category-statement{margin:0;border:none}
 .outcomes{background:var(--za-paper-tint)}
 .outcomes__hero{
   padding-bottom:var(--block-gap);margin-bottom:var(--block-gap);
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid var(--border);width:100%;
 }
 .outcomes__hero-visual{
   display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-  padding:var(--space-12);min-width:0;
+  padding:var(--space-12);min-width:0;width:100%;
   background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);
   box-shadow:var(--shadow-md);
 }
 .outcomes__stat{font-size:clamp(3.5rem,8vw,6rem);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums;margin-top:var(--stack-tight)}
 .outcomes__hero h2{margin-top:0}
-.outcomes__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6);align-items:stretch}
+.outcomes__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6);align-items:stretch;width:100%}
 .outcome-item{padding:var(--space-10);border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg);transition:border-color var(--duration-normal),transform var(--duration-normal);display:flex;flex-direction:column;height:100%}
 .outcome-item:hover{border-color:var(--accent-muted);transform:translateY(-2px)}
 .outcome-item .ind{font-size:var(--text-caption);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--stack-tight)}
@@ -298,11 +308,10 @@ blockquote.category-statement{margin:0;border:none}
 .outcome-item p{font-size:var(--text-body-sm);line-height:var(--leading-relaxed);margin-top:auto}
 .category-statement{
   margin-top:var(--block-gap);padding-top:var(--block-gap);border-top:1px solid var(--border);
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  max-width:54rem;margin-inline:auto;width:100%;
+  width:100%;max-width:48rem;margin-left:auto;margin-right:auto;
 }
-.category-statement .za-eyebrow{margin-bottom:0;text-align:center;width:100%}
-.category-statement p{font-size:var(--text-body-lg);color:var(--text-secondary);line-height:var(--leading-relaxed);margin-top:var(--stack-base);max-width:54ch;margin-inline:auto}
+.category-statement .za-eyebrow{margin-bottom:var(--stack-tight)}
+.category-statement .section-head__lead{max-width:54ch}
 .category-statement strong{color:var(--text);font-weight:var(--weight-semibold)}
 
 /* ═══ CTA ═══ */
@@ -483,7 +492,7 @@ blockquote.category-statement{margin:0;border:none}
 
 <!-- PLATFORM -->
 <section class="section platform" id="platform">
-  <div class="za-container">
+  <div class="za-container platform__shell">
     <header class="section-head section-head--reverse" data-in>
       <div class="section-head__lead">
         <p class="za-eyebrow">Platform Overview</p>
@@ -493,14 +502,14 @@ blockquote.category-statement{margin:0;border:none}
         <p class="za-body-lg">Zero-Agent is not a point solution. It is the unified control plane that discovers agents, maps identity, enforces policy, and produces audit evidence — in one continuous loop.</p>
       </div>
     </header>
-  </div>
-  <div class="bleed-x">
-    <div class="platform__track" id="platformTrack">
-      <article class="platform__step is-active"><div class="platform__dot"></div><p class="platform__step-num">01</p><h3 class="za-h3">Discover</h3><p>Surface every AI agent, shadow MCP server, and non-human identity across cloud, SaaS, IDE, and development environments — including agents no one registered.</p></article>
-      <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">02</p><h3 class="za-h3">Map</h3><p>Build a living identity graph — ownership chains, delegation paths, tool access, and blast radius for every agent in your environment.</p></article>
-      <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">03</p><h3 class="za-h3">Authorize</h3><p>Define least-privilege policies, context-aware authorization, and approval workflows. Policy-as-code for the agentic workforce.</p></article>
-      <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">04</p><h3 class="za-h3">Enforce</h3><p>Intercept every agent action at runtime. Allow, deny, or escalate before sensitive access occurs — not after the breach.</p></article>
-      <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">05</p><h3 class="za-h3">Evidence</h3><p>Generate immutable audit trails and compliance reports mapped to SOC 2, EU AI Act, and NIST AI RMF controls.</p></article>
+    <div class="platform__viewport">
+      <div class="platform__track" id="platformTrack">
+        <article class="platform__step is-active"><div class="platform__dot"></div><p class="platform__step-num">01</p><h3 class="za-h3">Discover</h3><p>Surface every AI agent, shadow MCP server, and non-human identity across cloud, SaaS, IDE, and development environments — including agents no one registered.</p></article>
+        <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">02</p><h3 class="za-h3">Map</h3><p>Build a living identity graph — ownership chains, delegation paths, tool access, and blast radius for every agent in your environment.</p></article>
+        <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">03</p><h3 class="za-h3">Authorize</h3><p>Define least-privilege policies, context-aware authorization, and approval workflows. Policy-as-code for the agentic workforce.</p></article>
+        <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">04</p><h3 class="za-h3">Enforce</h3><p>Intercept every agent action at runtime. Allow, deny, or escalate before sensitive access occurs — not after the breach.</p></article>
+        <article class="platform__step"><div class="platform__dot"></div><p class="platform__step-num">05</p><h3 class="za-h3">Evidence</h3><p>Generate immutable audit trails and compliance reports mapped to SOC 2, EU AI Act, and NIST AI RMF controls.</p></article>
+      </div>
     </div>
     <p class="platform__hint">Drag sideways, use the arrows, or shift + scroll wheel</p>
     <div class="platform__controls">
@@ -623,10 +632,12 @@ blockquote.category-statement{margin:0;border:none}
         <p class="za-body">Continuous discovery surfaced unregistered MCP endpoints in development environments before production exposure.</p>
       </div>
     </div>
-    <blockquote class="category-statement" data-in data-delay="1">
-      <p class="za-eyebrow za-eyebrow--signal">Why Zero-Agent is category-defining</p>
-      <p>Legacy IAM governs humans. Machine identity governs workloads. AI security governs models. <strong>Zero-Agent governs autonomous agents</strong> — identities that reason, delegate, and act. That is a new category. We are defining it.</p>
-    </blockquote>
+    <header class="section-head section-head--center category-statement" data-in data-delay="1">
+      <div class="section-head__lead">
+        <p class="za-eyebrow za-eyebrow--signal">Why Zero-Agent is category-defining</p>
+        <p class="za-body-lg">Legacy IAM governs humans. Machine identity governs workloads. AI security governs models. <strong>Zero-Agent governs autonomous agents</strong> — identities that reason, delegate, and act. That is a new category. We are defining it.</p>
+      </div>
+    </header>
   </div>
 </section>
 
@@ -837,27 +848,71 @@ if(split)problemObs.observe(split);
 
 const track=document.getElementById('platformTrack');
 if(track){
+  const viewport=track.parentElement;
   const steps=track.querySelectorAll('.platform__step');
   const prevBtn=document.getElementById('platformPrev');
   const nextBtn=document.getElementById('platformNext');
   let drag=false,startX=0,startScroll=0;
+
+  function visibleCols(){
+    const w=viewport?.clientWidth||track.clientWidth;
+    if(w<640)return 1.2;
+    if(w<1024)return 2.15;
+    return 3;
+  }
+
+  function maxScroll(){
+    return Math.max(0,track.scrollWidth-track.clientWidth);
+  }
+
+  function layoutPlatform(){
+    const w=viewport?.clientWidth||track.clientWidth;
+    if(!w)return;
+    const cols=visibleCols();
+    const cardW=Math.round(w/cols);
+    steps.forEach(step=>{
+      step.style.flex=`0 0 ${cardW}px`;
+      step.style.width=`${cardW}px`;
+    });
+    track.style.setProperty('--platform-line-w',`${cardW*steps.length}px`);
+    track.style.setProperty('--platform-cols',String(cols));
+    clampScroll();
+    setActive();
+  }
+
+  function clampScroll(){
+    const max=maxScroll();
+    if(track.scrollLeft<0)track.scrollLeft=0;
+    else if(track.scrollLeft>max)track.scrollLeft=max;
+  }
 
   function setActive(){
     const mid=track.scrollLeft+track.clientWidth/2;
     let closest=0,min=Infinity;
     steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
     steps.forEach((s,i)=>s.classList.toggle('is-active',i===closest));
-    if(prevBtn)prevBtn.disabled=closest<=0;
-    if(nextBtn)nextBtn.disabled=closest>=steps.length-1;
+    if(prevBtn)prevBtn.disabled=track.scrollLeft<=1;
+    if(nextBtn)nextBtn.disabled=track.scrollLeft>=maxScroll()-1;
   }
 
   function scrollToStep(i){
-    const step=steps[Math.max(0,Math.min(steps.length-1,i))];
+    const idx=Math.max(0,Math.min(steps.length-1,i));
+    const step=steps[idx];
     if(!step)return;
-    track.scrollTo({left:step.offsetLeft-track.clientWidth*0.08,behavior:'smooth'});
+    const max=maxScroll();
+    let target=idx===0?0:idx===steps.length-1?max:step.offsetLeft;
+    target=Math.min(max,Math.max(0,target));
+    track.scrollTo({left:target,behavior:'smooth'});
   }
 
-  track.addEventListener('scroll',setActive,{passive:true});
+  layoutPlatform();
+  if(viewport&&typeof ResizeObserver!=='undefined'){
+    new ResizeObserver(layoutPlatform).observe(viewport);
+  }else{
+    addEventListener('resize',layoutPlatform);
+  }
+
+  track.addEventListener('scroll',()=>{clampScroll();setActive();},{passive:true});
   setActive();
 
   prevBtn?.addEventListener('click',()=>{
@@ -877,7 +932,7 @@ if(track){
     drag=true;track.classList.add('is-dragging');
     startX=e.pageX;startScroll=track.scrollLeft;
   });
-  addEventListener('mouseup',()=>{drag=false;track.classList.remove('is-dragging');});
+  addEventListener('mouseup',()=>{drag=false;track.classList.remove('is-dragging');clampScroll();});
   addEventListener('mousemove',e=>{
     if(!drag)return;
     e.preventDefault();

@@ -26,7 +26,8 @@
 .co .rv-d1{transition-delay:.1s}.co .rv-d2{transition-delay:.2s}.co .rv-d3{transition-delay:.3s}.co .rv-d4{transition-delay:.4s}.co .rv-d5{transition-delay:.5s}
 .co-sec{padding-block:clamp(64px,9vw,110px)}
 .co-sec--tint{background:var(--za-paper-sunken)}
-.co-head{max-width:44rem;margin:0 auto var(--space-12);text-align:center}
+.co-head{max-width:44rem;margin-left:auto;margin-right:auto;margin-bottom:var(--space-12);text-align:center}
+.co-head--flush{margin:0;max-width:none}
 .co-head h2{font-size:var(--text-display-md);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
 .co-head p{color:var(--text-secondary);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);margin-top:var(--space-4)}
 
@@ -37,7 +38,7 @@
 .co-hero h1{font-size:var(--text-display-lg);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-tighter);line-height:var(--leading-tight)}
 .co-hero p{font-size:var(--text-body-lg);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-top:var(--stack-base);max-width:54ch}
 .co-hero__actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-8)}
-.co-hero__grid--center{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;max-width:56rem;margin-inline:auto}
+.co-hero__grid--center{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;max-width:56rem;margin-left:auto;margin-right:auto}
 .co-hero__grid--center p{max-width:60ch}
 .co-hero__grid--center .co-hero__actions{justify-content:center}
 
@@ -143,7 +144,7 @@
 @media(max-width:480px){.co-stats{grid-template-columns:minmax(0,1fr)}}
 
 /* ── Timeline ── */
-.co-tl{position:relative;max-width:44rem;margin-inline:auto;padding-left:38px}
+.co-tl{position:relative;max-width:44rem;margin-left:auto;margin-right:auto;padding-left:38px}
 .co-tl::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--border-strong)}
 .co-tl__prog{position:absolute;left:9px;top:8px;width:2px;height:0;background:linear-gradient(var(--accent),var(--za-depth-mid));transition:height 1.7s var(--ease-out)}
 .co-tl.is-in .co-tl__prog{height:calc(100% - 16px)}
@@ -165,7 +166,7 @@
 .co-tl__item:nth-child(6) .co-tl__dot{transition-delay:.75s}
 
 /* ── Careers ── */
-.co-careers{text-align:center;max-width:44rem;margin-inline:auto}
+.co-careers{text-align:center;max-width:44rem;margin-left:auto;margin-right:auto}
 .co-careers__actions{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)}
 .co-careers__note{margin-top:var(--space-8);padding:var(--space-5) var(--space-6);border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--bg);color:var(--text-secondary);font-size:var(--text-body-sm)}
 
@@ -184,7 +185,7 @@
 
 @media(max-width:1024px){
   .co-hero__grid,.co-founder,.co-founders{grid-template-columns:minmax(0,1fr)}
-  .co-eco{max-width:30rem;margin-inline:auto;order:-1}
+  .co-eco{max-width:30rem;margin-left:auto;margin-right:auto;order:-1}
   .co-avatar{max-width:20rem}
   .co-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -481,7 +482,7 @@
   <div class="za-container">
     <div class="co-careers rv">
       <p class="za-eyebrow za-eyebrow--signal">Careers</p>
-      <h2 class="co-head" style="margin:0;max-width:none">Help Secure the Future of Autonomous AI</h2>
+      <h2 class="co-head co-head--flush">Help Secure the Future of Autonomous AI</h2>
       <p style="color:var(--text-secondary);font-size:var(--text-body-lg);line-height:var(--leading-relaxed);margin-top:var(--space-4)">We're building the next generation of AI identity security — and looking for exceptional people to build it with us.</p>
       <div class="co-careers__actions">
         <a href="careers.html" class="za-btn za-btn--lg za-btn--signal">View Open Positions</a>
@@ -515,13 +516,15 @@
 
 <!-- ═══ 12 · FINAL CTA ═══ -->
 <section class="section cta-band">
-  <div class="za-container" style="text-align:center;max-width:44rem;margin-inline:auto">
-    <p class="za-eyebrow" style="color:rgba(255,255,255,.4)">Get involved</p>
-    <h2 class="za-display-lg">Join Us in Building the Future of AI Security</h2>
-    <p>Whether you're an enterprise exploring AI governance, a potential design partner, an investor, or a future teammate, we'd love to connect.</p>
-    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)">
-      <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Become a Design Partner</a>
-      <a href="contact.html" class="za-btn za-btn--lg za-btn--ghost">Contact Us</a>
+  <div class="za-container">
+    <div class="cta-band__inner">
+      <p class="za-eyebrow cta-band__eyebrow">Get involved</p>
+      <h2 class="za-display-lg">Join Us in Building the Future of AI Security</h2>
+      <p>Whether you're an enterprise exploring AI governance, a potential design partner, an investor, or a future teammate, we'd love to connect.</p>
+      <div class="cta-band__actions">
+        <a href="request-demo.html" class="za-btn za-btn--lg za-btn--signal">Become a Design Partner</a>
+        <a href="contact.html" class="za-btn za-btn--lg za-btn--ghost">Contact Us</a>
+      </div>
     </div>
   </div>
 </section>
