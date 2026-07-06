@@ -31,6 +31,9 @@
 .ct-field input,.ct-field textarea{font-family:inherit;font-size:var(--text-body);color:var(--text);background:var(--bg);border:1px solid var(--border-strong);border-radius:var(--radius-md);padding:11px 14px;transition:border-color var(--duration-fast),box-shadow var(--duration-fast)}
 .ct-field textarea{resize:vertical;min-height:120px}
 .ct-field input:focus,.ct-field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.ct-field.is-error input,.ct-field.is-error textarea{border-color:var(--za-risk);box-shadow:0 0 0 3px rgba(229,72,77,.14)}
+.ct-inline-error{display:none;font-size:var(--text-caption);color:var(--za-risk);line-height:var(--leading-normal)}
+.ct-field.is-error .ct-inline-error{display:block}
 .ct-note{font-size:var(--text-body-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
 .ct-success{display:none;background:var(--za-safe-soft);border:1px solid rgba(13,138,95,.25);border-radius:var(--radius-md);padding:var(--space-5);color:var(--za-safe);font-size:var(--text-body-sm);line-height:var(--leading-relaxed)}
 .ct-success.show{display:block}
@@ -104,7 +107,11 @@
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
           <div class="ct-field"><label for="fn">First name</label><input type="text" id="fn" name="first_name" required autocomplete="given-name"></div>
           <div class="ct-field"><label for="ln">Last name</label><input type="text" id="ln" name="last_name" required autocomplete="family-name"></div>
-          <div class="ct-field ct-field--full"><label for="em">Work email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+          <div class="ct-field ct-field--full">
+            <label for="em">Work email</label>
+            <input type="email" id="em" name="email" required autocomplete="email" aria-describedby="em-err">
+            <p class="ct-inline-error" id="em-err" role="alert">Please enter your work email address. Personal email providers (such as Gmail, Yahoo, Outlook, or Hotmail) are not accepted.</p>
+          </div>
           <div class="ct-field ct-field--full"><label for="co">Company</label><input type="text" id="co" name="company" autocomplete="organization"></div>
           <div class="ct-field ct-field--full"><label for="msg">How can we help?</label><textarea id="msg" name="message" required></textarea></div>
           <div class="ct-field ct-field--full"><button type="submit" class="za-btn za-btn--lg za-btn--signal ct-btn" id="ctSubmit" style="width:100%">Send Message</button></div>
@@ -173,14 +180,58 @@ const err=document.getElementById('ctError');
 const submitBtn=document.getElementById('ctSubmit');
 const FORM_ENDPOINT='https://formsubmit.co/ajax/krishna@zero-agent.ai';
 
+const BLOCKED_PERSONAL_EMAIL_DOMAINS=[
+  'gmail.com','googlemail.com','yahoo.com','yahoo.co.uk','outlook.com','hotmail.com','live.com','msn.com',
+  'icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','gmx.com','zoho.com','mail.com',
+  'yandex.com','qq.com'
+];
+const WORK_EMAIL_ERROR='Please enter your work email address. Personal email providers (such as Gmail, Yahoo, Outlook, or Hotmail) are not accepted.';
+
+function getEmailDomain(email){
+  const at=(email||'').lastIndexOf('@');
+  if(at<0)return '';
+  return email.slice(at+1).trim().toLowerCase();
+}
+function isValidEmailFormat(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((email||'').trim());
+}
+function isWorkEmail(email){
+  const v=(email||'').trim();
+  if(!isValidEmailFormat(v))return false;
+  const domain=getEmailDomain(v);
+  if(!domain)return false;
+  return !BLOCKED_PERSONAL_EMAIL_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
+}
+function setFieldError(inputEl,on,message){
+  const field=inputEl.closest('.ct-field');
+  if(field)field.classList.toggle('is-error',on);
+  inputEl.setAttribute('aria-invalid',String(!!on));
+  if(message){
+    const msgEl=document.getElementById(inputEl.getAttribute('aria-describedby'));
+    if(msgEl)msgEl.textContent=message;
+  }
+}
+
+const emailEl=document.getElementById('em');
+emailEl.addEventListener('blur',()=>{
+  const bad=emailEl.value.trim() && !isWorkEmail(emailEl.value);
+  setFieldError(emailEl,bad,WORK_EMAIL_ERROR);
+});
+emailEl.addEventListener('input',()=>{
+  if(isWorkEmail(emailEl.value))setFieldError(emailEl,false);
+});
+
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   err.classList.remove('show');
   const req=[...form.querySelectorAll('[required]')];
   let valid=true;
   req.forEach(f=>{
-    const bad=!f.value.trim()||(f.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value));
-    f.style.borderColor=bad?'var(--za-risk)':'';
+    let bad=!f.value.trim()||(f.type==='email'&&!isValidEmailFormat(f.value));
+    if(f===emailEl)bad=!isWorkEmail(f.value);
+    f.closest('.ct-field')?.classList.toggle('is-error',bad);
+    f.setAttribute('aria-invalid',String(!!bad));
+    f.style.borderColor='';
     if(bad)valid=false;
   });
   if(!valid)return;

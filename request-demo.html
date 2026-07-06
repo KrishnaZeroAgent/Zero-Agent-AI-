@@ -247,7 +247,7 @@ footer.rd-footer p{color:var(--rd-text-mut)}
           <div class="rd-field rd-field--full">
             <label class="rd-label" for="email">Business Email <span class="req" aria-hidden="true">*</span></label>
             <input class="rd-input" id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required aria-required="true" aria-describedby="email-err">
-            <p class="rd-error" id="email-err" role="alert">Please enter a valid business email address.</p>
+            <p class="rd-error" id="email-err" role="alert">Please enter your work email address. Personal email providers (such as Gmail, Yahoo, Outlook, or Hotmail) are not accepted.</p>
           </div>
 
           <div class="rd-field">
@@ -385,12 +385,30 @@ document.getElementById('menuBtn').addEventListener('click',()=>
   const requiredIds=['firstName','lastName','email','company','jobTitle','companySize'];
   const privacy=document.getElementById('privacy');
 
-  const isEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  const BLOCKED_PERSONAL_EMAIL_DOMAINS=[
+    'gmail.com','googlemail.com','yahoo.com','yahoo.co.uk','outlook.com','hotmail.com','live.com','msn.com',
+    'icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','gmx.com','zoho.com','mail.com',
+    'yandex.com','qq.com'
+  ];
+
+  const isEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim());
+  const emailDomain=v=>{
+    const s=(v||'').trim();
+    const at=s.lastIndexOf('@');
+    if(at<0)return '';
+    return s.slice(at+1).toLowerCase();
+  };
+  const isWorkEmail=v=>{
+    if(!isEmail(v))return false;
+    const d=emailDomain(v);
+    if(!d)return false;
+    return !BLOCKED_PERSONAL_EMAIL_DOMAINS.some(x=>d===x||d.endsWith('.'+x));
+  };
 
   function fieldValid(el){
     if(!el)return true;
     const v=(el.value||'').trim();
-    if(el.type==='email')return isEmail(v);
+    if(el.type==='email')return isWorkEmail(v);
     return v.length>0;
   }
 
@@ -407,6 +425,7 @@ document.getElementById('menuBtn').addEventListener('click',()=>
   function showError(el,on){
     const field=el.closest('.rd-field');
     if(field)field.classList.toggle('is-error',on);
+    el.setAttribute('aria-invalid',String(!!on));
   }
 
   // keep native select colour state (placeholder vs chosen)
