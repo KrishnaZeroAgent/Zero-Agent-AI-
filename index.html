@@ -886,13 +886,24 @@ if(track){
     else if(track.scrollLeft>max)track.scrollLeft=max;
   }
 
-  function setActive(){
-    const mid=track.scrollLeft+track.clientWidth/2;
+  function getActiveIndex(){
+    const max=maxScroll();
+    const sl=track.scrollLeft;
+    if(sl<=2)return 0;
+    if(sl>=max-2)return steps.length-1;
     let closest=0,min=Infinity;
-    steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
-    steps.forEach((s,i)=>s.classList.toggle('is-active',i===closest));
-    if(prevBtn)prevBtn.disabled=track.scrollLeft<=1;
-    if(nextBtn)nextBtn.disabled=track.scrollLeft>=maxScroll()-1;
+    steps.forEach((s,i)=>{
+      const d=Math.abs(s.offsetLeft-sl);
+      if(d<min){min=d;closest=i;}
+    });
+    return closest;
+  }
+
+  function setActive(){
+    const idx=getActiveIndex();
+    steps.forEach((s,i)=>s.classList.toggle('is-active',i===idx));
+    if(prevBtn)prevBtn.disabled=idx<=0;
+    if(nextBtn)nextBtn.disabled=idx>=steps.length-1;
   }
 
   function scrollToStep(i){
@@ -902,6 +913,9 @@ if(track){
     const max=maxScroll();
     let target=idx===0?0:idx===steps.length-1?max:step.offsetLeft;
     target=Math.min(max,Math.max(0,target));
+    steps.forEach((s,j)=>s.classList.toggle('is-active',j===idx));
+    if(prevBtn)prevBtn.disabled=idx<=0;
+    if(nextBtn)nextBtn.disabled=idx>=steps.length-1;
     track.scrollTo({left:target,behavior:'smooth'});
   }
 
@@ -913,20 +927,11 @@ if(track){
   }
 
   track.addEventListener('scroll',()=>{clampScroll();setActive();},{passive:true});
+  track.addEventListener('scrollend',setActive);
   setActive();
 
-  prevBtn?.addEventListener('click',()=>{
-    const mid=track.scrollLeft+track.clientWidth/2;
-    let closest=0,min=Infinity;
-    steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
-    scrollToStep(closest-1);
-  });
-  nextBtn?.addEventListener('click',()=>{
-    const mid=track.scrollLeft+track.clientWidth/2;
-    let closest=0,min=Infinity;
-    steps.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<min){min=d;closest=i}});
-    scrollToStep(closest+1);
-  });
+  prevBtn?.addEventListener('click',()=>scrollToStep(getActiveIndex()-1));
+  nextBtn?.addEventListener('click',()=>scrollToStep(getActiveIndex()+1));
 
   track.addEventListener('mousedown',e=>{
     drag=true;track.classList.add('is-dragging');
